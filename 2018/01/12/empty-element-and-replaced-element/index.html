@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Notes," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="空元素 An empty element is an element from HTML, SVG, or MathML that cannot have any child nodes (i.e., nested elements or text nodes).  这是来自 MDN 的解释。按照我的理解，用大白话说出来就是，在 HTML、SVG 或 MathML 中，空元素指这个元素节点里不存在">
+<meta name="keywords" content="Notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="空元素是什么？可替换元素又是个啥？">
+<meta property="og:url" content="http://yoursite.com/2018/01/12/empty-element-and-replaced-element/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="空元素 An empty element is an element from HTML, SVG, or MathML that cannot have any child nodes (i.e., nested elements or text nodes).  这是来自 MDN 的解释。按照我的理解，用大白话说出来就是，在 HTML、SVG 或 MathML 中，空元素指这个元素节点里不存在">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-12T11:58:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="空元素是什么？可替换元素又是个啥？">
+<meta name="twitter:description" content="空元素 An empty element is an element from HTML, SVG, or MathML that cannot have any child nodes (i.e., nested elements or text nodes).  这是来自 MDN 的解释。按照我的理解，用大白话说出来就是，在 HTML、SVG 或 MathML 中，空元素指这个元素节点里不存在">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/12/empty-element-and-replaced-element/"/>
+
+
+
+
+
+  <title>空元素是什么？可替换元素又是个啥？ | Caijialinxx</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Caijialinxx</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/empty-element-and-replaced-element/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">空元素是什么？可替换元素又是个啥？</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T11:32:04+08:00">
+                2018-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="空元素"><a href="#空元素" class="headerlink" title="空元素"></a>空元素</h2><blockquote>
+<p>An empty element is an element from HTML, SVG, or MathML that cannot have any child nodes (i.e., nested elements or text nodes).</p>
+</blockquote>
+<p>这是来自 <a href="https://developer.mozilla.org/en-US/docs/Glossary/Empty_element" target="_blank" rel="noopener">MDN</a> 的解释。按照我的理解，用大白话说出来就是，在 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML" target="_blank" rel="noopener">HTML</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/SVG" target="_blank" rel="noopener">SVG</a> 或 <a href="https://developer.mozilla.org/zh-CN/docs/Web/MathML" target="_blank" rel="noopener">MathML</a> 中，空元素指这个元素节点里不存在子节点，这个子节点指 <code>元素节点</code>（<code>element node</code>）或者 <code>文本节点</code>（<code>text node</code>）。</p>
+<p><small>PS：关于 DOM 节点的概念，如果你不了解，可以戳 <a href="http://javascript.ruanyifeng.com/dom/node.html#toc2" target="_blank" rel="noopener">阮一峰的《JavaScript 标准参考教程(alpha)》中 6.1 概述</a> 来学习。</small></p>
+<p>举例说明，<br>在 HTML 中有以下空元素：</p>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/area" target="_blank" rel="noopener"><code>&lt;area&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/base" target="_blank" rel="noopener"><code>&lt;base&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/br" target="_blank" rel="noopener"><code>&lt;br&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/col" target="_blank" rel="noopener"><code>&lt;col&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/colgroup" target="_blank" rel="noopener"><code>&lt;colgroup&gt;</code></a> when the <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/colgroup#attr-span" target="_blank" rel="noopener"><code>span</code></a> is present</li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/command" target="_blank" rel="noopener"><code>&lt;command&gt;</code></a> <strong style="color:red">Obsolete</strong></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/embed" target="_blank" rel="noopener"><code>&lt;embed&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/hr" target="_blank" rel="noopener"><code>&lt;hr&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/img" target="_blank" rel="noopener"><code>&lt;img&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input" target="_blank" rel="noopener"><code>&lt;input&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/keygen" target="_blank" rel="noopener"><code>&lt;keygen&gt;</code></a>  <strong style="color:red">Obsolete</strong></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/link" target="_blank" rel="noopener"><code>&lt;link&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta" target="_blank" rel="noopener"><code>&lt;meta&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/param" target="_blank" rel="noopener"><code>&lt;param&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/source" target="_blank" rel="noopener"><code>&lt;source&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/track" target="_blank" rel="noopener"><code>&lt;track&gt;</code></a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/wbr" target="_blank" rel="noopener"><code>&lt;wbr&gt;</code></a></li>
+</ul>
+<p>此外，在这些空元素上使用一个闭标签是无效的。如 <code>&lt;input type=&quot;text&quot;&gt;&lt;/input&gt;</code> 是错误的。</p>
+<p>在 SVG 中有 <a href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/font-face-name" target="_blank" rel="noopener"><code>&lt;font-face-name&gt;</code></a> 、<a href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/hkern" target="_blank" rel="noopener"><code>&lt;hkern&gt;</code></a> 、<a href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/vkern" target="_blank" rel="noopener"><code>&lt;vkern&gt;</code></a> 等。</p>
+<p>在 MathML 中有 <a href="https://developer.mozilla.org/zh-CN/docs/Web/MathML/Element/mspace" target="_blank" rel="noopener"><code>&lt;mspace&gt;</code></a> 、<a href="https://developer.mozilla.org/zh-CN/docs/Web/MathML/Element/semantics" target="_blank" rel="noopener"><code>&lt;semantics&gt;</code></a> 等。</p>
+<h2 id="可替换元素"><a href="#可替换元素" class="headerlink" title="可替换元素"></a>可替换元素</h2><blockquote><p>In CSS, a replaced element is an element whose representation is outside the scope of CSS. In other words, these are external objects whose representation is independent of the CSS formatting model.</p>
+<footer><strong>MDN</strong><cite><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element" target="_blank" rel="noopener">Replaced element</a></cite></footer></blockquote>
+<p><br>看懂了吗？看懂了吗？不懂？那我给你看下MDN的<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Replaced_element" target="_blank" rel="noopener">中文解释</a>。</p>
+<blockquote><p>CSS 里，可替换元素（replaced element）的展现不是由CSS来控制的。这些元素是一类外观渲染独立于CSS的外部对象。</p>
+</blockquote>
+<p>现在懂了？还是不懂？</p>
+<p>Emmm…</p>
+<p><a href="https://www.cnblogs.com/WebShare-hilda/p/4713890.html" target="_blank" rel="noopener">Maybe it would help.</a></p>
+<p> <code>替换元素</code> 是浏览器根据其标签的元素与属性来判断显示具体的内容的，CSS并不需要考虑渲染替换元素，它的展现独立于CSS，这就是“independent of the CSS formatting model”的意思。此外，不像 <code>非替换元素</code> 一样，它们将内容直接告诉浏览器，而检查替换元素的代码时可以发现它并没有实际的内容。</p>
+<p>这是一个来自 W3C 关于 <a href="https://www.w3.org/TR/CSS21/conform.html#replaced-element" target="_blank" rel="noopener">Replaced element</a> 的解释，如果你看得懂英文的话，结合W3C标准的原始定义会理解得更准确一点。</p>
+<p>另外，有人提出，把 <code>Replaced element</code> 翻译成可替换元素是不准确的，就英文字面意思来说， replaced 是已被替换了的， <code>Replaced element</code> 不由CSS负责展示渲染，不是可以被替换的概念。原文请戳<a href="http://openwares.net/2014/03/14/css_replaced_element/" target="_blank" rel="noopener">这里</a>。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Notes/" rel="tag"># Notes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/13/css/" rel="prev" title="CSS介绍">
+                CSS介绍 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">caijialinxx</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#空元素"><span class="nav-number">1.</span> <span class="nav-text">空元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可替换元素"><span class="nav-number">2.</span> <span class="nav-text">可替换元素</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">caijialinxx</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
