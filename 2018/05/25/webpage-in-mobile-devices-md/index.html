@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="面试,CSS," />
+  <meta name="keywords" content="CSS,面试," />
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="腾讯曾经出过一个面试题：移动端该如何做适配？有位同学分享了他那次的面试经历，有兴趣可以了解一下。 移动端在用户群中占了很大的比重，所以做好移动端的适配，基本是前端们必备的技能之一。移动端和PC端的最重要的区别就是  视口大小  移动端的视口宽度基本在 1000px 以内，手机端在 320px 至 425px 之间，若将PC端的页面在手机端中展示，最初的做法是用手机端的视口宽度去模拟PC端的 980">
-<meta name="keywords" content="面试,CSS">
+<meta name="keywords" content="CSS,面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="移动端的适配">
 <meta property="og:url" content="http://yoursite.com/2018/05/25/webpage-in-mobile-devices-md/index.html">
 <meta property="og:site_name" content="Caijialinxx">
 <meta property="og:description" content="腾讯曾经出过一个面试题：移动端该如何做适配？有位同学分享了他那次的面试经历，有兴趣可以了解一下。 移动端在用户群中占了很大的比重，所以做好移动端的适配，基本是前端们必备的技能之一。移动端和PC端的最重要的区别就是  视口大小  移动端的视口宽度基本在 1000px 以内，手机端在 320px 至 425px 之间，若将PC端的页面在手机端中展示，最初的做法是用手机端的视口宽度去模拟PC端的 980">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-25T11:51:56.764Z">
+<meta property="og:updated_time" content="2018-05-25T12:32:10.394Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="移动端的适配">
 <meta name="twitter:description" content="腾讯曾经出过一个面试题：移动端该如何做适配？有位同学分享了他那次的面试经历，有兴趣可以了解一下。 移动端在用户群中占了很大的比重，所以做好移动端的适配，基本是前端们必备的技能之一。移动端和PC端的最重要的区别就是  视口大小  移动端的视口宽度基本在 1000px 以内，手机端在 320px 至 425px 之间，若将PC端的页面在手机端中展示，最初的做法是用手机端的视口宽度去模拟PC端的 980">
@@ -351,7 +351,9 @@
 <li><p>没有 :hover 伪类</p>
 <p>  因为在触摸屏设备中，用户无法像在 PC 端上一样，把鼠标移动到某个带有 :hover 伪类的元素上就能做出回应，所以我们需要为触摸屏设备以 click 事件来模拟 PC 端中的 hover 事件。例如：</p>
   <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- PC 端 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="css">    <span class="selector-id">#xxx</span> &#123;</span></span><br><span class="line"><span class="undefined">      width: 50px;</span></span><br><span class="line"><span class="undefined">      height: 50px;</span></span><br><span class="line"><span class="undefined">      background-color: red;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-id">#xxx</span><span class="selector-pseudo">:hover</span> &#123;</span></span><br><span class="line"><span class="undefined">      background-color: blue;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"xxx"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>  这段代码实现的效果是：<br><br>  <div id="xxx" style="width: 50px;height: 50px;background-color: red;"></div></p>
+<p>  这段代码实现的效果是：</p>
+  <pre>
+  <div id="xxx" style="width: 50px;height: 50px;background-color: red;"></div>
   <script type="text/javascript">
     xxx.onmouseenter = function(){
       xxx.style.backgroundColor = 'blue';
@@ -360,6 +362,7 @@
       xxx.style.backgroundColor = 'red';
     };
   </script>
+  </pre>
 
 <p>  要想在触摸屏设备中实现类似效果，那么代码应该改写成：</p>
   <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 触摸屏设备 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 相同部分已省略，script 加到 body 内最后 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  xxx.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span>(xxx.style.backgroundColor === <span class="string">'red'</span>)&#123;</span></span><br><span class="line"><span class="javascript">      xxx.style.backgroundColor = <span class="string">'blue'</span></span></span><br><span class="line"><span class="javascript">    &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">      xxx.style.backgroundColor = <span class="string">'red'</span></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -372,8 +375,11 @@
 <p>rem 是一个相对单位，这个单位代表<strong>根元素 <code>&lt;html&gt;</code> 的 <code>font-size</code> 大小</strong>。</p>
 </blockquote>
 <p>例如定义了如下样式，那么 <code>&lt;body&gt;</code> 中的字体大小实际为 18px 。它不仅适用于字体大小，还可以用在 <code>width</code>、 <code>margin</code> 等的样式上。此外，它还可以与其他单位共存。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    html &#123;</span></span><br><span class="line"><span class="undefined">      font-size: 12px;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    body &#123;</span></span><br><span class="line"><span class="css">      <span class="selector-tag">font-size</span>: 1<span class="selector-class">.5rem</span>;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-id">#div</span> &#123;</span></span><br><span class="line"><span class="undefined">      width: 6rem;</span></span><br><span class="line"><span class="undefined">      height: 6rem;</span></span><br><span class="line"><span class="css">      <span class="selector-tag">border</span>: 1<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-id">#999</span>;</span></span><br><span class="line"><span class="undefined">      padding: 5px;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  这是一段在 body 内的文字。</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'div1'</span>&gt;</span>这是一个在 body 内的 div 。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>代码结果：<br><br><span style="font-size: 18px">这是一段在 body 内的文字。</span></p>
+<p>代码结果：</p>
+<pre>
+<span style="font-size: 18px">这是一段在 body 内的文字。</span>
 <div style="width: 72px; height: 72px; border: 1px solid #999; padding: 5px;">这是一个在 body 内的 div 。</div>
+</pre>
 
 <blockquote>
 <p>插一个拓展知识点：有趣的是，若上面例子中， div1 的宽高的单位改为 <code>em</code> ，则它的实际宽高由 72px 变成 108px 。这是因为 <code>em</code> 表示元素的 <code>font-size</code> 计算值，div1 继承了父元素 <code>&lt;body&gt;</code> 的 <code>font-size</code> 值（18px），所以它的 1em 实际上等于 18px 。 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length" target="_blank" rel="noopener">Click here to learn more about length units</a>.</p>
@@ -400,9 +406,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/面试/" rel="tag"># 面试</a>
-          
             <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
           
         </div>
       
