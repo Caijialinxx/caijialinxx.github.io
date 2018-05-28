@@ -88,7 +88,7 @@
 <meta property="og:description" content="DOM Level 1 （背景）W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。123456&amp;lt;button id=&apos;A&apos;&amp;gt;A&amp;lt;/button&amp;">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2018/05/16/5afbeb914da76.png">
-<meta property="og:updated_time" content="2018-05-28T12:31:32.512Z">
+<meta property="og:updated_time" content="2018-05-28T15:20:13.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DOM 事件模型的发展">
 <meta name="twitter:description" content="DOM Level 1 （背景）W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。123456&amp;lt;button id=&apos;A&apos;&amp;gt;A&amp;lt;/button&amp;">
@@ -308,7 +308,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- A --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'A'</span> <span class="attr">onclick</span>=<span class="string">'sayHi'</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- B --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'B'</span> <span class="attr">onclick</span>=<span class="string">'sayHi()'</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- C --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'C'</span> <span class="attr">onclick</span>=<span class="string">'sayHi.call()'</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>  代码结果：<br>  <pre style="white-space: normal"><br>  <button id="A" onclick="sayHi">A</button><br>  <button id="B" onclick="sayHi()">B</button><br>  <button id="C" onclick="sayHi.call()">C</button><br>  </pre><br>  <script><br>    function sayHi(){ alert(‘hi’) }<br>  </script></p>
+<p>  代码结果：<br>  <pre style="white-space: normal"><br>  <button id="A" onclick="sayHi">A</button><button id="B" onclick="sayHi()">B</button><button id="C" onclick="sayHi.call()">C</button><br>  <script><br>    function sayHi(){ alert(‘hi’) }<br>  </script><br>  </pre></p>
 <p>  在上述代码中，只有 <strong>B</strong> 和 <strong>C</strong> 才是我们想要的结果。DOM Level 1 规定，当使用 HTML 事件属性绑定事件名时，必须带上英文括号。因为事件属性的值是指要运行的代码，一旦用户点击按钮，浏览器就 <code>eval(&#39;sayHi()&#39;)</code> 或者 <code>eval(&#39;sayHi.call()&#39;)</code> 。 <code>sayHi</code> 只是一个函数变量名，如果是按钮A，那么浏览器执行的是 <code>eval(&#39;sayHi&#39;)</code> ，这样只是运行了这个变量，并没有执行这个函数。所以切记正确写法为后两者。</p>
 <ul>
 <li><p>利用 HTML DOM 来分配事件</p>
@@ -340,18 +340,21 @@
 <p>此时，点击 C按钮 时，并不会输出任何内容，因为 func 在进入事件监听事件队列后又马上被移出了，等不到用户点击。</p>
 </li>
 </ul>
-<ul>
-<li><p>事件流（Event flow）： IE 提出的事件冒泡（Event bubbling）、网景提出的事件捕获（Event capture）。</p>
+<blockquote>
+<p>事件流（Event flow）： IE 提出的事件冒泡（Event bubbling）、网景提出的事件捕获（Event capture）。</p>
+</blockquote>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'head'</span>&gt;</span></span><br><span class="line">  头</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'face'</span>&gt;</span></span><br><span class="line">    脸</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'nose'</span>&gt;</span></span><br><span class="line">      鼻子</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>Q1：当点击“鼻子”时，头和脸有没有被点击到？</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">head.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'头'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">face.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'脸'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">nose.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'鼻子'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>根据上述代码，当点击“鼻子”时，控制台输出的结果是<br><pre></pre></p>
-<blockquote>
-<p>“鼻子”<br>“脸”<br>“头”<br><br>由此可见，当点击“鼻子”时，“脸”和“头”也被点击到了。因为“鼻子”是“脸”和“”的一部分，顺序是由里到外，由小到大。</p>
-</blockquote>
-</li>
-</ul>
+<p>根据上述代码，当点击“鼻子”时，控制台输出的结果是：</p>
+<pre>
+> "鼻子"
+> "脸"
+> "头"
+</pre>
+
+<p>由此可见，当点击“鼻子”时，“脸”和“头”也被点击到了。因为“鼻子”是“脸”和“头”的一部分，顺序是由里到外，由小到大。</p>
 </li>
 </ul>
 <ul>
@@ -369,9 +372,7 @@
 </pre>
 
 <p>由这个运行结果，我们可以看出捕获阶段与冒泡阶段的执行顺序是相反的，它是由外到里，由大到小的，且“头”和“脸”都是先捕获后冒泡。而例外的是，“脸”却是先冒泡后捕获。</p>
-<blockquote>
 <p>其实，捕获阶段的事件是先于冒泡阶段处理的。而当事件流完成祖先元素及父元素的捕获阶段后，到达目标元素（target）时，事件处理顺序遵循函数绑定的顺序处理（即按顺序执行代码）而不是先捕获后冒泡，这个阶段被称为“目标阶段”。理解过程如下图：<br><img src="https://i.loli.net/2018/05/16/5afbeb914da76.png" alt="event-flow.png"></p>
-</blockquote>
 </li>
 </ul>
 

@@ -306,7 +306,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- A --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'A'</span> <span class="attr">onclick</span>=<span class="string">'sayHi'</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- B --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'B'</span> <span class="attr">onclick</span>=<span class="string">'sayHi()'</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- C --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'C'</span> <span class="attr">onclick</span>=<span class="string">'sayHi.call()'</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>  代码结果：<br>  <pre style="white-space: normal"><br>  <button id="A" onclick="sayHi">A</button><br>  <button id="B" onclick="sayHi()">B</button><br>  <button id="C" onclick="sayHi.call()">C</button><br>  </pre><br>  <script><br>    function sayHi(){ alert(‘hi’) }<br>  </script></p>
+<p>  代码结果：<br>  <pre style="white-space: normal"><br>  <button id="A" onclick="sayHi">A</button><button id="B" onclick="sayHi()">B</button><button id="C" onclick="sayHi.call()">C</button><br>  <script><br>    function sayHi(){ alert(‘hi’) }<br>  </script><br>  </pre></p>
 <p>  在上述代码中，只有 <strong>B</strong> 和 <strong>C</strong> 才是我们想要的结果。DOM Level 1 规定，当使用 HTML 事件属性绑定事件名时，必须带上英文括号。因为事件属性的值是指要运行的代码，一旦用户点击按钮，浏览器就 <code>eval(&#39;sayHi()&#39;)</code> 或者 <code>eval(&#39;sayHi.call()&#39;)</code> 。 <code>sayHi</code> 只是一个函数变量名，如果是按钮A，那么浏览器执行的是 <code>eval(&#39;sayHi&#39;)</code> ，这样只是运行了这个变量，并没有执行这个函数。所以切记正确写法为后两者。</p>
 <ul>
 <li><p>利用 HTML DOM 来分配事件</p>
@@ -338,18 +338,21 @@
 <p>此时，点击 C按钮 时，并不会输出任何内容，因为 func 在进入事件监听事件队列后又马上被移出了，等不到用户点击。</p>
 </li>
 </ul>
-<ul>
-<li><p>事件流（Event flow）： IE 提出的事件冒泡（Event bubbling）、网景提出的事件捕获（Event capture）。</p>
+<blockquote>
+<p>事件流（Event flow）： IE 提出的事件冒泡（Event bubbling）、网景提出的事件捕获（Event capture）。</p>
+</blockquote>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'head'</span>&gt;</span></span><br><span class="line">  头</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'face'</span>&gt;</span></span><br><span class="line">    脸</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'nose'</span>&gt;</span></span><br><span class="line">      鼻子</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>Q1：当点击“鼻子”时，头和脸有没有被点击到？</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">head.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'头'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">face.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'脸'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">nose.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'鼻子'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>根据上述代码，当点击“鼻子”时，控制台输出的结果是<br><pre></pre></p>
-<blockquote>
-<p>“鼻子”<br>“脸”<br>“头”<br><br>由此可见，当点击“鼻子”时，“脸”和“头”也被点击到了。因为“鼻子”是“脸”和“”的一部分，顺序是由里到外，由小到大。</p>
-</blockquote>
-</li>
-</ul>
+<p>根据上述代码，当点击“鼻子”时，控制台输出的结果是：</p>
+<pre>
+> "鼻子"
+> "脸"
+> "头"
+</pre>
+
+<p>由此可见，当点击“鼻子”时，“脸”和“头”也被点击到了。因为“鼻子”是“脸”和“头”的一部分，顺序是由里到外，由小到大。</p>
 </li>
 </ul>
 <ul>
@@ -367,9 +370,7 @@
 </pre>
 
 <p>由这个运行结果，我们可以看出捕获阶段与冒泡阶段的执行顺序是相反的，它是由外到里，由大到小的，且“头”和“脸”都是先捕获后冒泡。而例外的是，“脸”却是先冒泡后捕获。</p>
-<blockquote>
 <p>其实，捕获阶段的事件是先于冒泡阶段处理的。而当事件流完成祖先元素及父元素的捕获阶段后，到达目标元素（target）时，事件处理顺序遵循函数绑定的顺序处理（即按顺序执行代码）而不是先捕获后冒泡，这个阶段被称为“目标阶段”。理解过程如下图：<br><img src="https://i.loli.net/2018/05/16/5afbeb914da76.png" alt="event-flow.png"></p>
-</blockquote>
 </li>
 </ul>
 
@@ -852,12 +853,12 @@
         
           
             <p><small>这篇博客将会记录我对一些HTML标签的学习，在本文提到的知识点基本是常用的，如果需要了解详细的标签及其属性用法，可以查询 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element" target="_blank" rel="noopener">MDN</a> 。</small></p>
-<h2 id="lt-iframe-gt-标签"><a href="#lt-iframe-gt-标签" class="headerlink" title="&lt;iframe&gt;标签"></a><code>&lt;iframe&gt;</code>标签</h2><blockquote>
+<h2 id="lt-iframe-gt-标签"><a href="#lt-iframe-gt-标签" class="headerlink" title="&lt;iframe&gt; 标签"></a><code>&lt;iframe&gt;</code> 标签</h2><blockquote>
 <p>Usage：将另一个页面嵌入到当前页面中。详情请<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/iframe" target="_blank" rel="noopener">点击</a>。</p>
 </blockquote>
-<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"https://caijialinxx.github.io/archives/"</span> <span class="attr">name</span>=<span class="string">"xxx"</span> <span class="attr">frameborder</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">height</span>=<span class="string">"200px"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"https://caijialinxx.github.io/archives/"</span> <span class="attr">name</span>=<span class="string">"xxx"</span> <span class="attr">frameborder</span>=<span class="string">"0"</span> <span class="attr">width</span>=<span class="string">"100%"</span> <span class="attr">height</span>=<span class="string">"400px"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h3 id="结果预览"><a href="#结果预览" class="headerlink" title="结果预览"></a>结果预览</h3><pre>
-<iframe src="https://caijialinxx.github.io/archives/" name="xxx" frameborder="0" width="100%" height="200px"></iframe>
+<iframe src="https://caijialinxx.github.io/archives/" name="xxx" frameborder="0" width="100%" height="400px"></iframe>
 </pre>
 
 <h3 id="重点总结"><a href="#重点总结" class="headerlink" title="重点总结"></a>重点总结</h3><ol>
@@ -866,21 +867,20 @@
 <li>一般情况下都添加 <code>frameborder=&quot;0&quot;</code> 的属性，使其更美观</li>
 <li><code>width</code> 属性和 <code>height</code> 属性可以设置容器的宽高</li>
 </ol>
-<h2 id="lt-a-gt-标签"><a href="#lt-a-gt-标签" class="headerlink" title="&lt;a&gt;标签"></a><span id="a"><code>&lt;a&gt;</code>标签</span></h2><blockquote>
+<h2 id="lt-a-gt-标签"><a href="#lt-a-gt-标签" class="headerlink" title="&lt;a&gt; 标签"></a><span id="a"><code>&lt;a&gt;</code> 标签</span></h2><blockquote>
 <p>Usage：创建一个到其他网页、文件、同一页面内的位置、电子邮件地址或任何其他URL的超链接。详情请<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a" target="_blank" rel="noopener">点击</a>。</p>
 </blockquote>
-<h3 id="代码示例-1"><a href="#代码示例-1" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"//caijialinxx.github.io"</span> <span class="attr">target</span>=<span class="string">"xxx"</span>&gt;</span>我的Hexo博客<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#a"</span>&gt;</span>点这里将会跳到标题 `<span class="tag">&lt;<span class="name">a</span>&gt;</span>标签` <span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript: alert('Hello, I am Here!');"</span>&gt;</span>点这里将会执行一个 JavaScript 脚本<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"some-html-tags.md"</span> <span class="attr">download</span>&gt;</span>点这里将会进行下载操作<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="代码示例-1"><a href="#代码示例-1" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"//music.163.com/playlist/1998046799/1300657788?userid=1300657788"</span> <span class="attr">target</span>=<span class="string">"xxx"</span>&gt;</span>分享我的歌单，让你轻松下<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#a"</span>&gt;</span>点这里将会跳到标题 `<span class="tag">&lt;<span class="name">a</span>&gt;</span>标签` <span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"javascript: alert('Hello, I am Here!');"</span>&gt;</span>点这里将会执行一个 JavaScript 脚本<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h3 id="结果预览-1"><a href="#结果预览-1" class="headerlink" title="结果预览"></a>结果预览</h3><pre style="white-space: normal">
-<a href="//caijialinxx.github.io" target="xxx">我的Hexo博客</a><br>
+<a href="//music.163.com/playlist/1998046799/1300657788?userid=1300657788" target="xxx">分享我的歌单，让你轻松下（翻上去iframe里听哦）</a><br>
 <a href="#a">点这里将会跳到本章节 &lt;a&gt;标签 处</a><br>
 <a href="javascript: alert('Hello, I am Here!');" target="_blank" rel="noopener">点这里将会执行一个 JavaScript 脚本</a><br>
-<a href="some-html-tags.md" download="">点这里将会进行下载操作</a>
 </pre>
 
 <h3 id="重点总结-1"><a href="#重点总结-1" class="headerlink" title="重点总结"></a>重点总结</h3><ol>
 <li><code>href</code> 属性的取值：<ul>
 <li>浏览器支持的协议地址，如 <code>http://...</code> 、 <code>ftp://...</code> 等（可以使用无协议绝对地址，自动继承当前页面的协议）</li>
-<li>相对地址，如 <code>#xxx</code>（定位到页面特定锚点，如果是 #top 或者 # 则直接跳到页面顶部）、 <code>?yyy=xxx</code> 、 <code>./xxx</code>（当前网页所在 URL 下的文件或文件夹）</li>
+<li>相对地址，如 <code>#xxx</code>（定位到页面特定锚点，如果是 <code>#top</code> 或者 <code>#</code> 则直接跳到页面顶部）、 <code>?yyy=xxx</code> 、 <code>./xxx</code>（当前网页所在 URL 下的文件或文件夹）</li>
 <li>伪协议，如 <code>javascript: alert(1);</code> 、 <code>javascript:;</code>（这可以实现点击&lt;a&gt;标签没有动作，满足一些特殊需求）</li>
 </ul>
 </li>
@@ -895,7 +895,7 @@
 <li><code>download</code> 属性：下载文件</li>
 <li>发送 GET 请求（<kbd>F12</kbd> 打开开发者工具，查看 Network ，即可发现当点击一个 <code>&lt;a&gt;</code> 链接时，请求方式为 GET ）</li>
 </ol>
-<h2 id="lt-form-gt-标签"><a href="#lt-form-gt-标签" class="headerlink" title="&lt;form&gt;标签"></a><code>&lt;form&gt;</code>标签</h2><blockquote>
+<h2 id="lt-form-gt-标签"><a href="#lt-form-gt-标签" class="headerlink" title="&lt;form&gt; 标签"></a><code>&lt;form&gt;</code> 标签</h2><blockquote>
 <p>Usage：表示了文档中的一个区域，这个区域包含有交互控制元件，用来向 web 服务器提交信息（ GET 请求或 POST 请求）。详情请<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/form" target="_blank" rel="noopener">点击</a>。</p>
 </blockquote>
 <h3 id="代码示例-2"><a href="#代码示例-2" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">""</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 表单中必须要有提交按钮，才能发送请求 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -906,7 +906,7 @@
 <li><code>target</code> 属性同 <code>&lt;a&gt;</code> 标签</li>
 <li>提交表单后会自动刷新页面</li>
 </ol>
-<h2 id="lt-input-gt-标签"><a href="#lt-input-gt-标签" class="headerlink" title="&lt;input&gt;标签"></a><code>&lt;input&gt;</code>标签</h2><blockquote>
+<h2 id="lt-input-gt-标签"><a href="#lt-input-gt-标签" class="headerlink" title="&lt;input&gt; 标签"></a><code>&lt;input&gt;</code> 标签</h2><blockquote>
 <p>Usage：用于创建交互式控件，以便接受来自用户的数据。详情请<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input" target="_blank" rel="noopener">点击</a>。</p>
 </blockquote>
 <h3 id="代码示例-3"><a href="#代码示例-3" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">账号：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"userid"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">密码：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"pwd"</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">性别：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"sex"</span> <span class="attr">value</span>=<span class="string">"female"</span>&gt;</span>女 <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">name</span>=<span class="string">"sex"</span> <span class="attr">value</span>=<span class="string">"male"</span> <span class="attr">selected</span>&gt;</span>男<span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">爱好：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"hobby"</span> <span class="attr">value</span>=<span class="string">"swimming"</span>&gt;</span>游泳<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"hobby"</span> <span class="attr">value</span>=<span class="string">"running"</span>&gt;</span>跑步<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">name</span>=<span class="string">"hobby"</span> <span class="attr">value</span>=<span class="string">"riding"</span>&gt;</span>骑行</span><br></pre></td></tr></table></figure>
@@ -938,7 +938,7 @@
 
 </li>
 </ol>
-<h2 id="lt-select-gt-标签"><a href="#lt-select-gt-标签" class="headerlink" title="&lt;select&gt;标签"></a><code>&lt;select&gt;</code>标签</h2><blockquote>
+<h2 id="lt-select-gt-标签"><a href="#lt-select-gt-标签" class="headerlink" title="&lt;select&gt; 标签"></a><code>&lt;select&gt;</code> 标签</h2><blockquote>
 <p>Usage：用于创建选项菜单。详情请<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/select" target="_blank" rel="noopener">点击</a>。</p>
 </blockquote>
 <h3 id="代码示例-4"><a href="#代码示例-4" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">"value"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">""</span> <span class="attr">disabled</span>&gt;</span>-<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"1"</span> <span class="attr">selected</span>&gt;</span>1<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">"2"</span>&gt;</span>2<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -959,7 +959,7 @@
 </ul>
 </li>
 </ol>
-<h2 id="lt-textarea-gt-标签"><a href="#lt-textarea-gt-标签" class="headerlink" title="&lt;textarea&gt;标签"></a><code>&lt;textarea&gt;</code>标签</h2><blockquote>
+<h2 id="lt-textarea-gt-标签"><a href="#lt-textarea-gt-标签" class="headerlink" title="&lt;textarea&gt; 标签"></a><code>&lt;textarea&gt;</code> 标签</h2><blockquote>
 <p>Usage：可以进行多行纯文本编辑。详情请<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/textarea" target="_blank" rel="noopener">点击</a>。</p>
 </blockquote>
 <h3 id="代码示例-5"><a href="#代码示例-5" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">"textarea"</span> <span class="attr">rows</span>=<span class="string">"6"</span> <span class="attr">cols</span>=<span class="string">"30"</span>&gt;</span>Write something here...<span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -973,7 +973,7 @@
 <li><code>rows</code> 属性 —— 指定高度（若CSS行高变化则可能会不同）</li>
 <li><code>readonly</code> 属性 —— 不允许用户修改元素内文本，能让用户点击和选择元素内的文本。如果在表单里，这个元素的值依旧会跟随表单一起提交。</li>
 </ol>
-<h2 id="lt-table-gt-标签"><a href="#lt-table-gt-标签" class="headerlink" title="&lt;table&gt;标签"></a><code>&lt;table&gt;</code>标签</h2><blockquote>
+<h2 id="lt-table-gt-标签"><a href="#lt-table-gt-标签" class="headerlink" title="&lt;table&gt; 标签"></a><code>&lt;table&gt;</code> 标签</h2><blockquote>
 <p>Usage：表示表格数据，即通过二维数据表表示的信息。详情请<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/table" target="_blank" rel="noopener">点击</a>。</p>
 </blockquote>
 <h3 id="代码示例-6"><a href="#代码示例-6" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">colgroup</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">col</span> <span class="attr">width</span>=<span class="string">"60px"</span>&gt;</span><span class="tag">&lt;<span class="name">col</span> <span class="attr">bgcolor</span>=<span class="string">"red"</span> <span class="attr">width</span>=<span class="string">"80px"</span>&gt;</span><span class="tag">&lt;<span class="name">col</span> <span class="attr">width</span>=<span class="string">"60px"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">colgroup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>NO.<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>Name<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>Age<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>1<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>Caaa<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>20<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>2<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>Jaff<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>21<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tfoot</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>AvgAge<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>20.5<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tfoot</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
