@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="JavaScript,Notes,DOM," />
+  <meta name="keywords" content="Notes,JavaScript,DOM," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="DOM Level 1 （背景）W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。123456&amp;lt;button id=&apos;A&apos;&amp;gt;A&amp;lt;/button&amp;">
-<meta name="keywords" content="JavaScript,Notes,DOM">
+<meta name="keywords" content="Notes,JavaScript,DOM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DOM 事件模型的发展">
 <meta property="og:url" content="http://yoursite.com/2018/05/28/dom-event-model/index.html">
@@ -88,7 +88,7 @@
 <meta property="og:description" content="DOM Level 1 （背景）W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。123456&amp;lt;button id=&apos;A&apos;&amp;gt;A&amp;lt;/button&amp;">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2018/05/16/5afbeb914da76.png">
-<meta property="og:updated_time" content="2018-05-28T15:20:13.419Z">
+<meta property="og:updated_time" content="2018-05-28T15:43:15.884Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DOM 事件模型的发展">
 <meta name="twitter:description" content="DOM Level 1 （背景）W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。123456&amp;lt;button id=&apos;A&apos;&amp;gt;A&amp;lt;/button&amp;">
@@ -306,10 +306,12 @@
 <ul>
 <li><p>利用 HTML 事件属性来分配事件</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- A --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'A'</span> <span class="attr">onclick</span>=<span class="string">'sayHi'</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- B --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'B'</span> <span class="attr">onclick</span>=<span class="string">'sayHi()'</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- C --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'C'</span> <span class="attr">onclick</span>=<span class="string">'sayHi.call()'</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码结果：<br><button id="A" onclick="sayHi">A</button> <button id="B" onclick="sayHi()">B</button> <button id="C" onclick="sayHi.call()">C</button></p>
+<script>function sayHi(){ alert('hi') }</script>
+
+<p>在上述代码中，只有 <strong>B</strong> 和 <strong>C</strong> 才能得到我们想要的结果。DOM Level 1 规定，当使用 HTML 事件属性绑定事件名时，必须带上英文括号。因为事件属性的值是指要运行的代码，一旦用户点击按钮，浏览器就 <code>eval(&#39;sayHi()&#39;)</code> 或者 <code>eval(&#39;sayHi.call()&#39;)</code> 。 <code>sayHi</code> 只是一个函数变量名，如果是按钮A，那么浏览器执行的是 <code>eval(&#39;sayHi&#39;)</code> ，这样只是运行了这个变量，并没有执行这个函数。所以切记正确写法为后两者。</p>
 </li>
 </ul>
-<p>  代码结果：<br>  <pre style="white-space: normal"><br>  <button id="A" onclick="sayHi">A</button><button id="B" onclick="sayHi()">B</button><button id="C" onclick="sayHi.call()">C</button><br>  <script><br>    function sayHi(){ alert(‘hi’) }<br>  </script><br>  </pre></p>
-<p>  在上述代码中，只有 <strong>B</strong> 和 <strong>C</strong> 才是我们想要的结果。DOM Level 1 规定，当使用 HTML 事件属性绑定事件名时，必须带上英文括号。因为事件属性的值是指要运行的代码，一旦用户点击按钮，浏览器就 <code>eval(&#39;sayHi()&#39;)</code> 或者 <code>eval(&#39;sayHi.call()&#39;)</code> 。 <code>sayHi</code> 只是一个函数变量名，如果是按钮A，那么浏览器执行的是 <code>eval(&#39;sayHi&#39;)</code> ，这样只是运行了这个变量，并没有执行这个函数。所以切记正确写法为后两者。</p>
 <ul>
 <li><p>利用 HTML DOM 来分配事件</p>
 <p>现在，让我们来看看在 js 中，我们又该如何利用 HTML DOM 来得到我们想要的结果。</p>
@@ -392,9 +394,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-          
             <a href="/tags/Notes/" rel="tag"># Notes</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
             <a href="/tags/DOM/" rel="tag"># DOM</a>
           
