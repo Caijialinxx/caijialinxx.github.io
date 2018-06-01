@@ -323,13 +323,13 @@
 </li>
 </ul>
 <h2 id="规避方法"><a href="#规避方法" class="headerlink" title="规避方法"></a>规避方法</h2><ol>
-<li><a href="#document.domain"><code>document.domain</code></a></li>
+<li><a href="#document.domain"><code>document.domain</code>属性</a></li>
 <li><a href="#CORS">CORS</a></li>
 <li><a href="#JSONP">JSONP</a></li>
 <li><a href="#Cross-document_messaging">Cross-document messaging</a></li>
 <li><a href="#WebSocket">WebSocket</a></li>
 </ol>
-<h3 id="document-domain"><a href="#document-domain" class="headerlink" title="document.domain"></a><code>document.domain</code></h3><p>假设你已登录并正浏览腾讯网 <code>http://www.qq.com/</code> ，此时你突然想看腾讯视频，于是你点击腾讯网提供的快捷链接“视频”，浏览器加载 <code>https://v.qq.com/</code> 。你想查看自己以往的观看记录，因为这两个网页的二级域名不同，<code>v.qq.com</code> 无法获取到你在 <code>www.qq.com</code> 的登录信息，所以无法查看观看记录，于是你不得不重新登录一次。<br>这一趟操作下来，是不是很不人性化？如果能避免这个同源限制，直接读取 Cookie 自动登录就好了。腾讯当然也是这么想的。</p>
+<h3 id="document-domain"><a href="#document-domain" class="headerlink" title="document.domain"></a>document.domain</h3><p>假设你已登录并正浏览腾讯网 <code>http://www.qq.com/</code> ，此时你突然想看腾讯视频，于是你点击腾讯网提供的快捷链接“视频”，浏览器加载 <code>https://v.qq.com/</code> 。你想查看自己以往的观看记录，因为这两个网页的二级域名不同，<code>v.qq.com</code> 无法获取到你在 <code>www.qq.com</code> 的登录信息，所以无法查看观看记录，于是你不得不重新登录一次。<br>这一趟操作下来，是不是很不人性化？如果能避免这个同源限制，直接读取 Cookie 自动登录就好了。腾讯当然也是这么想的。</p>
 <blockquote>
 <p>If two windows (or frames) contain scripts that set domain to the same value, the same-origin policy is relaxed for these two windows, and each window can interact with the other. – <a href="https://en.wikipedia.org/wiki/Same-origin_policy#document.domain_property" target="_blank" rel="noopener">document.domain property, Wiki</a></p>
 </blockquote>
@@ -373,7 +373,6 @@
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
 <li><a href="http://javascript.ruanyifeng.com/bom/ajax.html" target="_blank" rel="noopener">AJAX</a></li>
 <li><a href="http://www.ruanyifeng.com/blog/2016/04/cors.html" target="_blank" rel="noopener">跨域资源共享 CORS 详解</a></li>
-<li><a href="https://github.com/FrankFang/nodejs-test-cors" target="_blank" rel="noopener">课堂代码</a></li>
 <li><a href="http://www.jb51.net/article/109725.htm" target="_blank" rel="noopener">跨域多个域名白名单</a></li>
 <li><a href="https://blog.csdn.net/meimingming/article/details/9038223" target="_blank" rel="noopener">DNS解析过程详解</a></li>
 <li><a href="https://www.cnblogs.com/sugar-tomato/p/4497108.html" target="_blank" rel="noopener">HTML5 postMessage 和 onmessage API 详细应用</a></li>
