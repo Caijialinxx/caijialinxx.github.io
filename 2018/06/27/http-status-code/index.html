@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Notes," />
+  <meta name="keywords" content="Notes,HTTP,面试," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="空元素 An empty element is an element from HTML, SVG, or MathML that cannot have any child nodes (i.e., nested elements or text nodes).  这是来自 MDN 的解释。按照我的理解，用大白话说出来就是，在 HTML、SVG 或 MathML 中，空元素指这个元素节点里不存在">
-<meta name="keywords" content="Notes">
+<meta name="description" content="1xx Informational responses 100 Continue服务器已接收到请求报头，客户端应继续发送请求报文。 101 Switching Protocols服务器已根据客户端的请求切换协议。  2xx Success 200 OK请求已成功。 201 Created请求已完成，新的资源已被创建，且其 URI 已随着响应行返回。 202 Accepted请求已被接受处理，但处理">
+<meta name="keywords" content="Notes,HTTP,面试">
 <meta property="og:type" content="article">
-<meta property="og:title" content="空元素是什么？可替换元素又是个啥？">
-<meta property="og:url" content="http://yoursite.com/2018/01/12/empty-element-and-replaced-element/index.html">
+<meta property="og:title" content="一些常见的 HTTP 状态码">
+<meta property="og:url" content="http://yoursite.com/2018/06/27/http-status-code/index.html">
 <meta property="og:site_name" content="Caijialinxx">
-<meta property="og:description" content="空元素 An empty element is an element from HTML, SVG, or MathML that cannot have any child nodes (i.e., nested elements or text nodes).  这是来自 MDN 的解释。按照我的理解，用大白话说出来就是，在 HTML、SVG 或 MathML 中，空元素指这个元素节点里不存在">
+<meta property="og:description" content="1xx Informational responses 100 Continue服务器已接收到请求报头，客户端应继续发送请求报文。 101 Switching Protocols服务器已根据客户端的请求切换协议。  2xx Success 200 OK请求已成功。 201 Created请求已完成，新的资源已被创建，且其 URI 已随着响应行返回。 202 Accepted请求已被接受处理，但处理">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-12T11:58:14.000Z">
+<meta property="og:updated_time" content="2018-06-30T04:27:56.459Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="空元素是什么？可替换元素又是个啥？">
-<meta name="twitter:description" content="空元素 An empty element is an element from HTML, SVG, or MathML that cannot have any child nodes (i.e., nested elements or text nodes).  这是来自 MDN 的解释。按照我的理解，用大白话说出来就是，在 HTML、SVG 或 MathML 中，空元素指这个元素节点里不存在">
+<meta name="twitter:title" content="一些常见的 HTTP 状态码">
+<meta name="twitter:description" content="1xx Informational responses 100 Continue服务器已接收到请求报头，客户端应继续发送请求报文。 101 Switching Protocols服务器已根据客户端的请求切换协议。  2xx Success 200 OK请求已成功。 201 Created请求已完成，新的资源已被创建，且其 URI 已随着响应行返回。 202 Accepted请求已被接受处理，但处理">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/12/empty-element-and-replaced-element/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/27/http-status-code/"/>
 
 
 
 
 
-  <title>空元素是什么？可替换元素又是个啥？ | Caijialinxx</title>
+  <title>一些常见的 HTTP 状态码 | Caijialinxx</title>
   
 
 
@@ -233,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/empty-element-and-replaced-element/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/27/http-status-code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="caijialinxx">
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">空元素是什么？可替换元素又是个啥？</h1>
+          <h1 class="post-title" itemprop="name headline">一些常见的 HTTP 状态码</h1>
         
 
         <div class="post-meta">
@@ -262,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T11:32:04+08:00">
-                2018-01-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-27T19:05:02+08:00">
+                2018-06-27
               </time>
             
 
@@ -300,45 +300,44 @@
       
 
       
-        <h2 id="空元素"><a href="#空元素" class="headerlink" title="空元素"></a>空元素</h2><blockquote>
-<p>An empty element is an element from HTML, SVG, or MathML that cannot have any child nodes (i.e., nested elements or text nodes).</p>
-</blockquote>
-<p>这是来自 <a href="https://developer.mozilla.org/en-US/docs/Glossary/Empty_element" target="_blank" rel="noopener">MDN</a> 的解释。按照我的理解，用大白话说出来就是，在 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML" target="_blank" rel="noopener">HTML</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/SVG" target="_blank" rel="noopener">SVG</a> 或 <a href="https://developer.mozilla.org/zh-CN/docs/Web/MathML" target="_blank" rel="noopener">MathML</a> 中，空元素指这个元素节点里不存在子节点，这个子节点指 <code>元素节点</code>（<code>element node</code>）或者 <code>文本节点</code>（<code>text node</code>）。</p>
-<p><small>PS：关于 DOM 节点的概念，如果你不了解，可以戳 <a href="http://javascript.ruanyifeng.com/dom/node.html#toc2" target="_blank" rel="noopener">阮一峰的《JavaScript 标准参考教程(alpha)》中 6.1 概述</a> 来学习。</small></p>
-<p>举例说明，<br>在 HTML 中有以下空元素：</p>
-<ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/area" target="_blank" rel="noopener"><code>&lt;area&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/base" target="_blank" rel="noopener"><code>&lt;base&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/br" target="_blank" rel="noopener"><code>&lt;br&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/col" target="_blank" rel="noopener"><code>&lt;col&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/colgroup" target="_blank" rel="noopener"><code>&lt;colgroup&gt;</code></a> when the <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/colgroup#attr-span" target="_blank" rel="noopener"><code>span</code></a> is present</li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/command" target="_blank" rel="noopener"><code>&lt;command&gt;</code></a> <strong style="color:red">Obsolete</strong></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/embed" target="_blank" rel="noopener"><code>&lt;embed&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/hr" target="_blank" rel="noopener"><code>&lt;hr&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/img" target="_blank" rel="noopener"><code>&lt;img&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input" target="_blank" rel="noopener"><code>&lt;input&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/keygen" target="_blank" rel="noopener"><code>&lt;keygen&gt;</code></a>  <strong style="color:red">Obsolete</strong></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/link" target="_blank" rel="noopener"><code>&lt;link&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta" target="_blank" rel="noopener"><code>&lt;meta&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/param" target="_blank" rel="noopener"><code>&lt;param&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/source" target="_blank" rel="noopener"><code>&lt;source&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/track" target="_blank" rel="noopener"><code>&lt;track&gt;</code></a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/wbr" target="_blank" rel="noopener"><code>&lt;wbr&gt;</code></a></li>
+        <h2 id="1xx-Informational-responses"><a href="#1xx-Informational-responses" class="headerlink" title="1xx Informational responses"></a>1xx Informational responses</h2><ul>
+<li>100 Continue<br>服务器已接收到请求报头，客户端应继续发送请求报文。</li>
+<li>101 Switching Protocols<br>服务器已根据客户端的请求切换协议。</li>
 </ul>
-<p>此外，在这些空元素上使用一个闭标签是无效的。如 <code>&lt;input type=&quot;text&quot;&gt;&lt;/input&gt;</code> 是错误的。</p>
-<p>在 SVG 中有 <a href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/font-face-name" target="_blank" rel="noopener"><code>&lt;font-face-name&gt;</code></a> 、<a href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/hkern" target="_blank" rel="noopener"><code>&lt;hkern&gt;</code></a> 、<a href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/vkern" target="_blank" rel="noopener"><code>&lt;vkern&gt;</code></a> 等。</p>
-<p>在 MathML 中有 <a href="https://developer.mozilla.org/zh-CN/docs/Web/MathML/Element/mspace" target="_blank" rel="noopener"><code>&lt;mspace&gt;</code></a> 、<a href="https://developer.mozilla.org/zh-CN/docs/Web/MathML/Element/semantics" target="_blank" rel="noopener"><code>&lt;semantics&gt;</code></a> 等。</p>
-<h2 id="可替换元素"><a href="#可替换元素" class="headerlink" title="可替换元素"></a>可替换元素</h2><blockquote><p>In CSS, a replaced element is an element whose representation is outside the scope of CSS. In other words, these are external objects whose representation is independent of the CSS formatting model.</p>
-<footer><strong>MDN</strong><cite><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element" target="_blank" rel="noopener">Replaced element</a></cite></footer></blockquote>
-<p><br>看懂了吗？看懂了吗？不懂？那我给你看下MDN的<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Replaced_element" target="_blank" rel="noopener">中文解释</a>。</p>
-<blockquote><p>CSS 里，可替换元素（replaced element）的展现不是由CSS来控制的。这些元素是一类外观渲染独立于CSS的外部对象。</p>
+<h2 id="2xx-Success"><a href="#2xx-Success" class="headerlink" title="2xx Success"></a>2xx Success</h2><ul>
+<li><strong>200 OK</strong><br>请求已成功。</li>
+<li>201 Created<br>请求已完成，新的资源已被创建，且其 URI 已随着响应行返回。</li>
+<li>202 Accepted<br>请求已被接受处理，但处理尚未完成。该请求最终可能会也可能不会被执行。该状态码在异步操作的情况下很方便。</li>
+<li>204 No Content<br>服务器已成功处理请求，没有返回任何实体内容。</li>
+<li>205 Reset Content<br>服务器已成功处理请求，且没有返回任何内容。但与 <code>204</code> 不同的是，包含此状态码的响应要求请求者重置文档视图。</li>
+</ul>
+<h2 id="3xx-Redirection"><a href="#3xx-Redirection" class="headerlink" title="3xx Redirection"></a>3xx Redirection</h2><ul>
+<li><strong>301 Moved Permanently</strong><br>被请求的资源被永久移动到返回的新的 URI 中。</li>
+<li>302 Found<br>告诉客户端浏览另一个 URL 。 <code>302</code> 已被 <code>303</code> 和 <code>307</code> 所取代。</li>
+<li>303 See Other<br>使用 <code>GET</code> 方法在另一个 URI 下找到请求对应的响应。</li>
+<li>305 Use Proxy<br>请求的资源只能通过代理服务器获得，响应中提供其代理服务器的地址。</li>
+<li>307 Temporary Redirect<br>请求暂时由另一个 URI 响应，而未来的请求应仍继续使用原始的 URI 。</li>
+</ul>
+<h2 id="4xx-Client-errors"><a href="#4xx-Client-errors" class="headerlink" title="4xx Client errors"></a>4xx Client errors</h2><ul>
+<li><strong>400 Bad Request</strong><br>服务器无法处理请求，因为客户端的请求有明显的错误（例如请求语法错误、请求过大等）。</li>
+<li><strong>401 Unauthorized</strong><br>当前请求未通过认证。响应必须包含一个适用于被请求资源的 WWW-Authenticate 信息头来询问用户信息。</li>
+<li><strong>403 Forbidden</strong><br>请求已被理解但是服务器拒绝执行。与 <code>401</code> 不同的是，用户无法通过身份验证来得到请求资源的许可。</li>
+<li><strong>404 Not Found</strong><br>请求的资源目前无法被找到。</li>
+<li>405 Method Not Allowed<br>请求的方法无法支持请求的资源。例如，一个本应通过 POST 请求来获取数据的表单使用了 GET 请求（a GET request on a form that requires data to be presented via POST），或者是一个只读的资源使用了 PUT 请求（or a PUT request on a read-only resource）。该响应必须返回一个 Allow 头信息用以表示出当前资源能够接受的请求方法的列表。</li>
+<li>406 Not Acceptable<br>请求的资源的内容特性无法满足请求头中的条件，因而无法生成响应实体。</li>
+<li>410 Gone<br>被请求的资源在服务器上已不再可用，并且没有任何已知的转发地址。</li>
+<li><strong>422 UNprocessable Entity</strong><br>请求的格式是正确的，但是由于语义错误，服务器无法响应。</li>
+</ul>
+<h2 id="5xx-Server-errors"><a href="#5xx-Server-errors" class="headerlink" title="5xx Server errors"></a>5xx Server errors</h2><ul>
+<li><strong>500 Internal Server Error</strong><br>服务器内部错误，无法完成请求。一般来说，这个问题会在服务器端的源代码错误时出现。</li>
+<li><strong>502 Bad Gateway</strong><br>服务器充当网关或代理时，收到来自上游服务器的无效响应。</li>
+<li><strong>503 Service Unavailable</strong><br>服务器当前不可用，原因可能是服务器超载或正在维护。</li>
+<li>504 Gateway Timeout<br>服务器充当网关或代理时，没有及时收到来自上游服务器的响应。</li>
+</ul>
+<p><br></p>
+<blockquote>
+<p>参考文献：<a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes" target="_blank" rel="noopener">List of HTTP status codes —— Wikipedia</a></p>
 </blockquote>
-<p>现在懂了？还是不懂？</p>
-<p>Emmm…</p>
-<p><a href="https://www.cnblogs.com/WebShare-hilda/p/4713890.html" target="_blank" rel="noopener">Maybe it would help.</a></p>
-<p> <code>替换元素</code> 是浏览器根据其标签的元素与属性来判断显示具体的内容的，CSS并不需要考虑渲染替换元素，它的展现独立于CSS，这就是“independent of the CSS formatting model”的意思。此外，不像 <code>非替换元素</code> 一样，它们将内容直接告诉浏览器，而检查替换元素的代码时可以发现它并没有实际的内容。</p>
-<p>这是一个来自 W3C 关于 <a href="https://www.w3.org/TR/CSS21/conform.html#replaced-element" target="_blank" rel="noopener">Replaced element</a> 的解释，如果你看得懂英文的话，结合W3C标准的原始定义会理解得更准确一点。</p>
-<p>另外，有人提出，把 <code>Replaced element</code> 翻译成可替换元素是不准确的，就英文字面意思来说， replaced 是已被替换了的， <code>Replaced element</code> 不由CSS负责展示渲染，不是可以被替换的概念。原文请戳<a href="http://openwares.net/2014/03/14/css_replaced_element/" target="_blank" rel="noopener">这里</a>。</p>
 
       
     </div>
@@ -358,6 +357,10 @@
           
             <a href="/tags/Notes/" rel="tag"># Notes</a>
           
+            <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
         </div>
       
 
@@ -369,8 +372,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/23/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2018/06/01/same-origin-policy/" rel="next" title="浏览器的同源策略及规避方法">
+                <i class="fa fa-chevron-left"></i> 浏览器的同源策略及规避方法
               </a>
             
           </div>
@@ -378,10 +381,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/13/css/" rel="prev" title="CSS介绍">
-                CSS介绍 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -504,7 +503,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#空元素"><span class="nav-number">1.</span> <span class="nav-text">空元素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可替换元素"><span class="nav-number">2.</span> <span class="nav-text">可替换元素</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1xx-Informational-responses"><span class="nav-number">1.</span> <span class="nav-text">1xx Informational responses</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2xx-Success"><span class="nav-number">2.</span> <span class="nav-text">2xx Success</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3xx-Redirection"><span class="nav-number">3.</span> <span class="nav-text">3xx Redirection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4xx-Client-errors"><span class="nav-number">4.</span> <span class="nav-text">4xx Client errors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5xx-Server-errors"><span class="nav-number">5.</span> <span class="nav-text">5xx Server errors</span></a></li></ol></div>
             
 
           </div>
