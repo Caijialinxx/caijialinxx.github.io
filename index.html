@@ -364,7 +364,7 @@
 </ul>
 <p>此外，还有 <code>Secure</code> 标记：</p>
 <ul>
-<li><p><code>Secure</code> 可以使 Cookie 只能通过被 HTTPS 协议加密过的请求发送给服务端，如果不是 HTTPS 协议，那么浏览器将不会接受这个 Cookie 。</p>
+<li><p><code>Secure</code> 可以使 Cookie 只能通过被 HTTPS 协议加密过的请求发送给服务器，如果不是 HTTPS 协议，那么浏览器将不会接受这个 Cookie 。</p>
   <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.setHeader(<span class="string">"Set-Cookie"</span>, <span class="string">"user=caijialinxx@foxmail.com; Secure"</span>)</span><br></pre></td></tr></table></figure>
 <p>  响应头中含有</p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: user=caijialinxx@foxmail.com; Secure</span><br></pre></td></tr></table></figure>
@@ -379,6 +379,14 @@
 <li>不准确的状态——浏览器的“回退”按键会使 Cookie 无法记录上一次的用户操作。</li>
 <li>Cookies 在某种程度上说已经严重危及用户的隐私和安全，它会被利用于投放广告。</li>
 </ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>Cookie 是一段数据，它由服务器发送给浏览器并保存到本地，存储着用户的一些信息（如用户登录状态、个性化设置等），在此浏览器下一次访问此服务器时，这段 Cookie 会被附加在 HTTP 请求中发送给服务器。</li>
+<li>Cookie 的大小一般为 4KB ，默认有效期一般为 20mins ，但可以通过 <code>Expires</code> （UTC格式）或 <code>Max-Age</code> （秒数）来设置其过期时间。</li>
+<li>Node.js 设置 Cookie 的 API ： <code>response.setHeader(&quot;Set-Cookie&quot;, &quot;name=value&quot;)</code> 。</li>
+<li>浏览器读写 Cookie 的 API ： <code>document.cookie</code> 。若要阻止用户通过 JavaScript 来读写 Cookie ，只需要添加 <code>HttpOnly</code> 标记。</li>
+<li><code>Secure</code> 标记可以使 Cookie 只能通过 HTTPS 加密过的请求发送服务器，如果不是 HTTPS 请求，浏览器会自动忽略。</li>
+<li>由于 Cookie 会被附加在 HTTP 请求中，且是明文传递，所以会增加流量以及有安全问题。建议使用 Web storage API （ <code>sessionStorage</code> 或 <code>localStorage</code> ）或 IndexedDB 。</li>
+</ol>
 <h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>在这篇笔记写到一半的时候，我看到了 MDN 的介绍，我觉得它写得已经很好了，一度有不想写直接抛出链接的想法……..<br>然鹅，这篇笔记可是我自己消化的东西啊。不管怎么样，都还是应该要自己写出来。只不过我还是会把 MDN 的链接放在下面作为扩展阅读，当然还有其他一些优秀的博客笔记。</p>
 <ul>
 <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies" target="_blank" rel="noopener">HTTP Cookie, MDN</a></li>
