@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="面试,HTML," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="HTML 语义化的理解 A semantic element clearly describes its meaning to both the browser and the developer.一个语义化的元素能够清晰地向浏览者和开发者描述它的意义。  常见的语义化标签有： &amp;lt;p&amp;gt; 、 &amp;lt;h1&amp;gt; 、 &amp;lt;button&amp;gt; 、 &amp;lt;article&amp;gt; 、">
+<meta name="keywords" content="面试,HTML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试常考题之 HTML">
+<meta property="og:url" content="http://yoursite.com/2018/07/17/interview-html/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="HTML 语义化的理解 A semantic element clearly describes its meaning to both the browser and the developer.一个语义化的元素能够清晰地向浏览者和开发者描述它的意义。  常见的语义化标签有： &amp;lt;p&amp;gt; 、 &amp;lt;h1&amp;gt; 、 &amp;lt;button&amp;gt; 、 &amp;lt;article&amp;gt; 、">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-17T10:37:30.548Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面试常考题之 HTML">
+<meta name="twitter:description" content="HTML 语义化的理解 A semantic element clearly describes its meaning to both the browser and the developer.一个语义化的元素能够清晰地向浏览者和开发者描述它的意义。  常见的语义化标签有： &amp;lt;p&amp;gt; 、 &amp;lt;h1&amp;gt; 、 &amp;lt;button&amp;gt; 、 &amp;lt;article&amp;gt; 、">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/17/interview-html/"/>
+
+
+
+
+
+  <title>面试常考题之 HTML | Caijialinxx</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Caijialinxx</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/17/interview-html/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面试常考题之 HTML</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-17T16:10:45+08:00">
+                2018-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="HTML-语义化的理解"><a href="#HTML-语义化的理解" class="headerlink" title="HTML 语义化的理解"></a>HTML 语义化的理解</h2><blockquote>
+<p>A semantic element clearly describes its meaning to both the browser and the developer.<br>一个语义化的元素能够清晰地向浏览者和开发者描述它的意义。</p>
+</blockquote>
+<p>常见的语义化标签有： <code>&lt;p&gt;</code> 、 <code>&lt;h1&gt;</code> 、 <code>&lt;button&gt;</code> 、 <code>&lt;article&gt;</code> 、 <code>&lt;aside&gt;</code> 、 <code>&lt;header&gt;</code> 、 <code>&lt;footer&gt;</code> 、 <code>&lt;main&gt;</code> 、 <code>&lt;nav&gt;</code> 、 <code>&lt;section&gt;</code> 等。</p>
+<ul>
+<li>「语义化」概念的出现<ul>
+<li>最开始的 HTML 页面是由 PHP 后端写的，他们不会 CSS ，于是只能使用 table 来布局。然而 table 是用来展示表格的，这种投机取巧的使用方法严重违反了 HTML 语义化原则。</li>
+<li>后来，有了会写 CSS 的前端之后，他们就使用 DIV + CSS 来实现页面布局，主要是用 <code>float</code> 和 <code>position</code> 属性。看起来好了一点，但整个页面的结构都是 DIV ，也非常的不可观。</li>
+<li>随着发展，前端渐渐变得专业，为了改善这种杂乱的结构，「语义化」这一概念被提出，前端尽量使用 <code>&lt;p&gt;</code> 、 <code>&lt;h1&gt;</code> 这种有意义的标签来展示内容。此外， HTML5 为我们提供了更多的语义化标签，例如 <code>&lt;header&gt;</code> 、 <code>&lt;footer&gt;</code> 、 <code>&lt;main&gt;</code> 、 <code>&lt;nav&gt;</code> 、 <code>&lt;section&gt;</code> 等。</li>
+</ul>
+</li>
+</ul>
+<h4 id="总的来说"><a href="#总的来说" class="headerlink" title="总的来说"></a>总的来说</h4><p>  HTML 语义化就是使用有意义的标签来展示内容，例如 <code>&lt;p&gt;</code> 表示段落， <code>&lt;aside&gt;</code> 表示侧边栏， <code>&lt;nav&gt;</code> 表示导航。这使得页面结构易于阅读、方便理解，此外，还能有益于 <a href="https://baike.baidu.com/item/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E4%BC%98%E5%8C%96/3132?fromtitle=seo&amp;fromid=102990&amp;fr=aladdin" target="_blank" rel="noopener">SEO</a> （Search Engine Optimization，搜索引擎优化）、其他设备的解析（如屏幕阅读器、盲人阅读器、移动设备）。</p>
+<h2 id="meta-viewport-的原理"><a href="#meta-viewport-的原理" class="headerlink" title="meta viewport 的原理"></a>meta viewport 的原理</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">'viewport'</span> <span class="attr">content</span>=<span class="string">'width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最初，网页只会在 PC 端展现，所以页面宽度是适应大多数 PC 端的。后来，随着智能手机（iPhone 3GS）的出现，原本为 PC 端设计的网页在小屏的手机上就“胖到挤不下”，用户只能不断移动这些网页来达到浏览的目的。后来乔布斯的工程师想了一个办法：他们让手机宽度模拟成 980px ，这样页面就能缩小了，用户想要浏览某个部分只需要手动放大。<br>但是随着智能手机的普及，这种不方便用户的功能显然不够贴心。 <code>&lt;meta name=&#39;viewport&#39;&gt;</code> 的出现就是为了解决这个问题：<br>| 属性名 | 属性值 | 描述 |<br>| - | - | - |<br>| width | [number] | device-width | 控制 viewport 的大小，可以指定的一个数字，如 600，或者特殊的值，如 device-width 为设备的宽度（单位为缩放为 100% 时的 CSS 的像素）。 |<br>| height | [number] | device-height | 和 width 相对应，指定高度。 |<br>initial-scale | [number] | 初始缩放比例，也即是当页面第一次加载时的缩放比例。<br>maximum-scale | [number] | 允许用户缩放到的最大比例。 |<br>minimum-scale | [number] | 允许用户缩放到的最小比例。 |<br>user-scalable | yes | no | 用户是否可以手动缩放。 |</p>
+<h4 id="总的来说-1"><a href="#总的来说-1" class="headerlink" title="总的来说"></a>总的来说</h4><p>我们可以通过设置 <code>&lt;meta name=&#39;viewport&#39; content=&#39;width=device-width, initial-scale=1.0&#39;&gt;</code> 来使得页面自适应屏幕的宽度，并且不被缩小。</p>
+<h2 id="canvas-的使用"><a href="#canvas-的使用" class="headerlink" title="canvas 的使用"></a>canvas 的使用</h2><p>这里有一个我自己做的项目示例 <a href="https://caijialinxx.github.io/jirengu-homework/canvas/" target="_blank" rel="noopener">Canvas 画板</a>，去玩一下呗~</p>
+<p>这里总结一下 <code>&lt;canvas&gt;</code> 元素中常用的 API 及用法。</p>
+<p>首先我们要在 HTML 中添加一个 canvas 元素：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"canvas"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后在 JavaScript 中取到这个元素，就可以执行一些操作：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取 canvas 元素</span></span><br><span class="line"><span class="keyword">var</span> canvas = <span class="built_in">document</span>.getElementById(<span class="string">'canvas'</span>)</span><br><span class="line"><span class="comment">// 「常用 API」 1. getContext() 访问绘画上下文</span></span><br><span class="line"><span class="keyword">var</span> ctx = canvas.getContext(<span class="string">'2d'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 「常用 API」 2. fillStyle 设置图形的填充颜色</span></span><br><span class="line">ctx.fillStyle = <span class="string">'orange'</span></span><br><span class="line"><span class="comment">// 「常用 API」 3. strokeStyle 设置图形的轮廓颜色</span></span><br><span class="line">ctx.strokeStyle = <span class="string">'red'</span></span><br><span class="line"><span class="comment">// 「常用 API」 4. strokeStyle 设置图形的轮廓颜色</span></span><br><span class="line">ctx.lineWidth = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 绘制矩形 */</span></span><br><span class="line"><span class="comment">// 「常用 API」 5. fillRect(x, y, width, height) 绘制一个填充的矩形</span></span><br><span class="line">ctx.fillRect(<span class="number">25</span>,<span class="number">25</span>,<span class="number">100</span>,<span class="number">100</span>)</span><br><span class="line"><span class="comment">// 「常用 API」 6. clearRect(x, y, width, height) 清除指定矩形区域，让清除部分完全透明</span></span><br><span class="line">ctx.clearRect(<span class="number">45</span>,<span class="number">45</span>,<span class="number">60</span>,<span class="number">60</span>)</span><br><span class="line"><span class="comment">// 「常用 API」 7. strokeRect(x, y, width, height) 绘制一个矩形的边框</span></span><br><span class="line">ctx.strokeRect(<span class="number">50</span>,<span class="number">50</span>,<span class="number">50</span>,<span class="number">50</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 绘制路径 */</span></span><br><span class="line"><span class="comment">// 「常用 API」 8. beginPath() 新建一条路径</span></span><br><span class="line">ctx.beginPath()</span><br><span class="line"><span class="comment">// 「常用 API」 9. moveTo(x, y) 将笔触移动到指定的坐标x以及y上</span></span><br><span class="line">ctx.moveTo(<span class="number">160</span>,<span class="number">75</span>)</span><br><span class="line"><span class="comment">// 「常用 API」 10. lineTo(x, y) 绘制一条从当前位置到指定x以及y位置的直线</span></span><br><span class="line">ctx.lineTo(<span class="number">220</span>,<span class="number">125</span>)</span><br><span class="line">ctx.lineTo(<span class="number">220</span>,<span class="number">25</span>)</span><br><span class="line"><span class="comment">// 「常用 API」 11. closePath() 闭合路径，不是必须的</span></span><br><span class="line">ctx.closePath()</span><br><span class="line"><span class="comment">// 「常用 API」 12. stroke() 通过线条来绘制图形轮廓。如果不调用 closePath() 则 stroke() 不会自动闭合</span></span><br><span class="line">ctx.stroke()</span><br><span class="line"><span class="comment">// 「常用 API」 13. fill() 填充路径的内容区域生成实心的图形。即使不调用 closePath() 所有没有闭合的形状仍会自动闭合填充</span></span><br><span class="line">ctx.fill()</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 绘制圆形 */</span></span><br><span class="line">ctx.beginPath()</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 「常用 API」 14. arc(x, y, radius, startAngle, endAngle, anticlockwise)</span></span><br><span class="line"><span class="comment"> *                  画一个以（x,y）为圆心， radius 为半径的圆，</span></span><br><span class="line"><span class="comment"> *                  从 startAngle 开始到 endAngle 结束，</span></span><br><span class="line"><span class="comment"> *                  按照 anticlockwise 给定的方向（默认为顺时针）来生成</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">ctx.arc(<span class="number">300</span>, <span class="number">75</span>, <span class="number">50</span>, <span class="number">6</span>, <span class="number">2</span>*<span class="built_in">Math</span>.PI, <span class="literal">true</span>)</span><br><span class="line">ctx.fill()</span><br><span class="line">ctx.stroke()</span><br></pre></td></tr></table></figure></p>
+<p>你可以查看这个小 Demo 的<a href="http://jsbin.com/vekayejuyi/edit?js,output" target="_blank" rel="noopener">演示效果</a> ，并且可以尝试改动一下。</p>
+<ul>
+<li>总结：<ul>
+<li><strong><code>getContext()</code></strong></li>
+<li><code>fillStyle</code></li>
+<li><code>strokeStyle</code></li>
+<li><code>beginPath()</code></li>
+<li><code>closePath()</code></li>
+<li><code>moveTo()</code></li>
+<li><code>lineTo()</code></li>
+<li><code>stroke()</code></li>
+<li><code>fill()</code><br>…</li>
+</ul>
+</li>
+</ul>
+<p>你还可以学习一下 MDN 中的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial" target="_blank" rel="noopener">canvas 教程</a> ，里面还有<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Drawing_text" target="_blank" rel="noopener">绘制文本</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Transformations" target="_blank" rel="noopener">变形</a>等很有意思的教程。</p>
+<h2 id="细节常识题"><a href="#细节常识题" class="headerlink" title="细节常识题"></a>细节常识题</h2><ol>
+<li>浏览器默认的字体大小<ul>
+<li><strong>16px</strong></li>
+</ul>
+</li>
+<li><p><code>&lt;strong&gt;</code> 和 <code>&lt;b&gt;</code> 、 <code>&lt;em&gt;</code> 和 <code>&lt;i&gt;</code> 的区别</p>
+<ul>
+<li><code>&lt;strong&gt;</code> 和 <code>&lt;b&gt;</code> 都可以使字体变粗，但前者表示强调，它可以标明重点内容，而后者没有什么实际含义。</li>
+<li><p><code>&lt;em&gt;</code> 和 <code>&lt;i&gt;</code> 都可以使字体变斜体，但前者表示也是用来强调文本，经常使用在表示重要术语或引用等，而后者没有什么实际含义。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">我是这个世界上<span class="tag">&lt;<span class="name">strong</span>&gt;</span>最美的<span class="tag">&lt;/<span class="name">strong</span>&gt;</span>人。</span><br><span class="line">我想让这个字变<span class="tag">&lt;<span class="name">b</span>&gt;</span>粗<span class="tag">&lt;/<span class="name">b</span>&gt;</span>。</span><br><span class="line">我喜欢 <span class="tag">&lt;<span class="name">em</span>&gt;</span>Professional Javascript for Web Developer 3rd<span class="tag">&lt;/<span class="name">em</span>&gt;</span> 这本书。</span><br><span class="line">我想让这个字变<span class="tag">&lt;<span class="name">i</span>&gt;</span>歪<span class="tag">&lt;/<span class="name">i</span>&gt;</span>。</span><br></pre></td></tr></table></figure>
+<p>我是这个世界上<strong>最美的</strong>人。<br>我想让这个字变<b>粗</b>。<br>我喜欢 <em>Professional Javascript for Web Developer 3rd</em> 这本书。<br>我想让这个字变<i>歪</i>。</p>
+</li>
+<li><p>我们应尽量遵循 HTML 语义化，表示重要的内容时使用 <code>&lt;strong&gt;</code> 或 <code>&lt;em&gt;</code> ，避免单纯为了让字体变粗而使用 <code>&lt;b&gt;</code> ，或者单纯为了让字体变斜而使用 <code>&lt;i&gt;</code> 的情况，这些样式应该由 CSS 去控制。</p>
+</li>
+<li>这里有一个来自 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/strong#Usage_notes" target="_blank" rel="noopener">MDN</a> 的比较，可以参考一下。</li>
+</ul>
+</li>
+<li><code>href</code> 和 <code>src</code> 的区别<ul>
+<li><code>href</code> 是 Hypertext Reference 的缩写，表示超文本引用，用来建立文档和外部资源之间的联系。常用的有 <code>&lt;a&gt;</code> 和 <code>&lt;link&gt;</code> 标签。</li>
+<li><code>src</code> 是 source 的缩写，是页面种必不可少的一部分，其指向的内容会嵌入到文档中当前元素所在的位置。浏览器在下载、解析这个元素的时候会暂停页面的加载和处理。常用的有 <code>&lt;script&gt;</code> 、 <code>&lt;img&gt;</code> 和 <code>&lt;iframe&gt;</code> 标签。</li>
+<li>总的来说就是 <code>src</code> 用于替换当前元素，而 <code>href</code> 用于建立文档与引用资源的联系。</li>
+</ul>
+</li>
+<li><code>readonly</code> 和 <code>disabled</code> 的区别<ul>
+<li><code>readonly</code> 表示这个控件是<strong>只读</strong>的，无法在页面上修改，但可以通过 JavaScript 修改。在提交表单时此控件的值会被传出去。</li>
+<li><code>disabled</code> 表示这个控件是<strong>被禁用</strong>的，同样无法在页面上修改内容（可以通过 JS 修改），在提交表单时该控件的内容不会被提交。</li>
+</ul>
+</li>
+<li>块级元素与行内元素的区别<ul>
+<li>默认情况下，块级元素会另起一行，而行内元素不会以新行开始。</li>
+<li>块级元素可以设置宽高，而行内元素的宽高由内容物决定。</li>
+<li>块级元素里面可以有行内元素或其他块级元素，而行内元素只能包含数据或其他行内元素。</li>
+<li>块级元素有 <code>&lt;div&gt;</code> 、 <code>&lt;p&gt;</code> 、 <code>&lt;ul&gt;</code> 、 <code>&lt;header&gt;</code> 、 <code>&lt;form&gt;</code> 等，而行内元素有 <code>&lt;span&gt;</code> 、 <code>&lt;select&gt;</code> 、 <code>&lt;strong&gt;</code> 、 <code>&lt;input&gt;</code> 、 <code>&lt;button&gt;</code> 、 <code>&lt;textarea&gt;</code> 等。</li>
+</ul>
+</li>
+<li>doctype 的作用<ul>
+<li>声明文档类型，告诉浏览器要用什么文档类型规范来解析这个文档。</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+            <a href="/tags/HTML/" rel="tag"># HTML</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/16/cookie-session-webStorage/" rel="next" title="Cookie, Session, LocalStorage & SessionStorage">
+                <i class="fa fa-chevron-left"></i> Cookie, Session, LocalStorage & SessionStorage
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">caijialinxx</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML-语义化的理解"><span class="nav-number">1.</span> <span class="nav-text">HTML 语义化的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总的来说"><span class="nav-number">1.0.1.</span> <span class="nav-text">总的来说</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#meta-viewport-的原理"><span class="nav-number">2.</span> <span class="nav-text">meta viewport 的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总的来说-1"><span class="nav-number">2.0.1.</span> <span class="nav-text">总的来说</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#canvas-的使用"><span class="nav-number">3.</span> <span class="nav-text">canvas 的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#细节常识题"><span class="nav-number">4.</span> <span class="nav-text">细节常识题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">caijialinxx</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
