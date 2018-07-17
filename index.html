@@ -312,10 +312,34 @@
 </ul>
 </li>
 </ul>
-<h4 id="总的来说"><a href="#总的来说" class="headerlink" title="总的来说"></a>总的来说</h4><p>  HTML 语义化就是使用有意义的标签来展示内容，例如 <code>&lt;p&gt;</code> 表示段落， <code>&lt;aside&gt;</code> 表示侧边栏， <code>&lt;nav&gt;</code> 表示导航。这使得页面结构易于阅读、方便理解，此外，还能有益于 <a href="https://baike.baidu.com/item/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E4%BC%98%E5%8C%96/3132?fromtitle=seo&amp;fromid=102990&amp;fr=aladdin" target="_blank" rel="noopener">SEO</a> （Search Engine Optimization，搜索引擎优化）、其他设备的解析（如屏幕阅读器、盲人阅读器、移动设备）。</p>
+<p></p><h2 style="font-size:16px; font-weight:bold;">总的来说</h2><br>  HTML 语义化就是使用有意义的标签来展示内容，例如 <code>&lt;p&gt;</code> 表示段落， <code>&lt;aside&gt;</code> 表示侧边栏， <code>&lt;nav&gt;</code> 表示导航。这使得页面结构易于阅读、方便理解，此外，还能有益于 <a href="https://baike.baidu.com/item/%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E%E4%BC%98%E5%8C%96/3132?fromtitle=seo&amp;fromid=102990&amp;fr=aladdin" target="_blank" rel="noopener">SEO</a> （Search Engine Optimization，搜索引擎优化）、其他设备的解析（如屏幕阅读器、盲人阅读器、移动设备）。<p></p>
 <h2 id="meta-viewport-的原理"><a href="#meta-viewport-的原理" class="headerlink" title="meta viewport 的原理"></a>meta viewport 的原理</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">'viewport'</span> <span class="attr">content</span>=<span class="string">'width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>最初，网页只会在 PC 端展现，所以页面宽度是适应大多数 PC 端的。后来，随着智能手机（iPhone 3GS）的出现，原本为 PC 端设计的网页在小屏的手机上就“胖到挤不下”，用户只能不断移动这些网页来达到浏览的目的。后来乔布斯的工程师想了一个办法：他们让手机宽度模拟成 980px ，这样页面就能缩小了，用户想要浏览某个部分只需要手动放大。<br>但是随着智能手机的普及，这种不方便用户的功能显然不够贴心。 <code>&lt;meta name=&#39;viewport&#39;&gt;</code> 的出现就是为了解决这个问题：<br>| 属性名 | 属性值 | 描述 |<br>| - | - | - |<br>| width | [number] | device-width | 控制 viewport 的大小，可以指定的一个数字，如 600，或者特殊的值，如 device-width 为设备的宽度（单位为缩放为 100% 时的 CSS 的像素）。 |<br>| height | [number] | device-height | 和 width 相对应，指定高度。 |<br>initial-scale | [number] | 初始缩放比例，也即是当页面第一次加载时的缩放比例。<br>maximum-scale | [number] | 允许用户缩放到的最大比例。 |<br>minimum-scale | [number] | 允许用户缩放到的最小比例。 |<br>user-scalable | yes | no | 用户是否可以手动缩放。 |</p>
-<h4 id="总的来说-1"><a href="#总的来说-1" class="headerlink" title="总的来说"></a>总的来说</h4><p>我们可以通过设置 <code>&lt;meta name=&#39;viewport&#39; content=&#39;width=device-width, initial-scale=1.0&#39;&gt;</code> 来使得页面自适应屏幕的宽度，并且不被缩小。</p>
+<p>最初，网页只会在 PC 端展现，所以页面宽度是适应大多数 PC 端的。后来，随着智能手机（iPhone 3GS）的出现，原本为 PC 端设计的网页在小屏的手机上就“胖到挤不下”，用户只能不断移动这些网页来达到浏览的目的。后来乔布斯的工程师想了一个办法：他们让手机宽度模拟成 980px ，这样页面就能缩小了，用户想要浏览某个部分只需要手动放大。<br>但是随着智能手机的普及，这种不方便用户的功能显然不够贴心。 <code>&lt;meta name=&#39;viewport&#39;&gt;</code> 的出现就是为了解决这个问题：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>属性值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>width</td>
+<td>[number] \</td>
+<td>device-width</td>
+<td>控制 viewport 的大小，可以指定的一个数字，如 600，或者特殊的值，如 device-width 为设备的宽度（单位为缩放为 100% 时的 CSS 的像素）。</td>
+</tr>
+<tr>
+<td>height</td>
+<td>[number] \</td>
+<td>device-height</td>
+<td>和 width 相对应，指定高度。</td>
+</tr>
+</tbody>
+</table>
+<p>initial-scale | [number] | 初始缩放比例，也即是当页面第一次加载时的缩放比例。<br>maximum-scale | [number] | 允许用户缩放到的最大比例。 |<br>minimum-scale | [number] | 允许用户缩放到的最小比例。 |<br>user-scalable | yes | no | 用户是否可以手动缩放。 |</p>
+<p></p><h2 style="font-size:16px; font-weight:bold;">总的来说</h2><br>我们可以通过设置 <code>&lt;meta name=&#39;viewport&#39; content=&#39;width=device-width, initial-scale=1.0&#39;&gt;</code> 来使得页面自适应屏幕的宽度，并且不被缩小。<p></p>
 <h2 id="canvas-的使用"><a href="#canvas-的使用" class="headerlink" title="canvas 的使用"></a>canvas 的使用</h2><p>这里有一个我自己做的项目示例 <a href="https://caijialinxx.github.io/jirengu-homework/canvas/" target="_blank" rel="noopener">Canvas 画板</a>，去玩一下呗~</p>
 <p>这里总结一下 <code>&lt;canvas&gt;</code> 元素中常用的 API 及用法。</p>
 <p>首先我们要在 HTML 中添加一个 canvas 元素：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">canvas</span> <span class="attr">id</span>=<span class="string">"canvas"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
