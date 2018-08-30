@@ -229,6 +229,156 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/seo-in-front-end/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/30/seo-in-front-end/" itemprop="url">前端搜索引擎优化（SEO）的技巧</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-30T17:17:48+08:00">
+                2018-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我们常常可以看到一些面试题中有问【 HTML 语义化的好处是什么】，很多人都可以溜溜地说其中一个好处就是【有利于 SEO 】。那么，什么是 SEO ，大家真的都清楚吗？</p>
+<h2 id="搜索引擎优化（SEO）"><a href="#搜索引擎优化（SEO）" class="headerlink" title="搜索引擎优化（SEO）"></a>搜索引擎优化（SEO）</h2><p><a href="https://zh.wikipedia.org/wiki/%E6%90%9C%E5%B0%8B%E5%BC%95%E6%93%8E%E6%9C%80%E4%BD%B3%E5%8C%96" target="_blank" rel="noopener">搜索引擎优化</a>（英语： Search Engine Optimization ，缩写为 SEO ），根据维基百科的解释是：</p>
+<blockquote>
+<p>它是一种透过了解搜索引擎的运作规则来调整网站，以及提高目的网站在有关搜索引擎内排名的方式。由于不少研究发现，搜索引擎的用户往往只会留意搜索结果最前面的几个条目，所以不少网站都希望透过各种形式来影响搜索引擎的排序，让自己的网站可以有优秀的搜索排名。当中尤以各种依靠广告维生的网站为甚。</p>
+</blockquote>
+<p>也就是说，通过搜索引擎优化，我们的网站可以在搜索结果的排名中靠前。</p>
+<p>那么，作为一个前端，我们该如何为搜索引擎优化做出一点贡献呢？</p>
+<h2 id="优化的技巧"><a href="#优化的技巧" class="headerlink" title="优化的技巧"></a>优化的技巧</h2><p>在学习如何优化之后，我们最好了解一下当我们在“百度一下”或者“ Google 搜索”时，搜索引擎都做了一些什么。</p>
+<p><a href="https://www.youtube.com/watch?v=BNHR6IQJGZs&amp;feature=youtu.be" target="_blank" rel="noopener">https://www.youtube.com/watch?v=BNHR6IQJGZs&amp;feature=youtu.be</a></p>
+<p>这个视频 <a href="https://youtu.be/BNHR6IQJGZs" target="_blank" rel="noopener">How Search Works</a> 解释了搜索引擎是如何工作的。需要科学上网才能看得到，当然在这里我也会总结一下这个视频的大意：</p>
+<p>当搜索进行时，它会从“蜘蛛”事先抓取到的大量有关联性的索引中，搜索所有包含用户输入的关键字的网页，然后根据算法给出每个网页一个总评分，再根据评分的高低给用户返回搜索结果。而这些包含关键字的内容，可以是文章标题、描述、关键字、内容、甚至是链接等。</p>
+<p>由上可以得知，要想优化，我们可以从这些方面入手。</p>
+<h3 id="创建唯一且准确的网页标题-lt-title-gt"><a href="#创建唯一且准确的网页标题-lt-title-gt" class="headerlink" title="创建唯一且准确的网页标题 &lt;title&gt;"></a>创建唯一且准确的网页标题 <code>&lt;title&gt;</code></h3><p><code>&lt;title&gt;</code> 标记可告诉用户和搜索引擎特定网页的主题是什么。它应放置在 HTML 文档的 <code>&lt;head&gt;</code> 元素中。我们应该为网站上的每个网页创建一个唯一标题，并且尽量避免与网页内容无关或使用默认或模糊的标题。如：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 正确示范 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>前端搜索引擎优化的技巧<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 错误示范 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>我的文档<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="使用-lt-meta-gt-元标签"><a href="#使用-lt-meta-gt-元标签" class="headerlink" title="使用 &lt;meta&gt; 元标签"></a>使用 <code>&lt;meta&gt;</code> 元标签</h3><p>我们可以使用 <code>&lt;meta&gt;</code> 的 <code>keywords</code> 元数据来提炼网页重要关键字，以及 <code>description</code> 元数据准确总结网页内容，而避免在 <code>description</code> 元数据的内容中出现关键词的堆砌，描述过长，或“这是一个网页”这种没有实际性意义的描述等现象。正确示范如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">'keywords'</span> <span class="attr">content</span>=<span class="string">'SEO,title,meta,语义化,alt,'</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">'description'</span> <span class="attr">content</span>=<span class="string">'介绍搜索引擎优化的技巧，如使用创建title标题、meta关键词和描述、语义化标签、img的alt属性等。'</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="使用语义化元素"><a href="#使用语义化元素" class="headerlink" title="使用语义化元素"></a>使用语义化元素</h3><p>在合适的位置使用合适的元素表达合适的内容，让用户和“蜘蛛”能一目了然文档结构。例如使用 <code>&lt;h1&gt;</code> 可以让“蜘蛛”知道这是很重要的内容。然而，值得注意的是，例如在想要表达强调时，我们不应该滥用标题元素或者 <code>&lt;b&gt;</code> 、 <code>&lt;i&gt;</code> 这种没有实际意义的标签，换而可以使用 <code>&lt;em&gt;</code> 或 <code>&lt;strong&gt;</code> 来表示强调。此外， <code>&lt;h1&gt;</code> 的权重比 <code>&lt;h2&gt;</code> 的大，我们不应该为了增大权重而去滥用 <code>&lt;h1&gt;</code> ，一般来说 <code>&lt;h1&gt;</code> 用于正文的标题。</p>
+<h3 id="利用-lt-img-gt-中的-alt-属性"><a href="#利用-lt-img-gt-中的-alt-属性" class="headerlink" title="利用 &lt;img&gt; 中的 alt 属性"></a>利用 <code>&lt;img&gt;</code> 中的 <code>alt</code> 属性</h3><p><code>alt</code> 属性可以在图片未成功显示时候，使用文本来代替图片的呈现，使“蜘蛛”可以抓取到这个信息。此外它还可以解决浏览器禁用图像或屏幕阅读器解析等问题。</p>
+<h3 id="设置rel-39-nofollow-39-忽略跟踪"><a href="#设置rel-39-nofollow-39-忽略跟踪" class="headerlink" title="设置rel=&#39;nofollow&#39; 忽略跟踪"></a>设置<code>rel=&#39;nofollow&#39;</code> 忽略跟踪</h3><p>如果某个 <code>&lt;a&gt;</code> 的链接不需要跟踪，那么添加 <code>rel=&#39;nofollow&#39;</code> 即可通知“蜘蛛”忽略跟踪。因为“蜘蛛”分配到每个页面的权重是一定的，为了集中网页权重并将权重分给其他必要的链接，为不必跟踪的链接添加这个属性就显得很必要了。</p>
+<h3 id="尽量保证-HTML-的纯粹和高质量"><a href="#尽量保证-HTML-的纯粹和高质量" class="headerlink" title="尽量保证 HTML 的纯粹和高质量"></a>尽量保证 HTML 的纯粹和高质量</h3><p>我们应尽量让结构（HTML）、表现（CSS）及行为（JavaScript）三者分离。如果在一个 HTML 页面中，编写大量的 CSS 样式或脚本，会拖慢其加载速度，此外，如果不为 <code>&lt;img&gt;</code> 定义宽高，那么会引起页面重新渲染，同样也会影响加载速度。一旦加载超时，“蜘蛛”就会放弃爬取。如果这个 HTML 文档内容比较独特丰富（合理插入图片说明）等，会被认为质量较高符合用户需求，从而提高 SEO 的排名。</p>
+<h3 id="扁平化网站结构"><a href="#扁平化网站结构" class="headerlink" title="扁平化网站结构"></a>扁平化网站结构</h3><p>一般来说，一个网站的结构层次越少，越有利于“蜘蛛”的爬取。所以目录结构一般不多于 3 级，否则“蜘蛛”很容易不愿意继续往下爬。就像用户在操作一个网页一样，层级大于 3 就很影响用户体验了，“蜘蛛”就是模仿用户的心理。</p>
+<h3 id="合理安排重要内容的位置"><a href="#合理安排重要内容的位置" class="headerlink" title="合理安排重要内容的位置"></a>合理安排重要内容的位置</h3><p>我们应该将重要内容的 HTML 代码放在最前面，最前面的内容被认为是最重要的，优先让“蜘蛛”读取，进行内容关键词抓取。并且，重要内容不应该由 JavaScript 或 iframe 输出，“蜘蛛”没有办法读取 JavaScript ，一般不会去读取 iframe 中的内容。</p>
+<hr>
+<p>本文完。</p>
+<p>若文中有错误还请指正与包涵！</p>
+<p>原文链接：<a href="https://caijialinxx.github.io/2018/07/30/seo-in-front-end/" target="_blank" rel="noopener">https://caijialinxx.github.io/2018/07/30/seo-in-front-end/</a></p>
+<p>转载请注明出处。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/搜尋引擎最佳化" target="_blank" rel="noopener">SEO</a></li>
+<li><a href="https://www.cnblogs.com/EnSnail/p/5671345.html" target="_blank" rel="noopener">前端SEO技巧</a></li>
+<li><a href="https://support.google.com/webmasters/answer/7451184?hl=zh-Hans" target="_blank" rel="noopener">搜索引擎优化 (SEO) 新手指南</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/25/deploy-on-heroku/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1896,158 +2046,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/create-jquery-api/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="caijialinxx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Caijialinxx">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/09/create-jquery-api/" itemprop="url">使用原生JS实现一个jQuery的API</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T16:39:28+08:00">
-                2018-05-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="原生JS操作"><a href="#原生JS操作" class="headerlink" title="原生JS操作"></a>原生JS操作</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">style</span>=<span class="string">'border: 1px solid #666'</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">'li'</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>代码结果：</p>
-<ul style="border: 1px solid #666"><br>  <li id="li">Hi</li><br></ul>
-
-<p>现在，我想为 <code>&lt;li&gt;</code> 标签添加一个样式，<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.red</span> &#123; <span class="attribute">color</span>: red; &#125;</span><br></pre></td></tr></table></figure></p>
-<p>并改变文本内容为“Thank you~”。用原生JS的写法就是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">li.classList.add(<span class="string">'red'</span>)</span><br><span class="line">li.textContent = <span class="string">'Thank you~'</span></span><br></pre></td></tr></table></figure></p>
-<p>代码结果：</p>
-<ul style="border: 1px solid #666"><br>  <li style="color: red">Thank you~</li><br></ul>
-
-
-<h2 id="模仿jQuery实现一个API"><a href="#模仿jQuery实现一个API" class="headerlink" title="模仿jQuery实现一个API"></a>模仿jQuery实现一个API</h2><p>如果要模仿jQuery，实现一个jQuery的API，那么实现方法如下：</p>
-<ol>
-<li>封装函数。将每个功能封装成一个函数，需要使用到时调用这个函数即可。 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 封装添加样式的函数addClass */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addClass</span>(<span class="params">node, className</span>) </span>&#123;</span><br><span class="line">  node.classList.add(className)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 封装设置内容的函数setText */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setText</span>(<span class="params">node, text</span>) </span>&#123;</span><br><span class="line">  node.textContent = text</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">addClass(li, <span class="string">'red'</span>)</span><br><span class="line">setText(li, <span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol>
-<li><p>将第一个参数（节点）提取出来变成 <code>node.functionName()</code> 的形式。</p>
- <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jQuery</span>(<span class="params">node</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addClass: <span class="function"><span class="keyword">function</span>(<span class="params">className</span>)</span>&#123;</span><br><span class="line">      node.classList.add(className)</span><br><span class="line">    &#125;,</span><br><span class="line">    setText: <span class="function"><span class="keyword">function</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">      node.textContent = text</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> node = jQuery(li)</span><br><span class="line">node.addClass(<span class="string">'red'</span>)</span><br><span class="line">node.setText(<span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>处理多个节点的情况。</p>
- <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">style</span>=<span class="string">'border: 1px solid #666'</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Welcome<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
- <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jQuery</span>(<span class="params">nodeOrSelector</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> elements = (<span class="keyword">typeof</span> nodeOrSelector === <span class="string">'string'</span>) ? <span class="built_in">document</span>.querySelectorAll(nodeOrSelector) : &#123; <span class="number">0</span>: nodeOrSelector, <span class="attr">length</span>: <span class="number">1</span> &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addClass: <span class="function"><span class="keyword">function</span>(<span class="params">className</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].classList.add(className)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    setText: <span class="function"><span class="keyword">function</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].textContent = text</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> node = jQuery(<span class="string">'li'</span>)</span><br><span class="line">node.addClass(<span class="string">'red'</span>)</span><br><span class="line">node.setText(<span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>简化jQuery函数名</p>
- <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.$ = jQuery;</span><br><span class="line">$(<span class="string">'li'</span>).addClass(<span class="string">'red'</span>)</span><br><span class="line">$(<span class="string">'li'</span>).setText(<span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>最终运行结果：</p>
-<ul style="border: 1px solid #666"><br>  <li style="color: red">Thank you~</li><br>  <li style="color: red">Thank you~</li><br></ul>
-
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>说白了，jQuery就是一个函数，它返回一个对象，里面包含节点的属性和方法。节点可以调用这些方法来操作DOM。</p>
-<p>PS：完整代码如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.jQuery = <span class="function"><span class="keyword">function</span>(<span class="params">nodeOrSelector</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> elements = (<span class="keyword">typeof</span> nodeOrSelector === <span class="string">'string'</span>) ? <span class="built_in">document</span>.querySelectorAll(nodeOrSelector) : &#123;</span><br><span class="line">    <span class="number">0</span>: nodeOrSelector,</span><br><span class="line">    length: <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addClass: <span class="function"><span class="keyword">function</span>(<span class="params">className</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].classList.add(className)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    setText: <span class="function"><span class="keyword">function</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].textContent = text</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.$ = jQuery</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2098,7 +2096,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2111,7 +2109,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

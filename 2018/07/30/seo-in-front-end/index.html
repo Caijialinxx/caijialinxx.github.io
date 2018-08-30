@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Notes,SEO," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我们常常可以看到一些面试题中有问【 HTML 语义化的好处是什么】，很多人都可以溜溜地说其中一个好处就是【有利于 SEO 】。那么，什么是 SEO ，大家真的都清楚吗？ 搜索引擎优化（SEO）搜索引擎优化（英语： Search Engine Optimization ，缩写为 SEO ），根据维基百科的解释是：  它是一种透过了解搜索引擎的运作规则来调整网站，以及提高目的网站在有关搜索引擎内排名的">
+<meta name="keywords" content="Notes,SEO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端搜索引擎优化（SEO）的技巧">
+<meta property="og:url" content="http://yoursite.com/2018/07/30/seo-in-front-end/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="我们常常可以看到一些面试题中有问【 HTML 语义化的好处是什么】，很多人都可以溜溜地说其中一个好处就是【有利于 SEO 】。那么，什么是 SEO ，大家真的都清楚吗？ 搜索引擎优化（SEO）搜索引擎优化（英语： Search Engine Optimization ，缩写为 SEO ），根据维基百科的解释是：  它是一种透过了解搜索引擎的运作规则来调整网站，以及提高目的网站在有关搜索引擎内排名的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-30T09:23:08.075Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端搜索引擎优化（SEO）的技巧">
+<meta name="twitter:description" content="我们常常可以看到一些面试题中有问【 HTML 语义化的好处是什么】，很多人都可以溜溜地说其中一个好处就是【有利于 SEO 】。那么，什么是 SEO ，大家真的都清楚吗？ 搜索引擎优化（SEO）搜索引擎优化（英语： Search Engine Optimization ，缩写为 SEO ），根据维基百科的解释是：  它是一种透过了解搜索引擎的运作规则来调整网站，以及提高目的网站在有关搜索引擎内排名的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/30/seo-in-front-end/"/>
+
+
+
+
+
+  <title>前端搜索引擎优化（SEO）的技巧 | Caijialinxx</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Caijialinxx</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/seo-in-front-end/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">前端搜索引擎优化（SEO）的技巧</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-30T17:17:48+08:00">
+                2018-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们常常可以看到一些面试题中有问【 HTML 语义化的好处是什么】，很多人都可以溜溜地说其中一个好处就是【有利于 SEO 】。那么，什么是 SEO ，大家真的都清楚吗？</p>
+<h2 id="搜索引擎优化（SEO）"><a href="#搜索引擎优化（SEO）" class="headerlink" title="搜索引擎优化（SEO）"></a>搜索引擎优化（SEO）</h2><p><a href="https://zh.wikipedia.org/wiki/%E6%90%9C%E5%B0%8B%E5%BC%95%E6%93%8E%E6%9C%80%E4%BD%B3%E5%8C%96" target="_blank" rel="noopener">搜索引擎优化</a>（英语： Search Engine Optimization ，缩写为 SEO ），根据维基百科的解释是：</p>
+<blockquote>
+<p>它是一种透过了解搜索引擎的运作规则来调整网站，以及提高目的网站在有关搜索引擎内排名的方式。由于不少研究发现，搜索引擎的用户往往只会留意搜索结果最前面的几个条目，所以不少网站都希望透过各种形式来影响搜索引擎的排序，让自己的网站可以有优秀的搜索排名。当中尤以各种依靠广告维生的网站为甚。</p>
+</blockquote>
+<p>也就是说，通过搜索引擎优化，我们的网站可以在搜索结果的排名中靠前。</p>
+<p>那么，作为一个前端，我们该如何为搜索引擎优化做出一点贡献呢？</p>
+<h2 id="优化的技巧"><a href="#优化的技巧" class="headerlink" title="优化的技巧"></a>优化的技巧</h2><p>在学习如何优化之后，我们最好了解一下当我们在“百度一下”或者“ Google 搜索”时，搜索引擎都做了一些什么。</p>
+<p><a href="https://www.youtube.com/watch?v=BNHR6IQJGZs&amp;feature=youtu.be" target="_blank" rel="noopener">https://www.youtube.com/watch?v=BNHR6IQJGZs&amp;feature=youtu.be</a></p>
+<p>这个视频 <a href="https://youtu.be/BNHR6IQJGZs" target="_blank" rel="noopener">How Search Works</a> 解释了搜索引擎是如何工作的。需要科学上网才能看得到，当然在这里我也会总结一下这个视频的大意：</p>
+<p>当搜索进行时，它会从“蜘蛛”事先抓取到的大量有关联性的索引中，搜索所有包含用户输入的关键字的网页，然后根据算法给出每个网页一个总评分，再根据评分的高低给用户返回搜索结果。而这些包含关键字的内容，可以是文章标题、描述、关键字、内容、甚至是链接等。</p>
+<p>由上可以得知，要想优化，我们可以从这些方面入手。</p>
+<h3 id="创建唯一且准确的网页标题-lt-title-gt"><a href="#创建唯一且准确的网页标题-lt-title-gt" class="headerlink" title="创建唯一且准确的网页标题 &lt;title&gt;"></a>创建唯一且准确的网页标题 <code>&lt;title&gt;</code></h3><p><code>&lt;title&gt;</code> 标记可告诉用户和搜索引擎特定网页的主题是什么。它应放置在 HTML 文档的 <code>&lt;head&gt;</code> 元素中。我们应该为网站上的每个网页创建一个唯一标题，并且尽量避免与网页内容无关或使用默认或模糊的标题。如：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 正确示范 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>前端搜索引擎优化的技巧<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 错误示范 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>我的文档<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="使用-lt-meta-gt-元标签"><a href="#使用-lt-meta-gt-元标签" class="headerlink" title="使用 &lt;meta&gt; 元标签"></a>使用 <code>&lt;meta&gt;</code> 元标签</h3><p>我们可以使用 <code>&lt;meta&gt;</code> 的 <code>keywords</code> 元数据来提炼网页重要关键字，以及 <code>description</code> 元数据准确总结网页内容，而避免在 <code>description</code> 元数据的内容中出现关键词的堆砌，描述过长，或“这是一个网页”这种没有实际性意义的描述等现象。正确示范如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">'keywords'</span> <span class="attr">content</span>=<span class="string">'SEO,title,meta,语义化,alt,'</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">'description'</span> <span class="attr">content</span>=<span class="string">'介绍搜索引擎优化的技巧，如使用创建title标题、meta关键词和描述、语义化标签、img的alt属性等。'</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="使用语义化元素"><a href="#使用语义化元素" class="headerlink" title="使用语义化元素"></a>使用语义化元素</h3><p>在合适的位置使用合适的元素表达合适的内容，让用户和“蜘蛛”能一目了然文档结构。例如使用 <code>&lt;h1&gt;</code> 可以让“蜘蛛”知道这是很重要的内容。然而，值得注意的是，例如在想要表达强调时，我们不应该滥用标题元素或者 <code>&lt;b&gt;</code> 、 <code>&lt;i&gt;</code> 这种没有实际意义的标签，换而可以使用 <code>&lt;em&gt;</code> 或 <code>&lt;strong&gt;</code> 来表示强调。此外， <code>&lt;h1&gt;</code> 的权重比 <code>&lt;h2&gt;</code> 的大，我们不应该为了增大权重而去滥用 <code>&lt;h1&gt;</code> ，一般来说 <code>&lt;h1&gt;</code> 用于正文的标题。</p>
+<h3 id="利用-lt-img-gt-中的-alt-属性"><a href="#利用-lt-img-gt-中的-alt-属性" class="headerlink" title="利用 &lt;img&gt; 中的 alt 属性"></a>利用 <code>&lt;img&gt;</code> 中的 <code>alt</code> 属性</h3><p><code>alt</code> 属性可以在图片未成功显示时候，使用文本来代替图片的呈现，使“蜘蛛”可以抓取到这个信息。此外它还可以解决浏览器禁用图像或屏幕阅读器解析等问题。</p>
+<h3 id="设置rel-39-nofollow-39-忽略跟踪"><a href="#设置rel-39-nofollow-39-忽略跟踪" class="headerlink" title="设置rel=&#39;nofollow&#39; 忽略跟踪"></a>设置<code>rel=&#39;nofollow&#39;</code> 忽略跟踪</h3><p>如果某个 <code>&lt;a&gt;</code> 的链接不需要跟踪，那么添加 <code>rel=&#39;nofollow&#39;</code> 即可通知“蜘蛛”忽略跟踪。因为“蜘蛛”分配到每个页面的权重是一定的，为了集中网页权重并将权重分给其他必要的链接，为不必跟踪的链接添加这个属性就显得很必要了。</p>
+<h3 id="尽量保证-HTML-的纯粹和高质量"><a href="#尽量保证-HTML-的纯粹和高质量" class="headerlink" title="尽量保证 HTML 的纯粹和高质量"></a>尽量保证 HTML 的纯粹和高质量</h3><p>我们应尽量让结构（HTML）、表现（CSS）及行为（JavaScript）三者分离。如果在一个 HTML 页面中，编写大量的 CSS 样式或脚本，会拖慢其加载速度，此外，如果不为 <code>&lt;img&gt;</code> 定义宽高，那么会引起页面重新渲染，同样也会影响加载速度。一旦加载超时，“蜘蛛”就会放弃爬取。如果这个 HTML 文档内容比较独特丰富（合理插入图片说明）等，会被认为质量较高符合用户需求，从而提高 SEO 的排名。</p>
+<h3 id="扁平化网站结构"><a href="#扁平化网站结构" class="headerlink" title="扁平化网站结构"></a>扁平化网站结构</h3><p>一般来说，一个网站的结构层次越少，越有利于“蜘蛛”的爬取。所以目录结构一般不多于 3 级，否则“蜘蛛”很容易不愿意继续往下爬。就像用户在操作一个网页一样，层级大于 3 就很影响用户体验了，“蜘蛛”就是模仿用户的心理。</p>
+<h3 id="合理安排重要内容的位置"><a href="#合理安排重要内容的位置" class="headerlink" title="合理安排重要内容的位置"></a>合理安排重要内容的位置</h3><p>我们应该将重要内容的 HTML 代码放在最前面，最前面的内容被认为是最重要的，优先让“蜘蛛”读取，进行内容关键词抓取。并且，重要内容不应该由 JavaScript 或 iframe 输出，“蜘蛛”没有办法读取 JavaScript ，一般不会去读取 iframe 中的内容。</p>
+<hr>
+<p>本文完。</p>
+<p>若文中有错误还请指正与包涵！</p>
+<p>原文链接：<a href="https://caijialinxx.github.io/2018/07/30/seo-in-front-end/" target="_blank" rel="noopener">https://caijialinxx.github.io/2018/07/30/seo-in-front-end/</a></p>
+<p>转载请注明出处。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/搜尋引擎最佳化" target="_blank" rel="noopener">SEO</a></li>
+<li><a href="https://www.cnblogs.com/EnSnail/p/5671345.html" target="_blank" rel="noopener">前端SEO技巧</a></li>
+<li><a href="https://support.google.com/webmasters/answer/7451184?hl=zh-Hans" target="_blank" rel="noopener">搜索引擎优化 (SEO) 新手指南</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Notes/" rel="tag"># Notes</a>
+          
+            <a href="/tags/SEO/" rel="tag"># SEO</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/25/deploy-on-heroku/" rel="next" title="Windows 系统下的 Heroku 部署">
+                <i class="fa fa-chevron-left"></i> Windows 系统下的 Heroku 部署
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">caijialinxx</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索引擎优化（SEO）"><span class="nav-number">1.</span> <span class="nav-text">搜索引擎优化（SEO）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化的技巧"><span class="nav-number">2.</span> <span class="nav-text">优化的技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建唯一且准确的网页标题-lt-title-gt"><span class="nav-number">2.1.</span> <span class="nav-text">创建唯一且准确的网页标题 &lt;title&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-lt-meta-gt-元标签"><span class="nav-number">2.2.</span> <span class="nav-text">使用 &lt;meta&gt; 元标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用语义化元素"><span class="nav-number">2.3.</span> <span class="nav-text">使用语义化元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用-lt-img-gt-中的-alt-属性"><span class="nav-number">2.4.</span> <span class="nav-text">利用 &lt;img&gt; 中的 alt 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置rel-39-nofollow-39-忽略跟踪"><span class="nav-number">2.5.</span> <span class="nav-text">设置rel=&#39;nofollow&#39; 忽略跟踪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#尽量保证-HTML-的纯粹和高质量"><span class="nav-number">2.6.</span> <span class="nav-text">尽量保证 HTML 的纯粹和高质量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扁平化网站结构"><span class="nav-number">2.7.</span> <span class="nav-text">扁平化网站结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合理安排重要内容的位置"><span class="nav-number">2.8.</span> <span class="nav-text">合理安排重要内容的位置</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">caijialinxx</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

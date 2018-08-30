@@ -229,6 +229,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/create-jquery-api/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/09/create-jquery-api/" itemprop="url">使用原生JS实现一个jQuery的API</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T16:39:28+08:00">
+                2018-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="原生JS操作"><a href="#原生JS操作" class="headerlink" title="原生JS操作"></a>原生JS操作</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">style</span>=<span class="string">'border: 1px solid #666'</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">'li'</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码结果：</p>
+<ul style="border: 1px solid #666"><br>  <li id="li">Hi</li><br></ul>
+
+<p>现在，我想为 <code>&lt;li&gt;</code> 标签添加一个样式，<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.red</span> &#123; <span class="attribute">color</span>: red; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>并改变文本内容为“Thank you~”。用原生JS的写法就是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">li.classList.add(<span class="string">'red'</span>)</span><br><span class="line">li.textContent = <span class="string">'Thank you~'</span></span><br></pre></td></tr></table></figure></p>
+<p>代码结果：</p>
+<ul style="border: 1px solid #666"><br>  <li style="color: red">Thank you~</li><br></ul>
+
+
+<h2 id="模仿jQuery实现一个API"><a href="#模仿jQuery实现一个API" class="headerlink" title="模仿jQuery实现一个API"></a>模仿jQuery实现一个API</h2><p>如果要模仿jQuery，实现一个jQuery的API，那么实现方法如下：</p>
+<ol>
+<li>封装函数。将每个功能封装成一个函数，需要使用到时调用这个函数即可。 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 封装添加样式的函数addClass */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addClass</span>(<span class="params">node, className</span>) </span>&#123;</span><br><span class="line">  node.classList.add(className)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 封装设置内容的函数setText */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setText</span>(<span class="params">node, text</span>) </span>&#123;</span><br><span class="line">  node.textContent = text</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">addClass(li, <span class="string">'red'</span>)</span><br><span class="line">setText(li, <span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>将第一个参数（节点）提取出来变成 <code>node.functionName()</code> 的形式。</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jQuery</span>(<span class="params">node</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addClass: <span class="function"><span class="keyword">function</span>(<span class="params">className</span>)</span>&#123;</span><br><span class="line">      node.classList.add(className)</span><br><span class="line">    &#125;,</span><br><span class="line">    setText: <span class="function"><span class="keyword">function</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">      node.textContent = text</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> node = jQuery(li)</span><br><span class="line">node.addClass(<span class="string">'red'</span>)</span><br><span class="line">node.setText(<span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>处理多个节点的情况。</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">style</span>=<span class="string">'border: 1px solid #666'</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Welcome<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jQuery</span>(<span class="params">nodeOrSelector</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> elements = (<span class="keyword">typeof</span> nodeOrSelector === <span class="string">'string'</span>) ? <span class="built_in">document</span>.querySelectorAll(nodeOrSelector) : &#123; <span class="number">0</span>: nodeOrSelector, <span class="attr">length</span>: <span class="number">1</span> &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addClass: <span class="function"><span class="keyword">function</span>(<span class="params">className</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].classList.add(className)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    setText: <span class="function"><span class="keyword">function</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].textContent = text</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> node = jQuery(<span class="string">'li'</span>)</span><br><span class="line">node.addClass(<span class="string">'red'</span>)</span><br><span class="line">node.setText(<span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>简化jQuery函数名</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.$ = jQuery;</span><br><span class="line">$(<span class="string">'li'</span>).addClass(<span class="string">'red'</span>)</span><br><span class="line">$(<span class="string">'li'</span>).setText(<span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>最终运行结果：</p>
+<ul style="border: 1px solid #666"><br>  <li style="color: red">Thank you~</li><br>  <li style="color: red">Thank you~</li><br></ul>
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>说白了，jQuery就是一个函数，它返回一个对象，里面包含节点的属性和方法。节点可以调用这些方法来操作DOM。</p>
+<p>PS：完整代码如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.jQuery = <span class="function"><span class="keyword">function</span>(<span class="params">nodeOrSelector</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> elements = (<span class="keyword">typeof</span> nodeOrSelector === <span class="string">'string'</span>) ? <span class="built_in">document</span>.querySelectorAll(nodeOrSelector) : &#123;</span><br><span class="line">    <span class="number">0</span>: nodeOrSelector,</span><br><span class="line">    length: <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addClass: <span class="function"><span class="keyword">function</span>(<span class="params">className</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].classList.add(className)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    setText: <span class="function"><span class="keyword">function</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].textContent = text</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.$ = jQuery</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/13/some-html-tags/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -983,7 +1135,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -996,7 +1148,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
