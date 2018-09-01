@@ -1391,6 +1391,7 @@
 <li><strong>301 Moved Permanently</strong><br>被请求的资源被永久移动到返回的新的 URI 中。</li>
 <li>302 Found<br>告诉客户端浏览另一个 URL 。 <code>302</code> 已被 <code>303</code> 和 <code>307</code> 所取代。</li>
 <li>303 See Other<br>使用 <code>GET</code> 方法在另一个 URI 下找到请求对应的响应。</li>
+<li><strong>304 Not Modified</strong><br>所请求的资源未修改，服务器返回此状态码时，表示已执行 GET 请求，且由于文件无变化于是不会返回任何资源。</li>
 <li>305 Use Proxy<br>请求的资源只能通过代理服务器获得，响应中提供其代理服务器的地址。</li>
 <li>307 Temporary Redirect<br>请求暂时由另一个 URI 响应，而未来的请求应仍继续使用原始的 URI 。</li>
 </ul>
@@ -1402,7 +1403,7 @@
 <li>405 Method Not Allowed<br>请求的方法无法支持请求的资源。例如，一个本应通过 POST 请求来获取数据的表单使用了 GET 请求（a GET request on a form that requires data to be presented via POST），或者是一个只读的资源使用了 PUT 请求（or a PUT request on a read-only resource）。该响应必须返回一个 Allow 头信息用以表示出当前资源能够接受的请求方法的列表。</li>
 <li>406 Not Acceptable<br>请求的资源的内容特性无法满足请求头中的条件，因而无法生成响应实体。</li>
 <li>410 Gone<br>被请求的资源在服务器上已不再可用，并且没有任何已知的转发地址。</li>
-<li><strong>422 UNprocessable Entity</strong><br>请求的格式是正确的，但是由于语义错误，服务器无法响应。</li>
+<li><strong>422 Unprocessable Entity</strong><br>请求的格式是正确的，但是由于语义错误，服务器无法响应。</li>
 </ul>
 <h2 id="5xx-Server-errors"><a href="#5xx-Server-errors" class="headerlink" title="5xx Server errors"></a>5xx Server errors</h2><ul>
 <li><strong>500 Internal Server Error</strong><br>服务器内部错误，无法完成请求。一般来说，这个问题会在服务器端的源代码错误时出现。</li>
@@ -1410,10 +1411,9 @@
 <li><strong>503 Service Unavailable</strong><br>服务器当前不可用，原因可能是服务器超载或正在维护。</li>
 <li>504 Gateway Timeout<br>服务器充当网关或代理时，没有及时收到来自上游服务器的响应。</li>
 </ul>
-<p><br></p>
-<blockquote>
-<p>参考文献：<a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes" target="_blank" rel="noopener">List of HTTP status codes —— Wikipedia</a></p>
-</blockquote>
+<hr>
+<p>本文完。</p>
+<p>参考资料：<a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes" target="_blank" rel="noopener">List of HTTP status codes</a> —— 维基百科</p>
 
           
         
