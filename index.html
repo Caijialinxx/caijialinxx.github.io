@@ -313,14 +313,14 @@
 <p>我们发送请求的方法有以下几种：</p>
 <ul>
 <li><strong>GET</strong><br>GET 方法是 HTTP 请求中最常用的方法，通常用于请求服务器中的某个资源。此方法应只用来获取数据。</li>
-<li><strong>HEAD</strong><br>HEAD 方法与 GET 方法类似，但是服务器在响应中只返回头部，而不返回响应实体。</li>
+<li>HEAD<br>HEAD 方法与 GET 方法类似，但是服务器在响应中只返回头部，而不返回响应实体。</li>
 <li><strong>POST</strong><br>此方法最初是用来向服务器输入数据的。实际上经常与 HTML 表单结合使用，表单被提交时，数据通常被附加到请求实体中发送给服务器。</li>
 <li><strong>PUT</strong><br>此方法让服务器用请求的实体部分来创建一个由请求中的 URL 命名的新文档，如果这个 URL 已存在，那么此次请求的主体会替代原有的主体。</li>
-<li>PATCH<br>用于请求服务器修改指定资源的某个部分。</li>
+<li><strong>PATCH</strong><br>用于请求服务器修改指定资源的某个部分。</li>
 <li><strong>DELETE</strong><br>向服务器请求删除指定 URL 对应的资源。</li>
-<li><strong>OPTIONS</strong><br>请求 Web 服务器告知其支持的各种功能，如支持的方法或对请求某些资源支持的方法。</li>
-<li>CONNECT<br>CONNECT 方法建立一个到由目标资源标识的服务器的隧道。</li>
-<li>TRACE<br>TRACE 方法沿着到目标资源的路径执行一个消息环回测试。</li>
+<li>OPTIONS<br>请求 Web 服务器告知其支持的各种功能，如支持的方法或对请求某些资源支持的方法。</li>
+<li>CONNECT<br>建立一个到由目标资源标识的服务器的隧道。</li>
+<li>TRACE<br>沿着到目标资源的路径执行一个消息环回测试。</li>
 </ul>
 <h2 id="HTTP响应"><a href="#HTTP响应" class="headerlink" title="HTTP响应"></a>HTTP响应</h2><p>根据 <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6" target="_blank" rel="noopener">RFC 2616 的第六章 Response</a> ，一个响应包括状态行、响应头、 CRLF 和响应实体。<br><img src="https://i.loli.net/2018/10/09/5bbc81ec9067c.png" alt="RFC 2616规范中HTTP响应的结构"></p>
 <p>在上一部分中（<a href="#HTTP请求">HTTP 请求</a>），我们向 <code>https://www.baidu.com</code> 发送了一个 POST 请求，它紧接着返回了响应给我们，让我们来看看它的响应报文：<br><img src="https://i.loli.net/2018/10/09/5bbc84836492c.png" alt="服务器返回的响应报文"></p>
@@ -331,8 +331,30 @@
 <li>第四部分是响应实体。在此报文第二部分中我们可以看到 <code>Content-Type: text/html</code> 响应头，表明第四部分是一个 HTML 文档，它有 3824 字节长度的数据。</li>
 </ul>
 <p>关于状态码的详解，请参考我的另一篇文章 <a href="https://caijialinxx.github.io/2018/06/27/http-status-code/" target="_blank" rel="noopener">一些常见的 HTTP 状态码</a> 。</p>
+<h2 id="如何使用开发者工具查看报文"><a href="#如何使用开发者工具查看报文" class="headerlink" title="如何使用开发者工具查看报文"></a>如何使用开发者工具查看报文</h2><p>作为一个前端开发人员，学会用开发者工具分析请求是一件很有帮助且不费时间的事情。下面，我将举例如何在 Chrome 中利用开发者工具查看请求报文和响应报文：</p>
+<ol>
+<li>按下 <kbd>F12</kbd> 即可打开开发者工具。</li>
+<li><p>点击 Network ，当访问一个网页时，这里将会出现很多请求结果。我以阮一峰老师的个人网站为例，在地址栏中输入 <code>www.ruanyifeng.com</code> ，然后可以看到如下请求结果：<br><img src="https://i.loli.net/2018/10/09/5bbcc122db1e4.png" alt="在Chrome中访问www.ruanyifeng.com"></p>
+</li>
+<li><p>我们点开第一个 <code>www.ruanyifeng.com</code> ，点击 Request Header 中的 view source，这才是我们该看的格式。于是它的请求报文如下：<br><img src="https://i.loli.net/2018/10/09/5bbcc11eb4bde.png" alt="www.ruanyifeng.com的请求报文"></p>
+<ul>
+<li>浏览器使用 <code>GET</code> 方法向 <code>http://www.ruanyifeng.com</code> 发送一个请求，并告诉服务器它接受的响应实体类型、 Cookie 等请求头信息。</li>
+</ul>
+</li>
+<li><p>然后同样的，点开 Response Header 中的 view source ，看到服务器发回的响应报文如下所示：<br><img src="https://i.loli.net/2018/10/09/5bbcc11eea954.png" alt="www.ruanyifeng.com的响应报文"></p>
+<ul>
+<li>服务器返回状态码 <code>302</code> ，告诉我们这个域名被响应头 <code>Location</code> 指向的 URI 所暂时替代，并自动完成了重定向，于是得到了第二个请求结果（箭头指向的红框）。</li>
+</ul>
+</li>
+<li><p>查看重定向的请求结果：<br><img src="https://i.loli.net/2018/10/09/5bbcc43290425.png" alt="home.html的报文"></p>
+<ul>
+<li>重定向使得浏览器重新向服务器请求 <code>http://www.ruanyifeng.com/home.html</code> 这个资源，在 Response Headers 中我们可以看到此次请求成功（状态码为 <code>200</code> ），并且返回的响应实体是一个 HTML 文档，也就是我们看到的这个网页，一共有 4346 字节的内容。这个网页最后一次更新是在格林尼治的 2018-5-24 星期四 05:56:54 等信息。</li>
+</ul>
+</li>
+</ol>
+<p>现在应该知道要如何利用开发者工具查看我们的网络请求了吧~ 好处你用过就知道~ 当然开发者工具还不只有这些功能，在这里我就不做深入研究。</p>
 <hr>
-<p>本文完。</p>
+<p>天色已晚，本文完。</p>
 <p>若文中有错误还请指正与包涵！</p>
 <p>原文链接：<a href="https://caijialinxx.github.io/2018/09/09/http-request-and-response/" target="_blank" rel="noopener">https://caijialinxx.github.io/2018/09/09/http-request-and-response/</a></p>
 <p>转载请注明出处。</p>
