@@ -229,6 +229,175 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/15/block-formatting-context/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/10/15/block-formatting-context/" itemprop="url">BFC（块格式化上下文）的理解及其应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-15T20:14:31+08:00">
+                2018-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="理解-BFC"><a href="#理解-BFC" class="headerlink" title="理解 BFC"></a>理解 BFC</h2><p>BFC（Block Formatting Context, 块格式化上下文），根据 <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">MDN</a> 的解释，它是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。看这个定义是真的很让人摸不着头脑，简单来说， BFC 就是页面中的一个独立容器，一个页面可以有很多的这样的容器，容器里的子元素与外界互不干扰。先看以下例子，你或许就能知道 BFC 到底是何方神圣了：</p>
+<ul>
+<li><p>例一、现有一个 <code>div.parent</code> 包裹着它的儿子 <code>div.child</code> ：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.child</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ccc</span>;</span><br><span class="line">&#125;</span><br><span class="line">```    </span><br><span class="line">`<span class="selector-tag">div</span><span class="selector-class">.parent</span>` 的高度即为其儿子 `<span class="selector-tag">div</span><span class="selector-class">.child</span>` 的高度 `150<span class="selector-tag">px</span>` 。此时，如果为 `<span class="selector-tag">div</span><span class="selector-class">.child</span>` 添加左浮动，那么 `<span class="selector-tag">div</span><span class="selector-class">.parent</span>` 就无法包住它的儿子 `<span class="selector-tag">div</span><span class="selector-class">.child</span>` ，其高度变为 `0` 。</span><br><span class="line">![div.child左浮动](https://i.loli.net/2018/10/15/5bc4589889eaa.png)</span><br><span class="line"></span><br><span class="line">但是，如果为 `<span class="selector-tag">div</span><span class="selector-class">.parent</span>` 创建一个 <span class="selector-tag">BFC</span> ，就可以使它包住其儿子。如：</span><br><span class="line">```<span class="selector-tag">css</span></span><br><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.child</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ccc</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <img src="https://i.loli.net/2018/10/15/5bc458988a369.png" alt="例一"></p>
+</li>
+<li><p>例二、现有两个兄弟 <code>div.left</code> 和 <code>div.right</code> ，我为 <code>div.left</code> 添加左浮动，使得他们能够并排排列：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>div.left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>div.right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.right</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  结果发现，即使 <code>div.left</code> 设置了右边距，这两兄弟还是重叠在了一起，如下图所示：<br>  <img src="https://i.loli.net/2018/10/15/5bc45cc291c2f.png" alt="div.left与div.right重叠"></p>
+<p>  若想将两者分离开来，我们可以为 <code>div.right</code> 创建一个 BFC ，即：</p>
+  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.right</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <img src="https://i.loli.net/2018/10/15/5bc45d9977a18.png" alt="div.right的BFC作用"></p>
+</li>
+</ul>
+<p>通过以上两个例子，我们初步了解了 BFC 可以解决浮动元素对布局的影响，如浮动元素的父元素无法包住自身的问题、浮动元素与其他兄弟元素重叠的问题。此外，它还可以阻止 margin collapse（坍塌？不知道该如何翻译..看例子吧）的问题。例如：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"outer"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>first paragraph<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>second paragraphs<span class="tag">&lt;/<span class="name">p</span>&gt;</span>      </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span><span class="selector-class">.outer</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">2px</span> solid <span class="number">#000</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">20px</span> <span class="number">0</span> <span class="number">20px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到，在 <code>p</code> 元素和其父元素 <code>div.outer</code> 的边缘之间没有任何东西的情况下， <code>div.outer</code> 像是塌了一样顶部直接了第一个 <code>p</code> 元素的顶部齐平，同理底部。<br><img src="https://i.loli.net/2018/10/15/5bc46f41cdb3b.png" alt="margin collapse"></p>
+<p>如果我们为 <code>div.outer</code> 创建 BFC ，那么就可以解决这个问题：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span><span class="selector-class">.outer</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2018/10/15/5bc47139ebc22.png" alt="创建BFC解决margin collapse问题"></p>
+<p>细心的同学可以发现，尽管 <code>div.outer</code> 被撑起来了，但相邻的两个 <code>p</code> 元素还是发生了 margin 的重叠。这就是 BFC 的布局规则之一：同一 BFC 内的两个相邻块元素上下 margin 会重合。若想解决这个问题，只需在其中一个 <code>p</code> 元素外创建一个 BFC 包裹器即可：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"outer"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>first paragraph<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>second paragraphs<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span><span class="selector-class">.outer</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">2px</span> solid <span class="number">#000</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">20px</span> <span class="number">0</span> <span class="number">20px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">div</span><span class="selector-class">.wrapper</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2018/10/15/5bc47493e810f.png" alt="BFC中的BFC"></p>
+<h2 id="创建-BFC-的方法"><a href="#创建-BFC-的方法" class="headerlink" title="创建 BFC 的方法"></a>创建 BFC 的方法</h2><p>在上面的所有例子中，我都使用 <code>display: flow-root;</code> 来创建 BFC ，当然还有其他的方法，例如：</p>
+<ul>
+<li>根元素</li>
+<li><code>float</code> 属性不为 <code>none</code></li>
+<li><code>overflow</code> 属性不为 <code>visible</code> 的块元素</li>
+<li><code>position: absolute;</code> 或 <code>position: fixed;</code></li>
+<li><code>display: flex;</code> 或 <code>display: inline-flex;</code></li>
+<li><code>display: grid;</code> 或 <code>display: inline-grid;</code></li>
+<li><code>display: inline-block;</code>, <code>display: table-cell;</code> 或 <code>display: table-caption;</code></li>
+<li><code>column-span: all;</code></li>
+<li>… <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">view more on MDN</a></li>
+</ul>
+<p>这些大法虽好，但很容易产生副作用。例如，如果我们使用 <code>overflow: auto;</code> 来创建一个 BFC ，在某些情况下，你可能会发现有一个多余显示的滚动条或者像我们上述例子中的 <code>outline</code> 会被剪切掉。而 <a href="https://drafts.csswg.org/css-display/#valdef-display-flow-root" target="_blank" rel="noopener"><code>display: flow-root;</code></a> 是 CSS2 中专门设计为创建 BFC 的属性，它不会产生多余的副作用，所以建议使用这个属性来代替其他方法。</p>
+<hr>
+<p>题外话：若要清除浮动，我们可以使用 <a href="https://css-tricks.com/snippets/css/clear-fix/" target="_blank" rel="noopener">clearfix hack</a> ，只需将 <code>clearfix</code> 加到浮动元素的父元素的 <code>class</code> 属性中即可，而不一定非得创建 BFC 来达到清除浮动的效果。例如例一可以通过以下方式达到同样的效果：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent clearfix"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.child</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ccc</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">''</span>;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">clear</span>: both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本文完。</p>
+<p>若文中有错误还请指正与包涵！</p>
+<p>原文链接：<a href="https://caijialinxx.github.io/2018/10/15/block-formatting-context/" target="_blank" rel="noopener">https://caijialinxx.github.io/2018/10/15/block-formatting-context/</a></p>
+<p>转载请注明出处。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://www.smashingmagazine.com/2017/12/understanding-css-layout-block-formatting-context/" target="_blank" rel="noopener">Understanding CSS Layout And The Block Formatting Context</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">块格式化上下文 - Web开发者指南 | MDN</a></li>
+<li><a href="https://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html" target="_blank" rel="noopener">前端精选文摘：BFC 神奇背后的原理</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/09/http-request-and-response/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1832,200 +2001,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/dom-event-model/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="caijialinxx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Caijialinxx">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/28/dom-event-model/" itemprop="url">DOM 事件模型的发展</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T19:35:03+08:00">
-                2018-05-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="DOM-Level-1-（背景）"><a href="#DOM-Level-1-（背景）" class="headerlink" title="DOM Level 1 （背景）"></a>DOM Level 1 （背景）</h2><p>W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'A'</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'B'</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'C'</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>)</span>&#123; alert(<span class="string">'hi'</span>) &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><p>利用 HTML 事件属性来分配事件</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- A --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'A'</span> <span class="attr">onclick</span>=<span class="string">'sayHi'</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- B --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'B'</span> <span class="attr">onclick</span>=<span class="string">'sayHi()'</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- C --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'C'</span> <span class="attr">onclick</span>=<span class="string">'sayHi.call()'</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>代码结果：<br><button id="A" onclick="sayHi">A</button> <button id="B" onclick="sayHi()">B</button> <button id="C" onclick="sayHi.call()">C</button></p>
-<script>function sayHi(){ alert('hi') }</script>
-
-<p>在上述代码中，只有 <strong>B</strong> 和 <strong>C</strong> 才能得到我们想要的结果。DOM Level 1 规定，当使用 HTML 事件属性绑定事件名时，必须带上英文括号。因为事件属性的值是指要运行的代码，一旦用户点击按钮，浏览器就 <code>eval(&#39;sayHi()&#39;)</code> 或者 <code>eval(&#39;sayHi.call()&#39;)</code> 。 <code>sayHi</code> 只是一个函数变量名，如果是按钮A，那么浏览器执行的是 <code>eval(&#39;sayHi&#39;)</code> ，这样只是运行了这个变量，并没有执行这个函数。所以切记正确写法为后两者。</p>
-</li>
-</ul>
-<ul>
-<li><p>利用 HTML DOM 来分配事件</p>
-<p>现在，让我们来看看在 js 中，我们又该如何利用 HTML DOM 来得到我们想要的结果。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">meetAgain</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  alert(<span class="string">'hi'</span>)</span><br><span class="line">&#125;</span><br><span class="line">A.onclick = meetAgain           <span class="comment">//A：正确</span></span><br><span class="line">B.onclick = meetAgain()         <span class="comment">//B：错误</span></span><br><span class="line">C.onclick = meetAgain.call()    <span class="comment">//C：错误</span></span><br></pre></td></tr></table></figure>
-<p>上述代码中，只有 <strong>A</strong> 才是正确的。因为在 JavaScript 中， <code>onclick</code> 是一个属性， <code>meetAgain</code> 是一个函数对象， <code>A.onclick = meetAgain</code> 是将 <code>meetAgain</code> 函数的对象地址赋给 <code>onclick</code> 属性。而 <code>meetAgain()</code> 和 <code>meetAgain.call()</code> 表示执行函数，返回的结果是 <code>undefined</code> ，那么 B 和 C 的 <code>onclick</code> 的属性值为 <code>undefined</code> ，很显然这并不是我们要的结果。</p>
-</li>
-</ul>
-<p>所以 HTML 事件属性 和 HTML DOM 两者的区别：</p>
-<blockquote>
-<p>HTML 事件属性中分配事件时，需要在函数名后加上“()”，表示当用户点击时就执行这个函数；HTML DOM中为事件属性分配事件时，不需要在函数名后加“()”，表示将函数的对象地址赋给事件属性。</p>
-</blockquote>
-<h2 id="DOM-Level-2-（发展）"><a href="#DOM-Level-2-（发展）" class="headerlink" title="DOM Level 2 （发展）"></a>DOM Level 2 （发展）</h2><p>在 DOM Level 1 中我们可以看到，要为一个元素绑定事件，只能用 <code>onclick</code> 、<code>onmouseup</code> 等属性，这就带来了一个问题，一个属性只能绑定一个事件。DOM Level 2 中最重要的更新就是添加了 DOM 事件模型，使得一个属性可以绑定多个事件。此外，这是我们目前<strong>最常用的 DOM 标准</strong>。</p>
-<ul>
-<li><p>重要的API：<code>target.addEventListener(type, listener, options)</code></p>
-<p>具体看以下代码，来理解 <code>addEventListener()</code> 和 <code>onclick</code> 绑定事件的区别（ HTML 代码仍为本文开头的第一段代码）：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">A.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'A1'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">A.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'A2'</span>)</span><br><span class="line">&#125;)</span><br><span class="line">B.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'B1'</span>)</span><br><span class="line">&#125;</span><br><span class="line">B.onclick = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'B2'</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当用户分别点击 A按钮 和 B按钮 时，运行结果为：</p>
-<pre>
-> "A1"
-> "A2"
-> "B2"
-</pre>
-
-<p>我们发现，A 的 click 事件的两个结果都运行出来了，而 B 只运行了在后位绑定的事件函数。这是因为 <code>onclick</code> 属性是唯一的，若绑定了两个及以上的事件处理函数，则先绑定的会被新绑定的覆盖。而 <code>addEventListener()</code> 会让事件进入到事件监听队列（eventListeners）中，执行顺序依照队列先进先出的特性。所以不建议直接使用 <code>onclick</code> 属性来绑定事件处理函数，以免被无意覆盖。</p>
-</li>
-<li><p>与 <code>addEventListener()</code> 对应的是 <code>removeEventListener()</code> ，它可以将指定函数移出事件监听队列。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'C'</span>)</span><br><span class="line">&#125;</span><br><span class="line">C.addEventListener(<span class="string">'click'</span>, func)</span><br><span class="line">C.removeEventListener(<span class="string">'click'</span>, func)</span><br></pre></td></tr></table></figure>
-<p>此时，点击 C按钮 时，并不会输出任何内容，因为 func 在进入事件监听事件队列后又马上被移出了，等不到用户点击。</p>
-</li>
-</ul>
-<blockquote>
-<p>事件流（Event flow）： IE 提出的事件冒泡（Event bubbling）、网景提出的事件捕获（Event capture）。</p>
-</blockquote>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'head'</span>&gt;</span></span><br><span class="line">  头</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'face'</span>&gt;</span></span><br><span class="line">    脸</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'nose'</span>&gt;</span></span><br><span class="line">      鼻子</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><p>Q1：当点击“鼻子”时，头和脸有没有被点击到？</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">head.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'头'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">face.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'脸'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">nose.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'鼻子'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>根据上述代码，当点击“鼻子”时，控制台输出的结果是：</p>
-<pre>
-> "鼻子"
-> "脸"
-> "头"
-</pre>
-
-<p>由此可见，当点击“鼻子”时，“脸”和“头”也被点击到了。因为“鼻子”是“脸”和“头”的一部分，顺序是由里到外，由小到大。</p>
-</li>
-</ul>
-<ul>
-<li><p>Q2：当点击“鼻子”时，三者的事件处理顺序是怎么样的？</p>
-<p>在上一个例子中，我们看到顺序是由里到外（由小到大）的，那么顺序只能是这一种吗？ W3C 给出了两种事件流机制，分别是冒泡流和捕获流。上一个例子就是冒泡流的例子。而要采用冒泡流还是捕获流，就由 <code>addEventListener()</code> 的第三个参数 options 决定 —— 当 options 为 <code>false</code> 时就是冒泡流（默认），为 <code>true</code> 时就是捕获流。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 冒泡阶段，忽略第三个参数则默认为 undefined ，undefined 为 false */</span></span><br><span class="line">head.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'头：冒泡'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">face.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'脸：冒泡'</span>);</span><br><span class="line">&#125;)</span><br><span class="line">nose.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'鼻子：冒泡'</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 捕获阶段 */</span></span><br><span class="line">head.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'头：捕获'</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br><span class="line">face.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'脸：捕获'</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br><span class="line">nose.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'鼻子：捕获'</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
-<p>运行结果：</p>
-<pre>
-> "头：捕获"
-> "脸：捕获"
-> "鼻子：冒泡"
-> "鼻子：捕获"
-> "脸：冒泡"
-> "头：冒泡"
-</pre>
-
-<p>由这个运行结果，我们可以看出捕获阶段与冒泡阶段的执行顺序是相反的，它是由外到里，由大到小的，且“头”和“脸”都是先捕获后冒泡。而例外的是，“脸”却是先冒泡后捕获。</p>
-<p>其实，捕获阶段的事件是先于冒泡阶段处理的。而当事件流完成祖先元素及父元素的捕获阶段后，到达目标元素（target）时，事件处理顺序遵循函数绑定的顺序处理（即按顺序执行代码）而不是先捕获后冒泡，这个阶段被称为“目标阶段”。理解过程如下图：<br><img src="https://i.loli.net/2018/05/16/5afbeb914da76.png" alt="event-flow.png"></p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2076,7 +2051,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

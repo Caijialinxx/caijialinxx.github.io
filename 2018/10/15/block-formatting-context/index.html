@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Notes,CSS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="理解 BFCBFC（Block Formatting Context, 块格式化上下文），根据 MDN 的解释，它是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。看这个定义是真的很让人摸不着头脑，简单来说， BFC 就是页面中的一个独立容器，一个页面可以有很多的这样的容器，容器里的子元素与外界互不干扰。先看以下例子，你或许就能知道 BFC 到底是何方神圣了：  例一、现有一个">
+<meta name="keywords" content="Notes,CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BFC（块格式化上下文）的理解及其应用">
+<meta property="og:url" content="http://yoursite.com/2018/10/15/block-formatting-context/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="理解 BFCBFC（Block Formatting Context, 块格式化上下文），根据 MDN 的解释，它是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。看这个定义是真的很让人摸不着头脑，简单来说， BFC 就是页面中的一个独立容器，一个页面可以有很多的这样的容器，容器里的子元素与外界互不干扰。先看以下例子，你或许就能知道 BFC 到底是何方神圣了：  例一、现有一个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2018/10/15/5bc458988a369.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/15/5bc45cc291c2f.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/15/5bc45d9977a18.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/15/5bc46f41cdb3b.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/15/5bc47139ebc22.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/15/5bc47493e810f.png">
+<meta property="og:updated_time" content="2018-10-15T12:21:21.800Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BFC（块格式化上下文）的理解及其应用">
+<meta name="twitter:description" content="理解 BFCBFC（Block Formatting Context, 块格式化上下文），根据 MDN 的解释，它是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。看这个定义是真的很让人摸不着头脑，简单来说， BFC 就是页面中的一个独立容器，一个页面可以有很多的这样的容器，容器里的子元素与外界互不干扰。先看以下例子，你或许就能知道 BFC 到底是何方神圣了：  例一、现有一个">
+<meta name="twitter:image" content="https://i.loli.net/2018/10/15/5bc458988a369.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/15/block-formatting-context/"/>
+
+
+
+
+
+  <title>BFC（块格式化上下文）的理解及其应用 | Caijialinxx</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Caijialinxx</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/15/block-formatting-context/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">BFC（块格式化上下文）的理解及其应用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-15T20:14:31+08:00">
+                2018-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="理解-BFC"><a href="#理解-BFC" class="headerlink" title="理解 BFC"></a>理解 BFC</h2><p>BFC（Block Formatting Context, 块格式化上下文），根据 <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">MDN</a> 的解释，它是布局过程中生成块级盒子的区域，也是浮动元素与其他元素的交互限定区域。看这个定义是真的很让人摸不着头脑，简单来说， BFC 就是页面中的一个独立容器，一个页面可以有很多的这样的容器，容器里的子元素与外界互不干扰。先看以下例子，你或许就能知道 BFC 到底是何方神圣了：</p>
+<ul>
+<li><p>例一、现有一个 <code>div.parent</code> 包裹着它的儿子 <code>div.child</code> ：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.child</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ccc</span>;</span><br><span class="line">&#125;</span><br><span class="line">```    </span><br><span class="line">`<span class="selector-tag">div</span><span class="selector-class">.parent</span>` 的高度即为其儿子 `<span class="selector-tag">div</span><span class="selector-class">.child</span>` 的高度 `150<span class="selector-tag">px</span>` 。此时，如果为 `<span class="selector-tag">div</span><span class="selector-class">.child</span>` 添加左浮动，那么 `<span class="selector-tag">div</span><span class="selector-class">.parent</span>` 就无法包住它的儿子 `<span class="selector-tag">div</span><span class="selector-class">.child</span>` ，其高度变为 `0` 。</span><br><span class="line">![div.child左浮动](https://i.loli.net/2018/10/15/5bc4589889eaa.png)</span><br><span class="line"></span><br><span class="line">但是，如果为 `<span class="selector-tag">div</span><span class="selector-class">.parent</span>` 创建一个 <span class="selector-tag">BFC</span> ，就可以使它包住其儿子。如：</span><br><span class="line">```<span class="selector-tag">css</span></span><br><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.child</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ccc</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <img src="https://i.loli.net/2018/10/15/5bc458988a369.png" alt="例一"></p>
+</li>
+<li><p>例二、现有两个兄弟 <code>div.left</code> 和 <code>div.right</code> ，我为 <code>div.left</code> 添加左浮动，使得他们能够并排排列：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>div.left<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>div.right<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.right</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  结果发现，即使 <code>div.left</code> 设置了右边距，这两兄弟还是重叠在了一起，如下图所示：<br>  <img src="https://i.loli.net/2018/10/15/5bc45cc291c2f.png" alt="div.left与div.right重叠"></p>
+<p>  若想将两者分离开来，我们可以为 <code>div.right</code> 创建一个 BFC ，即：</p>
+  <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.right</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  <img src="https://i.loli.net/2018/10/15/5bc45d9977a18.png" alt="div.right的BFC作用"></p>
+</li>
+</ul>
+<p>通过以上两个例子，我们初步了解了 BFC 可以解决浮动元素对布局的影响，如浮动元素的父元素无法包住自身的问题、浮动元素与其他兄弟元素重叠的问题。此外，它还可以阻止 margin collapse（坍塌？不知道该如何翻译..看例子吧）的问题。例如：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"outer"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>first paragraph<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>second paragraphs<span class="tag">&lt;/<span class="name">p</span>&gt;</span>      </span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span><span class="selector-class">.outer</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">2px</span> solid <span class="number">#000</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">20px</span> <span class="number">0</span> <span class="number">20px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到，在 <code>p</code> 元素和其父元素 <code>div.outer</code> 的边缘之间没有任何东西的情况下， <code>div.outer</code> 像是塌了一样顶部直接了第一个 <code>p</code> 元素的顶部齐平，同理底部。<br><img src="https://i.loli.net/2018/10/15/5bc46f41cdb3b.png" alt="margin collapse"></p>
+<p>如果我们为 <code>div.outer</code> 创建 BFC ，那么就可以解决这个问题：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span><span class="selector-class">.outer</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2018/10/15/5bc47139ebc22.png" alt="创建BFC解决margin collapse问题"></p>
+<p>细心的同学可以发现，尽管 <code>div.outer</code> 被撑起来了，但相邻的两个 <code>p</code> 元素还是发生了 margin 的重叠。这就是 BFC 的布局规则之一：同一 BFC 内的两个相邻块元素上下 margin 会重合。若想解决这个问题，只需在其中一个 <code>p</code> 元素外创建一个 BFC 包裹器即可：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"outer"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>first paragraph<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>second paragraphs<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span><span class="selector-class">.outer</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">2px</span> solid <span class="number">#000</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">20px</span> <span class="number">0</span> <span class="number">20px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">div</span><span class="selector-class">.wrapper</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2018/10/15/5bc47493e810f.png" alt="BFC中的BFC"></p>
+<h2 id="创建-BFC-的方法"><a href="#创建-BFC-的方法" class="headerlink" title="创建 BFC 的方法"></a>创建 BFC 的方法</h2><p>在上面的所有例子中，我都使用 <code>display: flow-root;</code> 来创建 BFC ，当然还有其他的方法，例如：</p>
+<ul>
+<li>根元素</li>
+<li><code>float</code> 属性不为 <code>none</code></li>
+<li><code>overflow</code> 属性不为 <code>visible</code> 的块元素</li>
+<li><code>position: absolute;</code> 或 <code>position: fixed;</code></li>
+<li><code>display: flex;</code> 或 <code>display: inline-flex;</code></li>
+<li><code>display: grid;</code> 或 <code>display: inline-grid;</code></li>
+<li><code>display: inline-block;</code>, <code>display: table-cell;</code> 或 <code>display: table-caption;</code></li>
+<li><code>column-span: all;</code></li>
+<li>… <a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">view more on MDN</a></li>
+</ul>
+<p>这些大法虽好，但很容易产生副作用。例如，如果我们使用 <code>overflow: auto;</code> 来创建一个 BFC ，在某些情况下，你可能会发现有一个多余显示的滚动条或者像我们上述例子中的 <code>outline</code> 会被剪切掉。而 <a href="https://drafts.csswg.org/css-display/#valdef-display-flow-root" target="_blank" rel="noopener"><code>display: flow-root;</code></a> 是 CSS2 中专门设计为创建 BFC 的属性，它不会产生多余的副作用，所以建议使用这个属性来代替其他方法。</p>
+<hr>
+<p>题外话：若要清除浮动，我们可以使用 <a href="https://css-tricks.com/snippets/css/clear-fix/" target="_blank" rel="noopener">clearfix hack</a> ，只需将 <code>clearfix</code> 加到浮动元素的父元素的 <code>class</code> 属性中即可，而不一定非得创建 BFC 来达到清除浮动的效果。例如例一可以通过以下方式达到同样的效果：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"parent clearfix"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">  <span class="attribute">outline</span>: <span class="number">1px</span> solid red;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.child</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: left;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ccc</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">''</span>;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">  <span class="attribute">clear</span>: both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本文完。</p>
+<p>若文中有错误还请指正与包涵！</p>
+<p>原文链接：<a href="https://caijialinxx.github.io/2018/10/15/block-formatting-context/" target="_blank" rel="noopener">https://caijialinxx.github.io/2018/10/15/block-formatting-context/</a></p>
+<p>转载请注明出处。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://www.smashingmagazine.com/2017/12/understanding-css-layout-block-formatting-context/" target="_blank" rel="noopener">Understanding CSS Layout And The Block Formatting Context</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="noopener">块格式化上下文 - Web开发者指南 | MDN</a></li>
+<li><a href="https://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html" target="_blank" rel="noopener">前端精选文摘：BFC 神奇背后的原理</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Notes/" rel="tag"># Notes</a>
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/09/http-request-and-response/" rel="next" title="HTTP 的请求和响应">
+                <i class="fa fa-chevron-left"></i> HTTP 的请求和响应
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">caijialinxx</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#理解-BFC"><span class="nav-number">1.</span> <span class="nav-text">理解 BFC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-BFC-的方法"><span class="nav-number">2.</span> <span class="nav-text">创建 BFC 的方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">caijialinxx</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
