@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="JavaScript,继承,构造函数,原型,原型链,new,">
+  <meta name="keywords" content="Notes,JavaScript,继承,原型,">
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="面向对象，是作为一个程序员经常能够碰到的一个概念。那么到底什么是面向对象编程呢？ 有人可能会回答：  把一组数据结构和处理它们的方法组成对象（object），把相同行为的对象归纳为类（class），通过类的封装（encapsulation）隐藏内部细节，通过继承（inheritance）实现类的特化（specialization）／泛化（generalization），通过多态（polymorph">
-<meta name="keywords" content="JavaScript,继承,构造函数,原型,原型链,new">
+<meta name="keywords" content="Notes,JavaScript,继承,原型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript 中的面向对象（继承）">
 <meta property="og:url" content="http://yoursite.com/2019/01/04/oop-in-javascript/index.html">
 <meta property="og:site_name" content="Caijialinxx">
 <meta property="og:description" content="面向对象，是作为一个程序员经常能够碰到的一个概念。那么到底什么是面向对象编程呢？ 有人可能会回答：  把一组数据结构和处理它们的方法组成对象（object），把相同行为的对象归纳为类（class），通过类的封装（encapsulation）隐藏内部细节，通过继承（inheritance）实现类的特化（specialization）／泛化（generalization），通过多态（polymorph">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-04T10:39:34.275Z">
+<meta property="og:updated_time" content="2019-01-04T10:46:21.509Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript 中的面向对象（继承）">
 <meta name="twitter:description" content="面向对象，是作为一个程序员经常能够碰到的一个概念。那么到底什么是面向对象编程呢？ 有人可能会回答：  把一组数据结构和处理它们的方法组成对象（object），把相同行为的对象归纳为类（class），通过类的封装（encapsulation）隐藏内部细节，通过继承（inheritance）实现类的特化（specialization）／泛化（generalization），通过多态（polymorph">
@@ -336,6 +336,7 @@
 <p>上面的例子用类改造如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父类 Money</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Money</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (options) &#123;</span><br><span class="line">    <span class="keyword">this</span>.form = options.form</span><br><span class="line">    <span class="keyword">this</span>.issue = options.issue</span><br><span class="line">  &#125;</span><br><span class="line">  兑换等值商品 () &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类 HundredYuan</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HundredYuan</span> <span class="keyword">extends</span> <span class="title">Money</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span> (id) &#123;</span><br><span class="line">    <span class="keyword">super</span>(&#123; <span class="attr">form</span>: <span class="string">'纸币'</span>, <span class="attr">issue</span>: <span class="string">'2019-01'</span> &#125;)       <span class="comment">// 调用父类 Money 使得子类 HundredYuan 的实例具有父类实例的属性</span></span><br><span class="line">    <span class="keyword">this</span>.id = id</span><br><span class="line">    <span class="comment">// 在构造函数中的公有属性可以是简单类型，但在类中不可以，所以需要把公有属性放在 constructor 中，作为子类的自有属性。</span></span><br><span class="line">    <span class="keyword">this</span>.value = <span class="number">100</span></span><br><span class="line">    <span class="keyword">this</span>.unit = <span class="string">'元'</span></span><br><span class="line">    <span class="keyword">this</span>.color = <span class="string">'红'</span></span><br><span class="line">  &#125;</span><br><span class="line">  换两张<span class="number">50</span>元 () &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> HundredYuan(<span class="string">'AA00000001'</span>)</span><br></pre></td></tr></table></figure></p>
 <p>使用类方法确实简洁明了了许多，但是有个问题就是，它明明是个函数，但却不能被调用：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> Money        <span class="comment">// "function"</span></span><br><span class="line">Money()             <span class="comment">// Uncaught TypeError: Class constructor Money cannot be invoked without 'new'</span></span><br></pre></td></tr></table></figure></p>
 <p>要用类还是用构造函数，你来决定，这里只是提出这一个现象。</p>
+<p>希望看完本文的你，能理解到 JavaScript 中的面向对象思想。</p>
 <hr>
 <p>本文完。</p>
 <p>若文中有错误还请指正与包涵！</p>
@@ -367,17 +368,13 @@
       
         <div class="post-tags">
           
+            <a href="/tags/Notes/" rel="tag"># Notes</a>
+          
             <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
             <a href="/tags/继承/" rel="tag"># 继承</a>
           
-            <a href="/tags/构造函数/" rel="tag"># 构造函数</a>
-          
             <a href="/tags/原型/" rel="tag"># 原型</a>
-          
-            <a href="/tags/原型链/" rel="tag"># 原型链</a>
-          
-            <a href="/tags/new/" rel="tag"># new</a>
           
         </div>
       
@@ -488,7 +485,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
