@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Notes,JavaScript,DOM,">
+  <meta name="keywords" content="Notes,DOM,JavaScript,">
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="DOM Level 1 （背景）W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。123456&amp;lt;button id=&apos;A&apos;&amp;gt;A&amp;lt;/button&amp;">
-<meta name="keywords" content="Notes,JavaScript,DOM">
+<meta name="keywords" content="Notes,DOM,JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DOM 事件模型的发展">
 <meta property="og:url" content="http://yoursite.com/2018/05/28/dom-event-model/index.html">
@@ -302,7 +302,7 @@
       
 
       
-        <h2 id="DOM-Level-1-（背景）"><a href="#DOM-Level-1-（背景）" class="headerlink" title="DOM Level 1 （背景）"></a>DOM Level 1 （背景）</h2><p>W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'A'</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'B'</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'C'</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>)</span>&#123; alert(<span class="string">'hi'</span>) &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+        <h2 id="DOM-Level-1-（背景）"><a href="#DOM-Level-1-（背景）" class="headerlink" title="DOM Level 1 （背景）"></a>DOM Level 1 （背景）</h2><p>W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'A'</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'B'</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'C'</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  function sayHi()&#123; alert('hi') &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <ul>
 <li><p>利用 HTML 事件属性来分配事件</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- A --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'A'</span> <span class="attr">onclick</span>=<span class="string">'sayHi'</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- B --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'B'</span> <span class="attr">onclick</span>=<span class="string">'sayHi()'</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- C --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">'C'</span> <span class="attr">onclick</span>=<span class="string">'sayHi.call()'</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -396,9 +396,9 @@
           
             <a href="/tags/Notes/" rel="tag"># Notes</a>
           
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-          
             <a href="/tags/DOM/" rel="tag"># DOM</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
         </div>
       
@@ -500,7 +500,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -513,7 +513,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
