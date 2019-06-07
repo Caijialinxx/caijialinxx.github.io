@@ -387,132 +387,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/如何提高代码可读性/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="caijialinxx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Caijialinxx">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/02/如何提高代码可读性/" itemprop="url">如何提高代码可读性</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-02T13:23:02+08:00">
-                2019-03-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在这个圈子里，经常可以看到有人吐槽别人的代码很烂。这个烂，可以是命名烂、注释烂、品行烂、</p>
-<p>那么我现在来演示一下各种烂：</p>
-<ul>
-<li>命名烂  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0</span>,</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>面试 CSS 命名规则 BEM<br>.el-menu<br>.el-menu–horizontal<br>.el-menu-item<br>.el-submenu<br>.el-submenu__title</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/17/vue-reactivity-implement/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1925,6 +1799,158 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/16/cookie-session-webStorage/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/16/cookie-session-webStorage/" itemprop="url">Cookie, Session, LocalStorage & SessionStorage</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-16T17:19:17+08:00">
+                2018-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>由于刚刚写过一篇介绍 <a href="https://caijialinxx.github.io/2018/07/12/cookie/" target="_blank" rel="noopener">Cookie</a> 的博客，所以我在这里不打算再次介绍多一遍，直接总结如下：</p>
+<ol>
+<li>Cookie 是一段由服务器发送给浏览器并保存到本地的一段数据，大小一般为 4KB 。</li>
+<li>它存储着用户的一些信息，在浏览器再次访问同一个 URL 时会将这段 Cookie 附加到 HTTP 请求中发送给服务器。因此，这会增加流量的消耗。</li>
+<li>一般在浏览器关闭（会话结束）时就被删除，但也可以通过 <code>Expire</code> 或 <code>Max-Age</code> 来设置过期时间。</li>
+<li>浏览器可以通过 <code>document.cookie</code> 读写 Cookie ，若要阻止此行为，可以在 <code>Set-Cookie</code> 头中添加 <code>HttpOnly</code> 标记。</li>
+</ol>
+<p>详细的还请移步到 <a href="https://caijialinxx.github.io/2018/07/12/cookie/" target="_blank" rel="noopener">HTTP 牌的 Cookie</a> 参阅。</p>
+<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>Session 的实质是存储在服务器里的一小块内存，一般来说是基于 Cookie 实现的。实现过程举例如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * 1. 当第一次使用 Session 时，服务器要创建一个 SessionID</span></span><br><span class="line"><span class="comment"> *    来作为 Session 中存放用户信息的唯一标识</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> session = &#123;&#125;</span><br><span class="line"><span class="keyword">let</span> sessionID = <span class="built_in">Math</span>.random().toString().slice(<span class="number">2</span>)       <span class="comment">// 假设为 '1234567890'</span></span><br><span class="line">session[sessionID] = 用户信息       <span class="comment">// 此时服务器中已存含有用户信息的 SessionID 对应的内存</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 2. 服务器通过 Cookie 给用户返回一个 SessionID */</span></span><br><span class="line">response.setHeader(<span class="string">'Set-Cookie'</span>, sessionID)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/* 3. 当用户访问同一个 URL 时，向服务器发送这个内容为其 SessionID 的 Cookie 头 */</span><br><span class="line">Request Header</span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 580</span><br><span class="line">Cookie: 1234567890</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * 4. 服务器读取 Cookie 中的 SessionID ，</span></span><br><span class="line"><span class="comment"> *    然后去 Session 中读取对应的内存，最终得到用户信息。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">if</span> (request.headers.cookie) &#123;</span><br><span class="line">  <span class="keyword">let</span> sessionID = request.headers.cookie</span><br><span class="line">  <span class="keyword">let</span> userInfo = session[sessionID]               <span class="comment">// 读取用户信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>值得一提的是， SessionID 是随机生成的。</p>
+<h2 id="LocalStorage"><a href="#LocalStorage" class="headerlink" title="LocalStorage"></a>LocalStorage</h2><p><code>window.localStorage</code> 是 HTML5 新增的一个 API ，它遵循同源政策，属于本地存储。它有以下特点：</p>
+<ol>
+<li>大小一般为 5MB ，永久有效；</li>
+<li>本地存储和读取，不会被附加到 HTTP 请求中。</li>
+</ol>
+<p><code>window.localStorage</code> 的使用如下例所示：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保存数据到 LocalStorage</span></span><br><span class="line">localStorage.setItem(<span class="string">'key'</span>, <span class="string">'value'</span>)           <span class="comment">// &#123;"key": "value"&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 LocalStorage 获取数据</span></span><br><span class="line"><span class="keyword">let</span> key = localStorage.getItem(<span class="string">'key'</span>)          <span class="comment">// "value"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 LocalStorage 删除保存的数据</span></span><br><span class="line">localStorage.removeItem(<span class="string">'key'</span>)                 <span class="comment">// &#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 LocalStorage 删除所有保存的数据</span></span><br><span class="line">sessionStorage.clear();</span><br></pre></td></tr></table></figure></p>
+<h2 id="SessionStorage"><a href="#SessionStorage" class="headerlink" title="SessionStorage"></a>SessionStorage</h2><p><code>window.sessionStorage</code> 同样也遵循同源政策，它与 <code>window.localStorage</code> 不同的是，它在页面或浏览器关闭（会话结束）时就会被清除。<br><code>window.sessionStorage</code> 的使用如下例所示：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保存数据到 SessionStorage</span></span><br><span class="line">sessionStorage.setItem(<span class="string">'key'</span>, <span class="string">'value'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 SessionStorage 获取数据</span></span><br><span class="line"><span class="keyword">var</span> data = sessionStorage.getItem(<span class="string">'key'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 SessionStorage 删除保存的数据</span></span><br><span class="line">sessionStorage.removeItem(<span class="string">'key'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 SessionStorage 删除所有保存的数据</span></span><br><span class="line">sessionStorage.clear()</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>四者之间的比较如下：</p>
+<h3 id="Cookie-和-Session"><a href="#Cookie-和-Session" class="headerlink" title="Cookie 和 Session"></a>Cookie 和 Session</h3><ul>
+<li>Cookie 保存在客户端的硬盘里；而 Session 是保存在服务端的内存里。</li>
+<li>Cookie 每次都随着 HTTP 请求发送给服务器；而 Session 只需要通过发送保存在 Cookie 头中的 SessionID 即可从服务器中读取对应内存。</li>
+<li>Cookie 以明文的形式存储，内容可以被用户查看或篡改；而 Session 因为只提供一个随机的 SessionID ，所以无法被用户直接查看。</li>
+</ul>
+<h3 id="Cookie-和-LocalStorage"><a href="#Cookie-和-LocalStorage" class="headerlink" title="Cookie 和 LocalStorage"></a>Cookie 和 LocalStorage</h3><ul>
+<li>Cookie 的大小一般为 4KB ；而 LocalStorage 一般为 5MB 。</li>
+<li>Cookie 一般在浏览器关闭（会话结束）时就失效，后端可以设置 <code>Expires</code> 或 <code>Max-Age</code> 来改变 Cookie 的过期时间；而 LocalStorage 是永久有效，除非用户手动清除。</li>
+<li>Cookie 会被附加到 HTTP 请求中；而 LocalStorage 不会。</li>
+</ul>
+<h3 id="LocalStorage-和-SessionStorage"><a href="#LocalStorage-和-SessionStorage" class="headerlink" title="LocalStorage 和 SessionStorage"></a>LocalStorage 和 SessionStorage</h3><ul>
+<li>前者永久有效，除非用户删除；后者在浏览器关闭（会话结束）后就被清空。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1975,7 +2001,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1988,7 +2014,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
