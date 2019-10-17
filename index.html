@@ -229,6 +229,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/26/how-useful-the-key-attribute-in-react-is/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/26/how-useful-the-key-attribute-in-react-is/" itemprop="url">原来React里的key这么有用！</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-26T15:56:40+08:00">
+                2019-09-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>相信React用户在撸代码的日常中，一定遇到过这个报错：</p>
+<p><img src="https://i.loli.net/2019/10/16/CJWrpevz89xTK7Z.png" alt="React中常见的key属性警告"></p>
+<p>嗯，没错了，熟悉的配方，熟悉的报错～ 有些小伙伴看到是「Warning」也就置之不理了，有些凭经验反手给元素加上一个 <code>key={唯一的值}</code> 属性就迅速解决这个报错了。</p>
+<p>不知道有多少小伙伴知道为什么React这么看重这个 <code>key</code> 属性，反正我以前凭直觉添加个唯一的id，再不济用索引就完事了。今天才明白，原来 <code>key</code> 这么有用，而且用好了还能避免性能问题甚至是 Bug ！</p>
+<h2 id="Key-为何而来？"><a href="#Key-为何而来？" class="headerlink" title="Key 为何而来？"></a>Key 为何而来？</h2><p>在正式开始解释 <code>key</code> 属性之前，我得先说说React的Diffing算法。为了避免本文重心偏离及篇幅太长（喂喂喂现在篇幅也已经够长了喔😒，而且说得好像我能解释清楚Diffing算法一样🤐️），我打算概括性地介绍一下这个过程：</p>
+<p>首先检查根元素的类型。</p>
+<ol>
+<li>如果类型不一样，则卸载整个旧的DOM树，并重建新的DOM树。</li>
+<li>如果类型一样，React会检查两者的属性。如果属性有改变，就更新相应的属性。</li>
+<li><p>在比较完该节点后，递归地检查其子节点。默认情况下，React会同时遍历桕树和新树的子节点列表，在存在差异时则触发一个变化（mutation）。<br> 例如：</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>third<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> React成功匹配两个 <code>&lt;li&gt;first&lt;/li&gt;</code> ，然后有成功匹配两个 <code>&lt;li&gt;second&lt;/li&gt;</code> ，下一步发现新树多了 <code>&lt;li&gt;third&lt;/li&gt;</code> ，于是插入该新的子节点。但是如果我们是这样去插入一个新的节点，性能将会降低：</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>third<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p> React不会按我们的预期那样将 <code>&lt;li&gt;first&lt;/li&gt;</code> 和 <code>&lt;li&gt;second&lt;/li&gt;</code> 当作是原有的子节点，它会将三个 <code>&lt;li&gt;</code> 都当成新的变化来更新。毕竟当数据量大了之后，这将会是一个很大的性能问题。</p>
+</li>
+</ol>
+<p>那么为了解决这个问题，React提出使用 <strong><code>key</code></strong> 属性来匹配旧树和新树的子节点。例如：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">"1"</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">"2"</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">"3"</span>&gt;</span>third<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">"1"</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">"2"</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这样一来，React在检查到这些子节点时，就知道key为 <code>&quot;3&quot;</code> 的节点是新项，而 <code>&quot;1&quot;</code> 和 <code>&quot;2&quot;</code> 是老朋友了，大家挪个位欢迎新朋友就座就好了。</p>
+<h2 id="Key-如何设置？"><a href="#Key-如何设置？" class="headerlink" title="Key 如何设置？"></a>Key 如何设置？</h2><ul>
+<li>一般来说，我们会将 <code>key</code> 的值设置为数据的「id」。例如 <code>&lt;li key={todo.id}&gt;{todo.content}&lt;/li&gt;</code> 。</li>
+<li>如果没有id的话，我们可以为数据模型添加新的id属性，或者对部分内容进行hash处理，以生成每一项的key。<br>PS: <code>key</code> 仅在它的邻项之间要求唯一，并不具有全局性哦！</li>
+<li>再不济，我们可以用索引index来作为key值，但是这个方法在一些情况下容易出Bug！例如说在需要重新排序时，由于组件示例的更新和复用是以它们的key为根据的，所以当我们对项目重新排序时， <code>key</code> 由于索引的变化也会跟着改变，而诸如非受控组件的状态却不会随之一起改变。官方给出的两个例子就能很好地说明问题：<a href="https://reactjs.org/redirect-to-codepen/reconciliation/index-used-as-key" target="_blank" rel="noopener">以index为key</a> v.s. <a href="https://reactjs.org/redirect-to-codepen/reconciliation/no-index-used-as-key" target="_blank" rel="noopener">以id为key</a> 。<br>当然，如果我们将第一个例子中的 <code>&lt;input/&gt;</code> 改为受控组件，也可以避免这个问题（送上我改写第一个例子的<a href="https://codepen.io/caijialinxx/pen/QWWKwVM?editors=0010" target="_blank" rel="noopener">传送门</a>）。</li>
+</ul>
+<hr>
+<p>在长篇大论的铺垫中，终于说完了那么一丁点儿正文。本文就当作是官方文档的一个不对口的翻译吧，如果有理解错误或者不够深入的地方敬请指出～！送上<a href="https://reactjs.org/docs/reconciliation.html#keys" target="_blank" rel="noopener">官方原文</a>。也欢迎大家给我多排除「知识陷阱」～</p>
+<p>END.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/06/git/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1799,158 +1944,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/16/cookie-session-webStorage/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="caijialinxx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Caijialinxx">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/16/cookie-session-webStorage/" itemprop="url">Cookie, Session, LocalStorage & SessionStorage</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-16T17:19:17+08:00">
-                2018-07-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>由于刚刚写过一篇介绍 <a href="https://caijialinxx.github.io/2018/07/12/cookie/" target="_blank" rel="noopener">Cookie</a> 的博客，所以我在这里不打算再次介绍多一遍，直接总结如下：</p>
-<ol>
-<li>Cookie 是一段由服务器发送给浏览器并保存到本地的一段数据，大小一般为 4KB 。</li>
-<li>它存储着用户的一些信息，在浏览器再次访问同一个 URL 时会将这段 Cookie 附加到 HTTP 请求中发送给服务器。因此，这会增加流量的消耗。</li>
-<li>一般在浏览器关闭（会话结束）时就被删除，但也可以通过 <code>Expire</code> 或 <code>Max-Age</code> 来设置过期时间。</li>
-<li>浏览器可以通过 <code>document.cookie</code> 读写 Cookie ，若要阻止此行为，可以在 <code>Set-Cookie</code> 头中添加 <code>HttpOnly</code> 标记。</li>
-</ol>
-<p>详细的还请移步到 <a href="https://caijialinxx.github.io/2018/07/12/cookie/" target="_blank" rel="noopener">HTTP 牌的 Cookie</a> 参阅。</p>
-<h2 id="Session"><a href="#Session" class="headerlink" title="Session"></a>Session</h2><p>Session 的实质是存储在服务器里的一小块内存，一般来说是基于 Cookie 实现的。实现过程举例如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * 1. 当第一次使用 Session 时，服务器要创建一个 SessionID</span></span><br><span class="line"><span class="comment"> *    来作为 Session 中存放用户信息的唯一标识</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">let</span> session = &#123;&#125;</span><br><span class="line"><span class="keyword">let</span> sessionID = <span class="built_in">Math</span>.random().toString().slice(<span class="number">2</span>)       <span class="comment">// 假设为 '1234567890'</span></span><br><span class="line">session[sessionID] = 用户信息       <span class="comment">// 此时服务器中已存含有用户信息的 SessionID 对应的内存</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 2. 服务器通过 Cookie 给用户返回一个 SessionID */</span></span><br><span class="line">response.setHeader(<span class="string">'Set-Cookie'</span>, sessionID)</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/* 3. 当用户访问同一个 URL 时，向服务器发送这个内容为其 SessionID 的 Cookie 头 */</span><br><span class="line">Request Header</span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 580</span><br><span class="line">Cookie: 1234567890</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> * 4. 服务器读取 Cookie 中的 SessionID ，</span></span><br><span class="line"><span class="comment"> *    然后去 Session 中读取对应的内存，最终得到用户信息。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">if</span> (request.headers.cookie) &#123;</span><br><span class="line">  <span class="keyword">let</span> sessionID = request.headers.cookie</span><br><span class="line">  <span class="keyword">let</span> userInfo = session[sessionID]               <span class="comment">// 读取用户信息</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>值得一提的是， SessionID 是随机生成的。</p>
-<h2 id="LocalStorage"><a href="#LocalStorage" class="headerlink" title="LocalStorage"></a>LocalStorage</h2><p><code>window.localStorage</code> 是 HTML5 新增的一个 API ，它遵循同源政策，属于本地存储。它有以下特点：</p>
-<ol>
-<li>大小一般为 5MB ，永久有效；</li>
-<li>本地存储和读取，不会被附加到 HTTP 请求中。</li>
-</ol>
-<p><code>window.localStorage</code> 的使用如下例所示：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保存数据到 LocalStorage</span></span><br><span class="line">localStorage.setItem(<span class="string">'key'</span>, <span class="string">'value'</span>)           <span class="comment">// &#123;"key": "value"&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 LocalStorage 获取数据</span></span><br><span class="line"><span class="keyword">let</span> key = localStorage.getItem(<span class="string">'key'</span>)          <span class="comment">// "value"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 LocalStorage 删除保存的数据</span></span><br><span class="line">localStorage.removeItem(<span class="string">'key'</span>)                 <span class="comment">// &#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 LocalStorage 删除所有保存的数据</span></span><br><span class="line">sessionStorage.clear();</span><br></pre></td></tr></table></figure></p>
-<h2 id="SessionStorage"><a href="#SessionStorage" class="headerlink" title="SessionStorage"></a>SessionStorage</h2><p><code>window.sessionStorage</code> 同样也遵循同源政策，它与 <code>window.localStorage</code> 不同的是，它在页面或浏览器关闭（会话结束）时就会被清除。<br><code>window.sessionStorage</code> 的使用如下例所示：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保存数据到 SessionStorage</span></span><br><span class="line">sessionStorage.setItem(<span class="string">'key'</span>, <span class="string">'value'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 SessionStorage 获取数据</span></span><br><span class="line"><span class="keyword">var</span> data = sessionStorage.getItem(<span class="string">'key'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 SessionStorage 删除保存的数据</span></span><br><span class="line">sessionStorage.removeItem(<span class="string">'key'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从 SessionStorage 删除所有保存的数据</span></span><br><span class="line">sessionStorage.clear()</span><br></pre></td></tr></table></figure></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>四者之间的比较如下：</p>
-<h3 id="Cookie-和-Session"><a href="#Cookie-和-Session" class="headerlink" title="Cookie 和 Session"></a>Cookie 和 Session</h3><ul>
-<li>Cookie 保存在客户端的硬盘里；而 Session 是保存在服务端的内存里。</li>
-<li>Cookie 每次都随着 HTTP 请求发送给服务器；而 Session 只需要通过发送保存在 Cookie 头中的 SessionID 即可从服务器中读取对应内存。</li>
-<li>Cookie 以明文的形式存储，内容可以被用户查看或篡改；而 Session 因为只提供一个随机的 SessionID ，所以无法被用户直接查看。</li>
-</ul>
-<h3 id="Cookie-和-LocalStorage"><a href="#Cookie-和-LocalStorage" class="headerlink" title="Cookie 和 LocalStorage"></a>Cookie 和 LocalStorage</h3><ul>
-<li>Cookie 的大小一般为 4KB ；而 LocalStorage 一般为 5MB 。</li>
-<li>Cookie 一般在浏览器关闭（会话结束）时就失效，后端可以设置 <code>Expires</code> 或 <code>Max-Age</code> 来改变 Cookie 的过期时间；而 LocalStorage 是永久有效，除非用户手动清除。</li>
-<li>Cookie 会被附加到 HTTP 请求中；而 LocalStorage 不会。</li>
-</ul>
-<h3 id="LocalStorage-和-SessionStorage"><a href="#LocalStorage-和-SessionStorage" class="headerlink" title="LocalStorage 和 SessionStorage"></a>LocalStorage 和 SessionStorage</h3><ul>
-<li>前者永久有效，除非用户删除；后者在浏览器关闭（会话结束）后就被清空。</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2001,7 +1994,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2014,7 +2007,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
