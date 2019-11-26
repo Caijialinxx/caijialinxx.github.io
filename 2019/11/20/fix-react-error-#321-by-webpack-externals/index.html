@@ -82,7 +82,7 @@
 <meta name="description" content="最近把自己（未完待续）的轮子库 cui-demo 尝试发布到 npm 上，在测试项目中尝试引用时，报了一个无情的错。  「不看废话版」排除了我的代码问题后，这个报错的原因应该是我的轮子库没有成功获取到测试项目（宿主环境）的依赖 react 和 react-dom 。解决方法如下：  在 webpack 配置中将 react 和 react-dom 标记为 externals（这同时要求 outpu">
 <meta name="keywords" content="hooks, externals, solution, peerDependencies, webpack, npm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="React Hooks 写的库打包发布到 npm 后用户引用报错 Minified React error \#321 的解决方法">
+<meta property="og:title" content="从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法">
 <meta property="og:url" content="http://yoursite.com/2019/11/20/fix-react-error-#321-by-webpack-externals/index.html">
 <meta property="og:site_name" content="Caijialinxx">
 <meta property="og:description" content="最近把自己（未完待续）的轮子库 cui-demo 尝试发布到 npm 上，在测试项目中尝试引用时，报了一个无情的错。  「不看废话版」排除了我的代码问题后，这个报错的原因应该是我的轮子库没有成功获取到测试项目（宿主环境）的依赖 react 和 react-dom 。解决方法如下：  在 webpack 配置中将 react 和 react-dom 标记为 externals（这同时要求 outpu">
@@ -91,9 +91,9 @@
 <meta property="og:image" content="https://i.loli.net/2019/11/23/Pjy5US7ap2mvfwu.png">
 <meta property="og:image" content="https://i.loli.net/2019/11/25/Gl3dDPoxergbiTC.png">
 <meta property="og:image" content="https://i.loli.net/2019/11/23/XwuHk3a86DVcr2p.png">
-<meta property="og:updated_time" content="2019-11-26T07:27:37.009Z">
+<meta property="og:updated_time" content="2019-11-26T08:13:44.891Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React Hooks 写的库打包发布到 npm 后用户引用报错 Minified React error \#321 的解决方法">
+<meta name="twitter:title" content="从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法">
 <meta name="twitter:description" content="最近把自己（未完待续）的轮子库 cui-demo 尝试发布到 npm 上，在测试项目中尝试引用时，报了一个无情的错。  「不看废话版」排除了我的代码问题后，这个报错的原因应该是我的轮子库没有成功获取到测试项目（宿主环境）的依赖 react 和 react-dom 。解决方法如下：  在 webpack 配置中将 react 和 react-dom 标记为 externals（这同时要求 outpu">
 <meta name="twitter:image" content="https://i.loli.net/2019/11/23/CTO5zkAInMRlt8Q.png">
 
@@ -131,7 +131,7 @@
 
 
 
-  <title>React Hooks 写的库打包发布到 npm 后用户引用报错 Minified React error \#321 的解决方法 | Caijialinxx</title>
+  <title>从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法 | Caijialinxx</title>
   
 
 
@@ -255,7 +255,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">React Hooks 写的库打包发布到 npm 后用户引用报错 Minified React error \#321 的解决方法</h1>
+          <h1 class="post-title" itemprop="name headline">从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法</h1>
         
 
         <div class="post-meta">
@@ -317,7 +317,7 @@
 </li>
 </ol>
 </blockquote>
-<p>Debug 开始：</p>
+<p><br><br>Debug 开始：</p>
 <p>为什么说这个错误提示无情呢？让我们来慢慢走进这个报错世界：</p>
 <ol>
 <li><p>它让我转到 <a href="https://reactjs.org/docs/error-decoder.html/?invariant=321" target="_blank" rel="noopener">https://reactjs.org/docs/error-decoder.html/?invariant=321</a> 去看完整信息。好，我知道这个报错是非法 Hook 调用（Invalid Hook Call）的问题了。</p>
@@ -341,11 +341,12 @@
 </li>
 </ol>
 <p><br></p>
-<p>在几次顽强地挣扎和重试后，我真的摸不着头脑了。谷歌了很多篇文章，终于，老天不负有心人，我终于找到了问题所在——原来项目中真的存在着多个 <code>react</code> 实例， <code>cui-demo</code> 打包时 webpack 把 <code>react</code> 一起把它打包进 bundles 里了：<br><img src="https://i.loli.net/2019/11/25/Gl3dDPoxergbiTC.png" alt="webpack"></p>
+<p>在几次顽强地挣扎和重试后，我真的摸不着头脑了。谷歌了很多篇文章，终于，老天不负有心人，我终于找到了问题所在——原来项目中真的存在着多个 <code>react</code> 实例， <code>cui-demo</code> 打包时 webpack 把 <code>react</code> 一起把它打包进 bundles 里了：</p>
+<p><img src="https://i.loli.net/2019/11/25/Gl3dDPoxergbiTC.png" alt="webpack"></p>
 <p>为了解决这个问题，我应该在 webpack 构建时将 <code>react</code> 和 <code>react-dom</code> 标记为 <code>externals</code> （外部扩展），这样它们就不会被打包进 bundles 中，而是在运行时自动从宿主环境中获取这些扩展依赖。配置如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist/lib'</span>),</span><br><span class="line">    library: <span class="string">'CUI'</span>,</span><br><span class="line">    libraryTarget: <span class="string">'umd'</span>      <span class="comment">// 当扩展依赖是对象(&#123; root, amd, commonjs, ... &#125;)时，libraryTarget必须为'umd'。查看：https://webpack.js.org/configuration/externals/#object</span></span><br><span class="line">  &#125;,</span><br><span class="line">  externals: &#123;</span><br><span class="line">    react: &#123;</span><br><span class="line">      commonjs: <span class="string">'react'</span>,</span><br><span class="line">      commonjs2: <span class="string">'react'</span>,</span><br><span class="line">      amd: <span class="string">'react'</span>,</span><br><span class="line">      root: <span class="string">'React'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'react-dom'</span>: &#123;</span><br><span class="line">      commonjs: <span class="string">'react-dom'</span>,</span><br><span class="line">      commonjs2: <span class="string">'react-dom'</span>,</span><br><span class="line">      amd: <span class="string">'react-dom'</span>,</span><br><span class="line">      root: <span class="string">'ReactDOM'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2019/11/23/XwuHk3a86DVcr2p.png" alt="webpack 新增 externals 配置"></p>
 <p>好的，再重新发布看看。</p>
-<p>YES！终于成功了！在 webpack 中排除依赖打包进外部 bundles 中即可解决我测试项目中 <code>Minified React error #321</code> 的报错～快去<a href="https://codesandbox.io/s/crazy-https-r9scn?fontsize=14&amp;hidenavigation=1&amp;theme=dark" target="_blank" rel="noopener">尝试</a>一下吧！</p>
+<p>YES！终于成功了！在 webpack 中排除依赖打包进外部 bundles 中即可解决我测试项目中 <code>Minified React error #321</code> 的报错～戳<a href="https://codesandbox.io/s/crazy-https-r9scn?fontsize=14&amp;hidenavigation=1&amp;theme=dark" target="_blank" rel="noopener">此</a>体验一下新鲜出炉的轮子库 <a href="https://github.com/Caijialinxx/ui-demo" target="_blank" rel="noopener"><code>cui-demo</code></a> 吧！</p>
 <hr>
 <p>参考资料：</p>
 <ul>
@@ -391,8 +392,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/26/how-useful-the-key-attribute-in-react-is/" rel="next" title="原来React里的key这么有用！">
-                <i class="fa fa-chevron-left"></i> 原来React里的key这么有用！
+              <a href="/2019/11/20/fix-error-about-package-dependencies-and-webpack-config-md/" rel="next" title="从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法">
+                <i class="fa fa-chevron-left"></i> 从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法
               </a>
             
           </div>
@@ -467,7 +468,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
