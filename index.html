@@ -229,6 +229,177 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/20/fix-error-about-package-dependencies-and-webpack-config-md/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/20/fix-error-about-package-dependencies-and-webpack-config-md/" itemprop="url">从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-20T13:58:24+08:00">
+                2019-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近把自己（未完待续）的轮子库 <a href="https://github.com/Caijialinxx/ui-demo" target="_blank" rel="noopener"><code>cui-demo</code></a> 尝试发布到 npm 上，在测试项目中尝试引用时，报了一个无情的错。<br><img src="https://i.loli.net/2019/11/23/CTO5zkAInMRlt8Q.png" alt="Minified React error #321"></p>
+<blockquote>
+<p>「不看废话版」<br><br>排除了我的代码问题后，这个报错的原因应该是我的轮子库没有成功获取到测试项目（宿主环境）的依赖 <code>react</code> 和 <code>react-dom</code> 。解决方法如下：<br></p>
+<ol>
+<li><p>在 webpack 配置中将 <code>react</code> 和 <code>react-dom</code> 标记为 <code>externals</code>（这同时要求 <code>output.libraryTarget</code> 为 <code>umd</code> ），使轮子库可以在运行时获取到宿主环境的依赖。即</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  externals: &#123;</span><br><span class="line">    react: &#123;</span><br><span class="line">      commonjs: <span class="string">'react'</span>,</span><br><span class="line">      commonjs2: <span class="string">'react'</span>,</span><br><span class="line">      amd: <span class="string">'react'</span>,</span><br><span class="line">      root: <span class="string">'React'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'react-dom'</span>: &#123;</span><br><span class="line">      commonjs: <span class="string">'react-dom'</span>,</span><br><span class="line">      commonjs2: <span class="string">'react-dom'</span>,</span><br><span class="line">      amd: <span class="string">'react-dom'</span>,</span><br><span class="line">      root: <span class="string">'ReactDOM'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 <code>package.json</code> 中为 <code>react</code> 和 <code>react-dom</code> 添加同伴依赖 <code>peerDependencies</code> 的映射，这是为了检测宿主环境中这两项依赖的版本如果低于你规定的最低版本，那么在 npm@3 中会给出警告（npm@1 和 npm@2 中会自动安装）。配置如下：</p>
+  <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  // ...</span><br><span class="line">  "peerDependencies": &#123;</span><br><span class="line">    "react": "^16.8.4",</span><br><span class="line">    "react-dom": "^16.8.4"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<p>Debug 开始：</p>
+<p>为什么说这个错误提示无情呢？让我们来慢慢走进这个报错世界：</p>
+<ol>
+<li><p>它让我转到 <a href="https://reactjs.org/docs/error-decoder.html/?invariant=321" target="_blank" rel="noopener">https://reactjs.org/docs/error-decoder.html/?invariant=321</a> 去看完整信息。好，我知道这个报错是非法 Hook 调用（Invalid Hook Call）的问题了。</p>
+</li>
+<li><p>然后我继续看 <a href="https://fb.me/react-invalid-hook-call" target="_blank" rel="noopener">https://fb.me/react-invalid-hook-call</a> 提供的 debug 方法。</p>
+<ul>
+<li>Breaking the Rules of Hooks<br>  违反 Hooks 规则的错误，我用我的狗头保证，不是的🐶。</li>
+<li>Mismatching Versions of React and React DOM<br>  React DOM 版本与 React 不匹配（低于16.8.0），也排除了。（见下图）</li>
+<li><p>Duplicate React<br>  意外地引入了两个 React ，还是排除了。（见下图）</p>
+<p>  <img src="https://i.loli.net/2019/11/23/Pjy5US7ap2mvfwu.png" alt="根据官网进行的debug"></p>
+<p>  而且我的轮子库的 <code>package.json</code> 中对 <code>react</code> 和 <code>react-dom</code> 的版本设置也是符合要求的：</p>
+  <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  // ...</span><br><span class="line">  "devDependencies": &#123;</span><br><span class="line">    // ...</span><br><span class="line">    "react": "^16.8.4",</span><br><span class="line">    "react-dom": "^16.8.4"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  在这两个证据之下，我不得不怀疑自己的狗头是不是保不住了… 难不成我真的违反了 Hooks 的规则？？不应该呀… 如果真是这样，那我平时自己写轮子运行的时候就会报错不通过了呀…</p>
+</li>
+</ul>
+</li>
+<li><p>带着疑问，我决定去参考 <a href="https://github.com/ant-design/ant-design/blob/master/package.json" target="_blank" rel="noopener">ant-design</a> 和 <a href="https://github.com/ElemeFE/element/blob/master/package.json" target="_blank" rel="noopener">element-ui</a> 的 <code>package.json</code> 文件，看看它们是如何配置依赖的。后来发现它们还在 <a href="https://docs.npmjs.com/files/package.json#peerdependencies" target="_blank" rel="noopener"><code>peerDependencies</code></a> 中指定了兼容的版本号。虽说我的轮子库对 <code>react</code> / <code>react-dom</code> 的依赖宽松到 <code>&gt;=16.8.4 &lt;17.0.0</code> ，完全兼容测试项目的 <code>^16.12.0</code> ， <code>peerDependencies</code> 在这应该不起作用，但为了防止其他用户使用我这个轮子库时宿主环境的依赖版本低于要求，我还是得给 <code>package.json</code> 添加这个映射：</p>
+ <figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  "devDependencies": &#123;</span><br><span class="line">    ...  </span><br><span class="line">    "react": "^16.8.4",</span><br><span class="line">    "react-dom": "^16.8.4"</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="addition">+ "peerDependencies": &#123;</span></span><br><span class="line"><span class="addition">+   "react": "^16.8.4",</span></span><br><span class="line"><span class="addition">+   "react-dom": "^16.8.4"</span></span><br><span class="line"><span class="addition">+ &#125;,</span></span><br><span class="line">  "dependencies": &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 抱着“瞎猫碰上死耗子”的心态，我重新把更改后的轮子库发布到 npm 中。但最后这个更改果然并没有让 <code>#321</code> 的报错消失。</p>
+<p> 无情展露无余。</p>
+</li>
+</ol>
+<p><br></p>
+<p>在几次顽强地挣扎和重试后，我真的摸不着头脑了。谷歌了很多篇文章，终于，老天不负有心人，我终于找到了问题所在——原来项目中真的存在着多个 <code>react</code> 实例， <code>cui-demo</code> 打包时 webpack 把 <code>react</code> 一起把它打包进 bundles 里了：<br><img src="https://i.loli.net/2019/11/25/Gl3dDPoxergbiTC.png" alt="webpack"></p>
+<p>为了解决这个问题，我应该在 webpack 构建时将 <code>react</code> 和 <code>react-dom</code> 标记为 <code>externals</code> （外部扩展），这样它们就不会被打包进 bundles 中，而是在运行时自动从宿主环境中获取这些扩展依赖。配置如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'dist/lib'</span>),</span><br><span class="line">    library: <span class="string">'CUI'</span>,</span><br><span class="line">    libraryTarget: <span class="string">'umd'</span>      <span class="comment">// 当扩展依赖是对象(&#123; root, amd, commonjs, ... &#125;)时，libraryTarget必须为'umd'。查看：https://webpack.js.org/configuration/externals/#object</span></span><br><span class="line">  &#125;,</span><br><span class="line">  externals: &#123;</span><br><span class="line">    react: &#123;</span><br><span class="line">      commonjs: <span class="string">'react'</span>,</span><br><span class="line">      commonjs2: <span class="string">'react'</span>,</span><br><span class="line">      amd: <span class="string">'react'</span>,</span><br><span class="line">      root: <span class="string">'React'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'react-dom'</span>: &#123;</span><br><span class="line">      commonjs: <span class="string">'react-dom'</span>,</span><br><span class="line">      commonjs2: <span class="string">'react-dom'</span>,</span><br><span class="line">      amd: <span class="string">'react-dom'</span>,</span><br><span class="line">      root: <span class="string">'ReactDOM'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/11/23/XwuHk3a86DVcr2p.png" alt="webpack 新增 externals 配置"></p>
+<p>好的，再重新发布看看。</p>
+<p>YES！终于成功了！在 webpack 中排除依赖打包进外部 bundles 中即可解决我测试项目中 <code>Minified React error #321</code> 的报错～戳<a href="https://codesandbox.io/s/crazy-https-r9scn?fontsize=14&amp;hidenavigation=1&amp;theme=dark" target="_blank" rel="noopener">此</a>体验一下新鲜出炉的轮子库 <code>cui-demo</code> 吧！</p>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://github.com/facebook/react/issues/16029#issuecomment-518156374" target="_blank" rel="noopener">Invariant Violation: Minified React error #321 - react issues #16029
+</a></li>
+<li><a href="https://webpack.js.org/configuration/externals/" target="_blank" rel="noopener">Externals - webpack</a> / <a href="https://webpack.docschina.org/configuration/externals/" target="_blank" rel="noopener">中文版</a></li>
+<li><a href="https://webpack.js.org/guides/author-libraries/" target="_blank" rel="noopener">Authoring Libraries - webpack</a> / <a href="https://webpack.docschina.org/guides/author-libraries" target="_blank" rel="noopener">中文版</a></li>
+<li><a href="https://docs.npmjs.com/files/package.json#peerdependencies" target="_blank" rel="noopener">npm-package.json peerDependencies</a></li>
+<li><a href="https://blog.domenic.me/peer-dependencies/" target="_blank" rel="noopener">Peer Dependencies</a> / <a href="https://github.com/hongfanqie/peer-dependencies" target="_blank" rel="noopener">Ivan Yan的中文翻译</a></li>
+<li><a href="https://javascript.ruanyifeng.com/nodejs/packagejson.html#toc3" target="_blank" rel="noopener">package.json文件 - JavaScript 标准参考教程（alpha）</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/20/fix-react-error-#321-by-webpack-externals/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1711,174 +1882,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/25/deploy-on-heroku/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="caijialinxx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Caijialinxx">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/25/deploy-on-heroku/" itemprop="url">Windows 系统下的 Heroku 部署</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-25T20:13:04+08:00">
-                2018-07-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本篇教程是在 Windows 的 Node.js 环境下使用的~ 如果需要其他语言或平台，请戳 <a href="https://devcenter.heroku.com/start" target="_blank" rel="noopener">这里</a> 看看有没有你要的。</p>
-<p>这是官网的 <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs" target="_blank" rel="noopener">教程(Node.js)</a> ，全英的，英文阅读能力 OK 的同学可以戳戳，但是！竟然来都来了，那就看一下我写的吧~ 欢迎各位同学指正！</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>第一步肯定是安装。这里没有多余的文案，直接甩安装地址给你，请各位同学根据自己的系统选择 <a href="https://cli-assets.heroku.com/heroku-x64.exe" target="_blank" rel="noopener">64位</a> 或 <a href="https://cli-assets.heroku.com/heroku-x86.exe" target="_blank" rel="noopener">32位</a> 的。</p>
-<p>假设你阅读本篇文章的时候已安装了 Node v8+ 、 对应版本的 npm 和 git 。接下来让我们继续往下走。</p>
-<h1 id="本地创建-Heroku-账户"><a href="#本地创建-Heroku-账户" class="headerlink" title="本地创建 Heroku 账户"></a>本地创建 Heroku 账户</h1><h2 id="在-Windows-的命令提示符上操作"><a href="#在-Windows-的命令提示符上操作" class="headerlink" title="在 Windows 的命令提示符上操作"></a>在 Windows 的命令提示符上操作</h2><p>安装完成之后，你可以直接使用 Windows 的命令提示符（<kbd>Win</kbd> + <kbd>R</kbd>），输入 <code>heroku login</code> ，即可创建你的 Heroku 账户。<br><img src="https://i.loli.net/2018/07/20/5b517a5c96035.png" alt="在命令提示符使用heroku.png"></p>
-<p>但是， Windows 的命令行这么难用（且丑），用习惯 <a href="https://gitforwindows.org/" target="_blank" rel="noopener">Git Bash</a> 的我简直没法忍！我是在 Git Bash 上操作的，所以下面介绍一下 Heroku 在 Git Bash 上的使用（本节的命令都可以在命令提示符里使用）。</p>
-<h2 id="在-Git-Bash-上操作"><a href="#在-Git-Bash-上操作" class="headerlink" title="在 Git Bash 上操作"></a>在 Git Bash 上操作</h2><p>我在 Git Bash 执行 heroku 的命令时，<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ heroku login</span><br><span class="line">bash: heroku: <span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure></p>
-<p>发现它竟然给我错误提示说找不到该命令！后来我找到它的安装路径（G:\heroku\bin），并尝试运行 <code>/g/heroku/bin/heroku -v</code> ，嘿嘿，成了！</p>
-<p><img src="https://i.loli.net/2018/07/20/5b518195054af.png" alt="在Git Bash中使用heroku失败.png"></p>
-<p>原来是我没有给 Git Bash 添加环境变量的关系，那么二话不说立马为它添加环境变量吧~ 步骤如下：</p>
-<ol>
-<li><p>如果你没有 <code>.bashrc</code> 这个文件，就先创建再编辑。</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ touch ~/.bashrc &amp;&amp; vi ~/.bashrc</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在文件中添加 heroku.cmd 的路径作为其环境变量后（如下所示），保存并退出 <code>:wq</code> 即可。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=&quot;/g/heroku/bin/:$PATH&quot;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>此时，我们就可以在 Git Bash 上愉快地使用 <code>heroku [COMMAND]</code> 了~</p>
-<p><img src="https://i.loli.net/2018/08/25/5b8127ec9255c.png" alt="在Git Bash中成功使用heroku.png"></p>
-<h1 id="部署项目到-Heroku"><a href="#部署项目到-Heroku" class="headerlink" title="部署项目到 Heroku"></a>部署项目到 Heroku</h1><p>首先，我们直接拿 Heroku 提供的 Demo 来学习如何部署。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/heroku/node-js-getting-started.git heroku-demo</span><br><span class="line"></span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure></p>
-<p>这样我们就在 <code>heroku-demo</code> 目录下有了一个 Node.js 的项目，然后我们就可以将项目部署到 Heroku 了。</p>
-<ol>
-<li><p>在 Heroku 上创建一个应用程序，准备让 Heroku 接收我们的代码。</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ heroku create</span><br><span class="line">Creating app... <span class="keyword">done</span>, tranquil-crag-99140</span><br><span class="line">https://tranquil-crag-99140.herokuapp.com/ | https://git.heroku.com/tranquil-crag-99140.git</span><br></pre></td></tr></table></figure>
-<p> 这时， Heroku 给我们返回这个 app 的编号 <code>tranquil-crag-99140</code> 及地址 <code>https://tranquil-crag-99140.herokuapp.com/</code> ，即可说明我们已创建成功。</p>
-<p> <img src="https://i.loli.net/2018/07/20/5b519199a8a64.png" alt="c93fe62e0ba6d6daa7b3416566929c9.png"></p>
-</li>
-<li><p>接下来我们终于可以部署代码到 Heroku 了。</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">$ git push heroku master</span><br><span class="line">Counting objects: 490, <span class="keyword">done</span>.</span><br><span class="line">Delta compression using up to 4 threads.</span><br><span class="line">Compressing objects: 100% (368/368), <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (490/490), 230.24 KiB | 20.93 MiB/s, <span class="keyword">done</span>.</span><br><span class="line">Total 490 (delta 87), reused 490 (delta 87)</span><br><span class="line">remote: Compressing <span class="built_in">source</span> files... <span class="keyword">done</span>.</span><br><span class="line">remote: Building <span class="built_in">source</span>:</span><br><span class="line">remote:</span><br><span class="line">remote: -----&gt; Node.js app detected</span><br><span class="line">remote:</span><br><span class="line">remote: -----&gt; Creating runtime environment</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Installing binaries</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Restoring cache</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Building dependencies</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Caching build</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Pruning devDependencies</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Build succeeded!</span><br><span class="line">remote: -----&gt; Discovering process types</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Compressing...</span><br><span class="line">remote:        Done: 18.9M</span><br><span class="line">remote: -----&gt; Launching...</span><br><span class="line">remote:        Released v3</span><br><span class="line">remote:        https://tranquil-crag-99140.herokuapp.com/ deployed to Heroku</span><br><span class="line">remote:</span><br><span class="line">remote: Verifying deploy... <span class="keyword">done</span>.</span><br><span class="line">To https://git.heroku.com/tranquil-crag-99140.git</span><br><span class="line">* [new branch]      master -&gt; master</span><br></pre></td></tr></table></figure>
-<p> 说明太长了所以我只截取了一些重要的过程，最后的 <code>remote: Verifying deploy... done.</code> 说明项目已被成功部署，我们刷新 <code>https://tranquil-crag-99140.herokuapp.com/</code> ，即可看到下图所示的页面。</p>
-<p> <img src="https://i.loli.net/2018/07/20/5b51931843694.png" alt="项目成功部署到heroku.png"><br> 当然我们也可以用 <code>heroku open</code> 来快速打开这个网页。</p>
-</li>
-</ol>
-<p>好啦，你应该学会了吧~ 那么何不尝试做一个小项目并将其部署上去了~ 温故知新哦！</p>
-<hr>
-<h1 id="使用-SSH-Git-传输（扩展）"><a href="#使用-SSH-Git-传输（扩展）" class="headerlink" title="使用 SSH Git 传输（扩展）"></a>使用 SSH Git 传输（扩展）</h1><p>本节是额外补充，上节是使用默认的 HTTP Git 传输，不过 Heroku 也支持使用 SSH Git 传输。所以喜欢用 SSH Git 传输的可以了解一下~</p>
-<p>要使用 SSH Git 传输，需要先配置 SSH 密钥。如果你没有生成过 SSH 密钥，那么需要先输入 <code>ssh-keygen -t rsa</code> 生成，期间有三次询问的过程（如下所示），直接三次回车即可，它将会自动取其默认值（即括号中显示的内容）。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (C:\Users\ASUS-NB\.ssh\id_rsa):</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line">Your identification has been saved <span class="keyword">in</span> C:\Users\ASUS-NB\.ssh\id_rsa.</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> C:\Users\ASUS-NB\.ssh\id_rsa.pub.</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
-<p>然后， <code>heroku keys:add</code> 将公钥上传到 Heroku ，它会询问你是否确定上传，输入 <code>y</code> 即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ heroku keys:add</span><br><span class="line">Found an SSH public key at C:\Users\ASUS-NB\.ssh\id_rsa.pub</span><br><span class="line">Would you like to upload it to Heroku? [Y/n]: y</span><br><span class="line">Uploading C:\Users\ASUS-NB\.ssh\id_rsa.pub SSH key... <span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
-<p>此时，你就可以输入 <code>heroku keys</code> 查看 Heroku 的 keys 了。下图说明我们已成功上传 SSH key。<br><img src="https://i.loli.net/2018/07/20/5b519199a598d.png" alt="查看heroku密钥.png"></p>
-<p>你可以点击这里可以了解更多关于 Heroku <a href="https://devcenter.heroku.com/articles/keys" target="_blank" rel="noopener">管理 SSH 密钥</a> 的 API 。</p>
-<p>SSH Git 传输跟 HTTP Git 传输，在命令上只有一小点区别。我们只需要添加 <code>--ssh-git</code> 到 <code>heroku create</code> 、 <code>heroku git:remote</code> 和 <code>heroku git:clone</code> 命令中即可。例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ heroku create --ssh-git</span><br></pre></td></tr></table></figure></p>
-<p>如果你始终使用 SSH Git 传输，那么可以为其全局配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/</span><br></pre></td></tr></table></figure></p>
-<p>本文完。</p>
-<p>参考资料总结：</p>
-<ul>
-<li><a href="https://devcenter.heroku.com/start" target="_blank" rel="noopener">Getting Started on Heroku</a></li>
-<li><a href="https://devcenter.heroku.com/articles/keys" target="_blank" rel="noopener">Managing Your SSH Keys</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1929,7 +1932,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
