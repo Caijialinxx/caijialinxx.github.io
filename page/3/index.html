@@ -229,6 +229,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/13/css/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/13/css/" itemprop="url">CSS介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-13T15:32:04+08:00">
+                2018-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="历史与概述"><a href="#历史与概述" class="headerlink" title="历史与概述"></a>历史与概述</h2><blockquote>
+<p>CSS（Cascading Style Sheets，层叠样式表）， 是一种<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/StyleSheet" target="_blank" rel="noopener">样式表</a>语言，用来描述 HTML 或 XML（包括如 SVG、XHTML 之类的 XML 分支语言）文档的呈现。CSS 描述了在屏幕、纸质、音频等其它媒体上的元素应该如何被渲染的问题。</p>
+</blockquote>
+<ul>
+<li>1994年哈肯·利缇提出了 CSS 的最初建议，而当时伯特·波斯（Bert Bos）正在设计一个名为Argo的浏览器，于是他们决定一起设计 CSS 。</li>
+<li>1995年他们在 WWW 网络会议上 CSS 又一次被提出，波斯演示了 Argo 浏览器支持 CSS 的例子，哈肯也展示了支持 CSS 的 Arena 浏览器。</li>
+<li>1996年底，CSS 初稿已经完成，同年12月，层叠样式表的第一份正式标准（Cascading style Sheets Level 1）完成，成为 W3C 的推荐标准。</li>
+<li>1997年初，W3C 开始接管 CSS ，并组织了专门管 CSS 的工作组，其负责人是克里斯·里雷。他们开始讨论第一版中没有涉及到的问题。</li>
+<li>1998年5月 W3C 发表了 CSS 2 ，并很快又发表了 CSS 2.1 修改了 CSS 2 的一些错误，消除了其中基本不支持的内容和增加了一些已有的浏览器的扩展内容，此时 CSS 开始流行。</li>
+<li>从2011年开始，CSS 被分为多个模块单独升级，统称为 CSS 3。</li>
+</ul>
+<p><br></p>
+<h2 id="引入方法"><a href="#引入方法" class="headerlink" title="引入方法"></a>引入方法</h2><p>我们想要让文字居中且变红，则可以用以下四种方法实现：</p>
+<h3 id="内联样式"><a href="#内联样式" class="headerlink" title="内联样式"></a>内联样式</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 在 CSS 还没发表之前，添加样式的方法 --&gt;</span><br><span class="line">&lt;p&gt;&lt;center&gt;&lt;font color=&quot;red&quot;&gt;你真棒！&lt;/font&gt;&lt;/center&gt;&lt;p&gt;</span><br><span class="line">&lt;!-- CSS 发表之后的方法 --&gt;</span><br><span class="line">&lt;p style=&quot;text-align:center;color:red&quot;&gt;你真棒！&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<p><small>注意：<code>&lt;center&gt;</code> 和 <code>&lt;font&gt;</code> 标签已过时，不建议使用。</small></p>
+<h3 id="lt-style-gt-标签"><a href="#lt-style-gt-标签" class="headerlink" title="&lt;style&gt; 标签"></a><code>&lt;style&gt;</code> 标签</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        p&#123;</span><br><span class="line">            color: red;</span><br><span class="line">            text-align: center;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;p&gt;你真棒！&lt;/p&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="lt-link-gt-标签引入外部文件"><a href="#lt-link-gt-标签引入外部文件" class="headerlink" title="&lt;link&gt; 标签引入外部文件"></a><code>&lt;link&gt;</code> 标签引入外部文件</h3><p><small>假设本文件为 index.html ，它所在的文件夹下有一个用来写样式的 style.css 文件。</small><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 这是 index.html 的代码 --&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;./style.css&quot;&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;p&gt;你真棒！&lt;/p&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/* 这是 style.css 的代码 */</span><br><span class="line">p&#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>此外，还可以在 A.css 文件中使用 <strong><code>@import url(./B.css)</code></strong> 来引入另一个 CSS 文件，例如 B.css ，这样使得 HTML 文件渲染 A.css 前会先渲染 B.css 。</li>
+</ul>
+<p><small>假设 index.html 和 style.css 所在文件夹下还有个 anotherstyle.css 文件。现需在 style.css 中引入 anotherstyle.css ，使得 index.html 页面的背景色变为<code>#666</code>。</small><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/* 这是style.css的代码 */</span><br><span class="line">@import url(./anotherstyle.css)</span><br><span class="line">p&#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/* 这是anotherstyle.css的代码 */</span><br><span class="line">body&#123;</span><br><span class="line">    backgroud-color: #666;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="元素的高度"><a href="#元素的高度" class="headerlink" title="元素的高度"></a>元素的高度</h2><ul>
+<li>内联元素的高度是由字体及其参数决定，无法设置宽高。<code>line-height</code> 的属性值可以决定内联元素的高度，例如 <code>line-height:20px</code> 那么 <code>&lt;span&gt;</code> 的高度也为 <code>20px</code> 。</li>
+<li>块级元素的高度是由其文档流元素高度的总和决定。</li>
+</ul>
+<blockquote>
+<p>文档流指文档内元素的流动方向。<br><strong>块级元素从上往下流动</strong>。<br><strong>内联元素从左往右流动</strong>，如果流动遇到阻碍（容器宽度不够）则换行继续从左往右流动。但如果是一个英文单词，则无论宽度是否已经超出容器宽度，都不将分割成两行，除非添加 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-break" target="_blank" rel="noopener"><code>word-break: break all</code></a> 属性。</p>
+</blockquote>
+<p><br></p>
+<h2 id="如何学习CSS"><a href="#如何学习CSS" class="headerlink" title="如何学习CSS"></a>如何学习CSS</h2><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/search?q=CSS&amp;topic=apps&amp;topic=html&amp;topic=css&amp;topic=js&amp;topic=api&amp;topic=canvas&amp;topic=svg&amp;topic=webgl&amp;topic=mobile&amp;topic=webdev&amp;topic=http&amp;topic=webext" target="_blank" rel="noopener">MDN</a> + keyword</li>
+<li><a href="http://www.ruanyifeng.com/blog/search.html?cx=016304377626642577906%3Ab_e9skaywzq&amp;cof=FORID%3A11&amp;ie=UTF-8&amp;q=css&amp;sa.x=0&amp;sa.y=0" target="_blank" rel="noopener">阮一峰网络日志</a> + keyword</li>
+<li><a href="http://www.zhangxinxu.com/wordpress/category/css/" target="_blank" rel="noopener">张鑫旭的博客</a></li>
+<li><a href="https://css-tricks.com/" target="_blank" rel="noopener">CSS-TRICKS</a> + keyword</li>
+<li><a href="https://tympanus.net/codrops/css_reference/" target="_blank" rel="noopener">Codrops</a></li>
+<li><a href="http://cndevdocs.com/" target="_blank" rel="noopener">CSS 2.1 中文规范文档</a></li>
+<li>《CSS揭秘》（Lea Verou著）</li>
+</ul>
+<p><br><hr><br></p>
+<h2 id="一些小重点（未完待续…）"><a href="#一些小重点（未完待续…）" class="headerlink" title="一些小重点（未完待续…）"></a>一些小重点（未完待续…）</h2><ol>
+<li>页面默认字体大小为<strong>16px</strong></li>
+<li>用 <code>float</code> 做横向结构需要给所有子元素添加 <code>float:left</code> ，给其父元素添加 <code>.clearfix::after{ content:&quot;&quot;; display:block; clear:both; }</code> 。</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/empty-element-and-replaced-element/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -552,7 +717,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -565,7 +730,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
