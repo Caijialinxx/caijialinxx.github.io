@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="useState, hooks, react">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基本用法123456789101112131415import React, &amp;#123; useState &amp;#125; from &quot;react&quot;;import ReactDOM from &quot;react-dom&quot;;function App() &amp;#123;  const [count, setCount] = useState(0);  return (    &amp;lt;div&amp;gt;">
+<meta name="keywords" content="useState, hooks, react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="useState 的原理及模拟实现 —— React Hooks 系列（一）">
+<meta property="og:url" content="http://yoursite.com/2019/12/23/hooks-useState/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="基本用法123456789101112131415import React, &amp;#123; useState &amp;#125; from &quot;react&quot;;import ReactDOM from &quot;react-dom&quot;;function App() &amp;#123;  const [count, setCount] = useState(0);  return (    &amp;lt;div&amp;gt;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/12/23/pSEFYXhRcQmNtur.gif">
+<meta property="og:image" content="https://i.loli.net/2019/12/23/M3hwZkCTgVLD6Gp.gif">
+<meta property="og:updated_time" content="2019-12-23T13:02:26.400Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="useState 的原理及模拟实现 —— React Hooks 系列（一）">
+<meta name="twitter:description" content="基本用法123456789101112131415import React, &amp;#123; useState &amp;#125; from &quot;react&quot;;import ReactDOM from &quot;react-dom&quot;;function App() &amp;#123;  const [count, setCount] = useState(0);  return (    &amp;lt;div&amp;gt;">
+<meta name="twitter:image" content="https://i.loli.net/2019/12/23/pSEFYXhRcQmNtur.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/23/hooks-useState/">
+
+
+
+
+
+  <title>useState 的原理及模拟实现 —— React Hooks 系列（一） | Caijialinxx</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Caijialinxx</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/23/hooks-useState/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">useState 的原理及模拟实现 —— React Hooks 系列（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T20:49:18+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;count: &#123;count&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; setCount(count + 1)&#125;&gt;+1&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const rootElement = document.getElementById("root");</span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App /</span>&gt;, rootElement);</span><br></pre></td></tr></table></figure>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>按照 React <code>16.8.0</code> 版本之前的机制，我们知道如果某个组件是函数组件，则这个 function 就相当于 Class 组件中的 <code>render()</code> ，不能拥有自己的状态（故又称其为无状态组件，stateless components），所以数据（输入）必须是来自父组件的 <code>props</code> 。而在 <code>&gt;=16.8.0</code> 中，函数组件支持通过使用 <a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">Hooks</a> 来为其引入 state 的能力，例如上面所展示的例子：这个 <code>App</code> 组件提供了一个按钮，每次点击这个都会执行 <code>setCount</code> 使得 <code>count</code> 增加 1 ，并更新在视图上。</p>
+<p>为了更直观地看到使用了 Hooks 的函数组件和 Class 组件的区别，我写了一个<a href="https://codesandbox.io/embed/pedantic-grothendieck-bmqgz?fontsize=14&amp;hidenavigation=1&amp;theme=dark" target="_blank" rel="noopener">对比示例</a>。 <code>A</code> 是使用了 Hooks 的函数组件， <code>B</code> 是我们熟悉的 Class 组件。当我们分别点击两个按钮更新数据时，我们已知 <code>B</code> 组件不会重新调用而是在 <code>setState</code> 通知变化之后重新渲染（render），而 <code>A</code> 组件是如何处理更新的呢？让我们来分析一下这个过程：</p>
+<ul>
+<li><p>A. 点击按钮「A+1」</p>
+<ol>
+<li>按钮「A+1」的 click 事件触发，执行异步的 <code>setCount(count + 1)</code></li>
+<li>开启定时器，将在一秒之后执行回调函数 <code>() =&gt; logNewValueAfterOneSecond(&#39;A&#39;, count)</code></li>
+<li>按钮「A+1」的 click 事件执行到结尾，异步 <code>setCount</code> 起效，输出“<em>A’s count: 1</em>”， <code>&lt;span&gt;0&lt;/span&gt;</code> 更新为 <code>&lt;span&gt;1&lt;/span&gt;</code> （只更新 <code>span</code> 的文本）</li>
+<li>一秒到了，定时器的回调函数执行，输出“<em>1 second later, A’s count: 0</em>”</li>
+</ol>
+</li>
+<li><p>B. 点击按钮「B+1」</p>
+<ol>
+<li>按钮「B+1」的 click 事件触发，执行异步的 <code>this.setState(state =&gt; ({ count: state.count + 1 }))</code></li>
+<li>开启定时器，将在一秒之后执行回调函数 <code>() =&gt; logNewValueAfterOneSecond(&#39;B&#39;, this.state.count)</code></li>
+<li>按钮「B+1」的 click 事件执行到结尾，异步 <code>setState</code> 起效，输出“<em>B’s count: 1</em>”且 <code>&lt;span&gt;0&lt;/span&gt;</code> 更新为 <code>&lt;span&gt;1&lt;/span&gt;</code> （只更新 <code>span</code> 的文本）</li>
+<li>一秒到了，定时器的回调函数执行，输出“<em>1 second later, B’s count: 1</em>”</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/23/pSEFYXhRcQmNtur.gif" alt="Hooks+函数组件 V.S. Class组件"></p>
+<p>通过上面的步骤分析，我们可以看到，有区别的就是步骤 <strong>1</strong>、<strong>4</strong> 。先说说 B ——在 B.1 中 <code>setState</code> 通知变化后， React 不会立即更新组件，而是会延迟调用它，到了步骤 3 时 React 对 state 的变更才真正生效（类似于 <code>Object.assign(previousState, {count: state.count + 1})</code>）， <code>this.state.count</code> 的值更新为 1 ，且由于 <code>shouldComponentUpdate()</code> 默认返回 <code>true</code> ，所以成功触发新的一次渲染，于是组件 <code>B</code> 的 DOM 更新（不清楚组件更新过程的同学可以戳<a href="https://reactjs.org/docs/react-component.html" target="_blank" rel="noopener">这里</a>补功课，重点放在<a href="https://zh-hans.reactjs.org/docs/react-component.html#the-component-lifecycle" target="_blank" rel="noopener">生命周期</a>和<a href="https://zh-hans.reactjs.org/docs/react-component.html#setstate" target="_blank" rel="noopener">setState</a>两个模块）。整个过程没有重新生成这个组件实例，它们始终在同一个环境，所以一秒后输出 <code>B</code> 的 <code>count</code> 是 <em>1</em> ，而 A ：</p>
+<ol>
+<li>首先， <code>A</code> 中的 <code>count</code> 和 <code>setCount</code> 是由钩子函数 <code>useState()</code> 返回的两个值。</li>
+<li><code>count</code> 的初始值是 0 ，与我们赋予的一样。</li>
+<li>上面我说到，函数组件相当于 Class 组件中的 <code>render()</code> ，所以我们大胆假设在按钮第一次点击异步执行 <code>setCount(count + 1)</code> 之后，重新 render ，即 <code>A()</code> 被重新调用，此时 <code>count</code> 从 <code>useState()</code> 中再次获取到的值更新为 1 ，返回的值通过 diff 最终局部更新。</li>
+</ol>
+<p>但是奇怪的是，为什么一秒之后定时器回调函数执行后输出的 <code>count</code> 是旧的值呢？请大家再看一遍 3 ，「<code>A()</code> 被重新调用」，「<code>count</code> 从 <code>useState()</code> 中再次获取值」，那么此时的 <code>count</code> 还为彼时的 <code>count</code> 吗？答案当然是「不」！它们已经是存在于不同环境的两个变量了。<br>假设 2 中的 <code>count</code> 是 count0（值为0），而 3 中的 <code>count</code> 是 count1（值为1）。定时器是什么时候设定的？在第一次点击按钮时。这个时候 <code>logNewValueAfterOneSecond()</code> 传入的 <code>count</code> 实际上是还没有更新的 count0 ，一秒之后，虽然 <code>count</code> 已更新为 count1 ，但 <code>logNewValueAfterOneSecond()</code> 调用的 <code>count</code> 并没有更新，还是之前的 count0 ，所以必然输出 0 。<br>这下看起来明了了一些吗？接下来我们来尝试模拟实现一下 <code>useState()</code> 吧～</p>
+<h2 id="模拟实现"><a href="#模拟实现" class="headerlink" title="模拟实现"></a>模拟实现</h2><p><code>React.useState()</code> 里都做了些什么：</p>
+<ol>
+<li><p>将初始值赋给一个变量我们称之为 <code>state</code></p>
+</li>
+<li><p>返回这个变量 <code>state</code> 以及改变这个 <code>state</code> 的回调函数我们称之为 <code>setState</code></p>
+</li>
+<li><p>当 <code>setState()</code> 被调用时， <code>state</code> 被其传入的新值重新赋值，并且更新根视图</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useState</span>(<span class="params">initialState</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> _state = initialState;</span><br><span class="line">  <span class="keyword">const</span> setState = <span class="function">(<span class="params">newState</span>) =&gt;</span> &#123;</span><br><span class="line">    _state = newState;</span><br><span class="line">    ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, rootElement);</span></span><br><span class="line"><span class="xml">  &#125;;</span></span><br><span class="line"><span class="xml">  return [_state, setState];</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>每次更新时，函数组件会被重新调用，也就是说 <code>useState()</code> 会被重新调用，为了使 <code>state</code> 的新值被记录（而不是一直被重新赋上 <code>initialState</code>），需要将其提到外部作用域声明</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> _state;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useState</span>(<span class="params">initialState</span>) </span>&#123;</span><br><span class="line">  _state = _state === <span class="literal">undefined</span> ? initialState : _state;</span><br><span class="line">  <span class="keyword">const</span> setState = <span class="function">(<span class="params">newState</span>) =&gt;</span> &#123;</span><br><span class="line">    _state = newState;</span><br><span class="line">    ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, rootElement);</span></span><br><span class="line"><span class="xml">  &#125;;</span></span><br><span class="line"><span class="xml">  return [_state, setState];</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+<p> 好的，现在让我们来调用一下，目前暂时是达到了 <code>React.useState()</code> 一样的效果。<a href="https://codesandbox.io/s/elegant-dust-5x1oc?fontsize=14&amp;hidenavigation=1&amp;theme=dark" target="_blank" rel="noopener">Open in CodeSandbox</a><br> <img src="https://i.loli.net/2019/12/23/M3hwZkCTgVLD6Gp.gif" alt="模拟 React.useState 1.0"></p>
+</li>
+<li><p>但是，如果添加多个 <code>useState()</code> ，就一定会出现 BUG 了。因为当前的 <code>_state</code> 只能存放一个单一变量。如果我将 <code>_state</code> 改成数组存储呢？让这个数组 <code>_state</code> 根据当前操作 <code>useState()</code> 的索引向内添加 state</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> _state = [], _index = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useState</span>(<span class="params">initialState</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> curIndex = _index; <span class="comment">// 记录当前操作的索引</span></span><br><span class="line">  _state[curIndex] = _state[curIndex] === <span class="literal">undefined</span> ? initialState : _state[curIndex];</span><br><span class="line">  <span class="keyword">const</span> setState = <span class="function">(<span class="params">newState</span>) =&gt;</span> &#123;</span><br><span class="line">    _state[curIndex] = newState;</span><br><span class="line">    ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, rootElement);</span></span><br><span class="line"><span class="xml">    _index = 0; // 每更新一次都需要将_index归零，才不会不断重复增加_state</span></span><br><span class="line"><span class="xml">  &#125;</span></span><br><span class="line"><span class="xml">  _index += 1; // 下一个操作的索引</span></span><br><span class="line"><span class="xml">  return [_state[curIndex], setState];</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+<p> 虽然通过使用数组存储 <code>_state</code> 成功模拟了多个 <code>useState()</code> 的情况（<a href="https://codesandbox.io/s/frosty-flower-9i1y7" target="_blank" rel="noopener">Open in CodeSandbox</a>），但这要求我们保证 <code>useState()</code> 的调用顺序，所以我们不能在循环、条件或嵌套函数中调用 <code>useState()</code> ，这在 <code>React.useState()</code> 同样要求，官网还给出了专门的<a href="https://reactjs.org/docs/hooks-rules.html#explanation" target="_blank" rel="noopener">解释</a>。</p>
+</li>
+<li><p>让我们的 <code>setState()</code> 也支持<a href="https://reactjs.org/docs/hooks-reference.html#functional-updates" target="_blank" rel="noopener">函数式更新</a>和<a href="https://reactjs.org/docs/hooks-reference.html#lazy-initial-state" target="_blank" rel="noopener">惰性初始state</a>：<a href="https://codesandbox.io/s/pedantic-flower-cbyfg" target="_blank" rel="noopener">Open in CodeSandbox</a></p>
+</li>
+<li><p>通过 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank" rel="noopener"><code>Object.is()</code></a> 比较算法来判断 <code>_state</code> 是否需要更新：<a href="https://codesandbox.io/s/bold-fire-jv9y7" target="_blank" rel="noopener">Open in CodeSandbox</a></p>
+</li>
+</ol>
+<p>至此，我的模拟实现已结束。而实际上， React 并不是真的是这样实现的。上面提到的 <code>_state</code> 其实对应 React 的 <code>memoizedState</code> ，而 <code>_index</code> 实际上是利用了链表。有兴趣的同学可以自己去读<a href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactFiberHooks.js" target="_blank" rel="noopener">源码</a>或者参阅这篇<a href="https://juejin.im/post/5bdfc1c4e51d4539f4178e1f" target="_blank" rel="noopener">博客</a>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [state, setState] = React.useState(initialState);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>React 16.8.0 正式增加了 Hooks ，它为函数组件引入了 state 的能力，换句话说就是使函数组件拥有了 Class 组件的功能。</li>
+<li><code>React.useState()</code> 返回的第二个参数 <code>setState</code> 用于更新 <code>state</code> ，并且会触发新的渲染。同时，在后续新的渲染中 <code>React.useState()</code> 返回的第一个 <code>state</code> 值始终是最新的。</li>
+<li>为了保证 <code>memoizedState</code> 的顺序与 <code>React.useState()</code> 正确对应，我们需要保证 Hooks 在最顶层调用，也就是不能在循环、条件或嵌套函数中调用。</li>
+<li><code>React.useState()</code> 通过 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank" rel="noopener"><code>Object.is()</code></a> 来判断 <code>memoizedState</code> 是否需要更新。</li>
+</ul>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://reactjs.org/docs/hooks-reference.html#usestate" target="_blank" rel="noopener">Hooks API Reference - useState</a></li>
+<li><a href="https://reactjs.org/docs/hooks-rules.html" target="_blank" rel="noopener">Rules of Hooks</a></li>
+<li><a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">Introducing Hooks</a></li>
+<li><a href="https://juejin.im/post/5bdfc1c4e51d4539f4178e1f" target="_blank" rel="noopener">阅读源码后，来讲讲React Hooks是怎么实现的 - Jokcy</a></li>
+</ul>
+<p>以上 React 的参考资料的中文版直接在前面加“zh-hans.”即可，即 <a href="https://zh-hans.reactjs.org/" target="_blank" rel="noopener">https://zh-hans.reactjs.org/</a>… ，不过似乎要翻墙才可以😂</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Notes/" rel="tag"># Notes</a>
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/20/fix-react-error-321-by-webpack-externals/" rel="next" title="从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法">
+                <i class="fa fa-chevron-left"></i> 从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">caijialinxx</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本用法"><span class="nav-number">1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">2.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模拟实现"><span class="nav-number">3.</span> <span class="nav-text">模拟实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">caijialinxx</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -229,6 +229,193 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/23/hooks-useState/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/23/hooks-useState/" itemprop="url">useState 的原理及模拟实现 —— React Hooks 系列（一）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-23T20:49:18+08:00">
+                2019-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> React, &#123; useState &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">App</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = useState(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;count: &#123;count&#125;&lt;<span class="regexp">/p&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;() =&gt; setCount(count + 1)&#125;&gt;+1&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">const rootElement = document.getElementById("root");</span></span><br><span class="line"><span class="regexp">ReactDOM.render(&lt;App /</span>&gt;, rootElement);</span><br></pre></td></tr></table></figure>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>按照 React <code>16.8.0</code> 版本之前的机制，我们知道如果某个组件是函数组件，则这个 function 就相当于 Class 组件中的 <code>render()</code> ，不能拥有自己的状态（故又称其为无状态组件，stateless components），所以数据（输入）必须是来自父组件的 <code>props</code> 。而在 <code>&gt;=16.8.0</code> 中，函数组件支持通过使用 <a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">Hooks</a> 来为其引入 state 的能力，例如上面所展示的例子：这个 <code>App</code> 组件提供了一个按钮，每次点击这个都会执行 <code>setCount</code> 使得 <code>count</code> 增加 1 ，并更新在视图上。</p>
+<p>为了更直观地看到使用了 Hooks 的函数组件和 Class 组件的区别，我写了一个<a href="https://codesandbox.io/embed/pedantic-grothendieck-bmqgz?fontsize=14&amp;hidenavigation=1&amp;theme=dark" target="_blank" rel="noopener">对比示例</a>。 <code>A</code> 是使用了 Hooks 的函数组件， <code>B</code> 是我们熟悉的 Class 组件。当我们分别点击两个按钮更新数据时，我们已知 <code>B</code> 组件不会重新调用而是在 <code>setState</code> 通知变化之后重新渲染（render），而 <code>A</code> 组件是如何处理更新的呢？让我们来分析一下这个过程：</p>
+<ul>
+<li><p>A. 点击按钮「A+1」</p>
+<ol>
+<li>按钮「A+1」的 click 事件触发，执行异步的 <code>setCount(count + 1)</code></li>
+<li>开启定时器，将在一秒之后执行回调函数 <code>() =&gt; logNewValueAfterOneSecond(&#39;A&#39;, count)</code></li>
+<li>按钮「A+1」的 click 事件执行到结尾，异步 <code>setCount</code> 起效，输出“<em>A’s count: 1</em>”， <code>&lt;span&gt;0&lt;/span&gt;</code> 更新为 <code>&lt;span&gt;1&lt;/span&gt;</code> （只更新 <code>span</code> 的文本）</li>
+<li>一秒到了，定时器的回调函数执行，输出“<em>1 second later, A’s count: 0</em>”</li>
+</ol>
+</li>
+<li><p>B. 点击按钮「B+1」</p>
+<ol>
+<li>按钮「B+1」的 click 事件触发，执行异步的 <code>this.setState(state =&gt; ({ count: state.count + 1 }))</code></li>
+<li>开启定时器，将在一秒之后执行回调函数 <code>() =&gt; logNewValueAfterOneSecond(&#39;B&#39;, this.state.count)</code></li>
+<li>按钮「B+1」的 click 事件执行到结尾，异步 <code>setState</code> 起效，输出“<em>B’s count: 1</em>”且 <code>&lt;span&gt;0&lt;/span&gt;</code> 更新为 <code>&lt;span&gt;1&lt;/span&gt;</code> （只更新 <code>span</code> 的文本）</li>
+<li>一秒到了，定时器的回调函数执行，输出“<em>1 second later, B’s count: 1</em>”</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/23/pSEFYXhRcQmNtur.gif" alt="Hooks+函数组件 V.S. Class组件"></p>
+<p>通过上面的步骤分析，我们可以看到，有区别的就是步骤 <strong>1</strong>、<strong>4</strong> 。先说说 B ——在 B.1 中 <code>setState</code> 通知变化后， React 不会立即更新组件，而是会延迟调用它，到了步骤 3 时 React 对 state 的变更才真正生效（类似于 <code>Object.assign(previousState, {count: state.count + 1})</code>）， <code>this.state.count</code> 的值更新为 1 ，且由于 <code>shouldComponentUpdate()</code> 默认返回 <code>true</code> ，所以成功触发新的一次渲染，于是组件 <code>B</code> 的 DOM 更新（不清楚组件更新过程的同学可以戳<a href="https://reactjs.org/docs/react-component.html" target="_blank" rel="noopener">这里</a>补功课，重点放在<a href="https://zh-hans.reactjs.org/docs/react-component.html#the-component-lifecycle" target="_blank" rel="noopener">生命周期</a>和<a href="https://zh-hans.reactjs.org/docs/react-component.html#setstate" target="_blank" rel="noopener">setState</a>两个模块）。整个过程没有重新生成这个组件实例，它们始终在同一个环境，所以一秒后输出 <code>B</code> 的 <code>count</code> 是 <em>1</em> ，而 A ：</p>
+<ol>
+<li>首先， <code>A</code> 中的 <code>count</code> 和 <code>setCount</code> 是由钩子函数 <code>useState()</code> 返回的两个值。</li>
+<li><code>count</code> 的初始值是 0 ，与我们赋予的一样。</li>
+<li>上面我说到，函数组件相当于 Class 组件中的 <code>render()</code> ，所以我们大胆假设在按钮第一次点击异步执行 <code>setCount(count + 1)</code> 之后，重新 render ，即 <code>A()</code> 被重新调用，此时 <code>count</code> 从 <code>useState()</code> 中再次获取到的值更新为 1 ，返回的值通过 diff 最终局部更新。</li>
+</ol>
+<p>但是奇怪的是，为什么一秒之后定时器回调函数执行后输出的 <code>count</code> 是旧的值呢？请大家再看一遍 3 ，「<code>A()</code> 被重新调用」，「<code>count</code> 从 <code>useState()</code> 中再次获取值」，那么此时的 <code>count</code> 还为彼时的 <code>count</code> 吗？答案当然是「不」！它们已经是存在于不同环境的两个变量了。<br>假设 2 中的 <code>count</code> 是 count0（值为0），而 3 中的 <code>count</code> 是 count1（值为1）。定时器是什么时候设定的？在第一次点击按钮时。这个时候 <code>logNewValueAfterOneSecond()</code> 传入的 <code>count</code> 实际上是还没有更新的 count0 ，一秒之后，虽然 <code>count</code> 已更新为 count1 ，但 <code>logNewValueAfterOneSecond()</code> 调用的 <code>count</code> 并没有更新，还是之前的 count0 ，所以必然输出 0 。<br>这下看起来明了了一些吗？接下来我们来尝试模拟实现一下 <code>useState()</code> 吧～</p>
+<h2 id="模拟实现"><a href="#模拟实现" class="headerlink" title="模拟实现"></a>模拟实现</h2><p><code>React.useState()</code> 里都做了些什么：</p>
+<ol>
+<li><p>将初始值赋给一个变量我们称之为 <code>state</code></p>
+</li>
+<li><p>返回这个变量 <code>state</code> 以及改变这个 <code>state</code> 的回调函数我们称之为 <code>setState</code></p>
+</li>
+<li><p>当 <code>setState()</code> 被调用时， <code>state</code> 被其传入的新值重新赋值，并且更新根视图</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useState</span>(<span class="params">initialState</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> _state = initialState;</span><br><span class="line">  <span class="keyword">const</span> setState = <span class="function">(<span class="params">newState</span>) =&gt;</span> &#123;</span><br><span class="line">    _state = newState;</span><br><span class="line">    ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, rootElement);</span></span><br><span class="line"><span class="xml">  &#125;;</span></span><br><span class="line"><span class="xml">  return [_state, setState];</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>每次更新时，函数组件会被重新调用，也就是说 <code>useState()</code> 会被重新调用，为了使 <code>state</code> 的新值被记录（而不是一直被重新赋上 <code>initialState</code>），需要将其提到外部作用域声明</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> _state;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useState</span>(<span class="params">initialState</span>) </span>&#123;</span><br><span class="line">  _state = _state === <span class="literal">undefined</span> ? initialState : _state;</span><br><span class="line">  <span class="keyword">const</span> setState = <span class="function">(<span class="params">newState</span>) =&gt;</span> &#123;</span><br><span class="line">    _state = newState;</span><br><span class="line">    ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, rootElement);</span></span><br><span class="line"><span class="xml">  &#125;;</span></span><br><span class="line"><span class="xml">  return [_state, setState];</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+<p> 好的，现在让我们来调用一下，目前暂时是达到了 <code>React.useState()</code> 一样的效果。<a href="https://codesandbox.io/s/elegant-dust-5x1oc?fontsize=14&amp;hidenavigation=1&amp;theme=dark" target="_blank" rel="noopener">Open in CodeSandbox</a><br> <img src="https://i.loli.net/2019/12/23/M3hwZkCTgVLD6Gp.gif" alt="模拟 React.useState 1.0"></p>
+</li>
+<li><p>但是，如果添加多个 <code>useState()</code> ，就一定会出现 BUG 了。因为当前的 <code>_state</code> 只能存放一个单一变量。如果我将 <code>_state</code> 改成数组存储呢？让这个数组 <code>_state</code> 根据当前操作 <code>useState()</code> 的索引向内添加 state</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> _state = [], _index = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useState</span>(<span class="params">initialState</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> curIndex = _index; <span class="comment">// 记录当前操作的索引</span></span><br><span class="line">  _state[curIndex] = _state[curIndex] === <span class="literal">undefined</span> ? initialState : _state[curIndex];</span><br><span class="line">  <span class="keyword">const</span> setState = <span class="function">(<span class="params">newState</span>) =&gt;</span> &#123;</span><br><span class="line">    _state[curIndex] = newState;</span><br><span class="line">    ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span>, rootElement);</span></span><br><span class="line"><span class="xml">    _index = 0; // 每更新一次都需要将_index归零，才不会不断重复增加_state</span></span><br><span class="line"><span class="xml">  &#125;</span></span><br><span class="line"><span class="xml">  _index += 1; // 下一个操作的索引</span></span><br><span class="line"><span class="xml">  return [_state[curIndex], setState];</span></span><br><span class="line"><span class="xml">&#125;</span></span><br></pre></td></tr></table></figure>
+<p> 虽然通过使用数组存储 <code>_state</code> 成功模拟了多个 <code>useState()</code> 的情况（<a href="https://codesandbox.io/s/frosty-flower-9i1y7" target="_blank" rel="noopener">Open in CodeSandbox</a>），但这要求我们保证 <code>useState()</code> 的调用顺序，所以我们不能在循环、条件或嵌套函数中调用 <code>useState()</code> ，这在 <code>React.useState()</code> 同样要求，官网还给出了专门的<a href="https://reactjs.org/docs/hooks-rules.html#explanation" target="_blank" rel="noopener">解释</a>。</p>
+</li>
+<li><p>让我们的 <code>setState()</code> 也支持<a href="https://reactjs.org/docs/hooks-reference.html#functional-updates" target="_blank" rel="noopener">函数式更新</a>和<a href="https://reactjs.org/docs/hooks-reference.html#lazy-initial-state" target="_blank" rel="noopener">惰性初始state</a>：<a href="https://codesandbox.io/s/pedantic-flower-cbyfg" target="_blank" rel="noopener">Open in CodeSandbox</a></p>
+</li>
+<li><p>通过 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank" rel="noopener"><code>Object.is()</code></a> 比较算法来判断 <code>_state</code> 是否需要更新：<a href="https://codesandbox.io/s/bold-fire-jv9y7" target="_blank" rel="noopener">Open in CodeSandbox</a></p>
+</li>
+</ol>
+<p>至此，我的模拟实现已结束。而实际上， React 并不是真的是这样实现的。上面提到的 <code>_state</code> 其实对应 React 的 <code>memoizedState</code> ，而 <code>_index</code> 实际上是利用了链表。有兴趣的同学可以自己去读<a href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactFiberHooks.js" target="_blank" rel="noopener">源码</a>或者参阅这篇<a href="https://juejin.im/post/5bdfc1c4e51d4539f4178e1f" target="_blank" rel="noopener">博客</a>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [state, setState] = React.useState(initialState);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>React 16.8.0 正式增加了 Hooks ，它为函数组件引入了 state 的能力，换句话说就是使函数组件拥有了 Class 组件的功能。</li>
+<li><code>React.useState()</code> 返回的第二个参数 <code>setState</code> 用于更新 <code>state</code> ，并且会触发新的渲染。同时，在后续新的渲染中 <code>React.useState()</code> 返回的第一个 <code>state</code> 值始终是最新的。</li>
+<li>为了保证 <code>memoizedState</code> 的顺序与 <code>React.useState()</code> 正确对应，我们需要保证 Hooks 在最顶层调用，也就是不能在循环、条件或嵌套函数中调用。</li>
+<li><code>React.useState()</code> 通过 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is" target="_blank" rel="noopener"><code>Object.is()</code></a> 来判断 <code>memoizedState</code> 是否需要更新。</li>
+</ul>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://reactjs.org/docs/hooks-reference.html#usestate" target="_blank" rel="noopener">Hooks API Reference - useState</a></li>
+<li><a href="https://reactjs.org/docs/hooks-rules.html" target="_blank" rel="noopener">Rules of Hooks</a></li>
+<li><a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">Introducing Hooks</a></li>
+<li><a href="https://juejin.im/post/5bdfc1c4e51d4539f4178e1f" target="_blank" rel="noopener">阅读源码后，来讲讲React Hooks是怎么实现的 - Jokcy</a></li>
+</ul>
+<p>以上 React 的参考资料的中文版直接在前面加“zh-hans.”即可，即 <a href="https://zh-hans.reactjs.org/" target="_blank" rel="noopener">https://zh-hans.reactjs.org/</a>… ，不过似乎要翻墙才可以😂</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/20/fix-react-error-321-by-webpack-externals/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1712,174 +1899,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/25/deploy-on-heroku/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="caijialinxx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Caijialinxx">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/25/deploy-on-heroku/" itemprop="url">Windows 系统下的 Heroku 部署</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-25T20:13:04+08:00">
-                2018-07-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本篇教程是在 Windows 的 Node.js 环境下使用的~ 如果需要其他语言或平台，请戳 <a href="https://devcenter.heroku.com/start" target="_blank" rel="noopener">这里</a> 看看有没有你要的。</p>
-<p>这是官网的 <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs" target="_blank" rel="noopener">教程(Node.js)</a> ，全英的，英文阅读能力 OK 的同学可以戳戳，但是！竟然来都来了，那就看一下我写的吧~ 欢迎各位同学指正！</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>第一步肯定是安装。这里没有多余的文案，直接甩安装地址给你，请各位同学根据自己的系统选择 <a href="https://cli-assets.heroku.com/heroku-x64.exe" target="_blank" rel="noopener">64位</a> 或 <a href="https://cli-assets.heroku.com/heroku-x86.exe" target="_blank" rel="noopener">32位</a> 的。</p>
-<p>假设你阅读本篇文章的时候已安装了 Node v8+ 、 对应版本的 npm 和 git 。接下来让我们继续往下走。</p>
-<h1 id="本地创建-Heroku-账户"><a href="#本地创建-Heroku-账户" class="headerlink" title="本地创建 Heroku 账户"></a>本地创建 Heroku 账户</h1><h2 id="在-Windows-的命令提示符上操作"><a href="#在-Windows-的命令提示符上操作" class="headerlink" title="在 Windows 的命令提示符上操作"></a>在 Windows 的命令提示符上操作</h2><p>安装完成之后，你可以直接使用 Windows 的命令提示符（<kbd>Win</kbd> + <kbd>R</kbd>），输入 <code>heroku login</code> ，即可创建你的 Heroku 账户。<br><img src="https://i.loli.net/2018/07/20/5b517a5c96035.png" alt="在命令提示符使用heroku.png"></p>
-<p>但是， Windows 的命令行这么难用（且丑），用习惯 <a href="https://gitforwindows.org/" target="_blank" rel="noopener">Git Bash</a> 的我简直没法忍！我是在 Git Bash 上操作的，所以下面介绍一下 Heroku 在 Git Bash 上的使用（本节的命令都可以在命令提示符里使用）。</p>
-<h2 id="在-Git-Bash-上操作"><a href="#在-Git-Bash-上操作" class="headerlink" title="在 Git Bash 上操作"></a>在 Git Bash 上操作</h2><p>我在 Git Bash 执行 heroku 的命令时，<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ heroku login</span><br><span class="line">bash: heroku: <span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure></p>
-<p>发现它竟然给我错误提示说找不到该命令！后来我找到它的安装路径（G:\heroku\bin），并尝试运行 <code>/g/heroku/bin/heroku -v</code> ，嘿嘿，成了！</p>
-<p><img src="https://i.loli.net/2018/07/20/5b518195054af.png" alt="在Git Bash中使用heroku失败.png"></p>
-<p>原来是我没有给 Git Bash 添加环境变量的关系，那么二话不说立马为它添加环境变量吧~ 步骤如下：</p>
-<ol>
-<li><p>如果你没有 <code>.bashrc</code> 这个文件，就先创建再编辑。</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ touch ~/.bashrc &amp;&amp; vi ~/.bashrc</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在文件中添加 heroku.cmd 的路径作为其环境变量后（如下所示），保存并退出 <code>:wq</code> 即可。</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=&quot;/g/heroku/bin/:$PATH&quot;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>此时，我们就可以在 Git Bash 上愉快地使用 <code>heroku [COMMAND]</code> 了~</p>
-<p><img src="https://i.loli.net/2018/08/25/5b8127ec9255c.png" alt="在Git Bash中成功使用heroku.png"></p>
-<h1 id="部署项目到-Heroku"><a href="#部署项目到-Heroku" class="headerlink" title="部署项目到 Heroku"></a>部署项目到 Heroku</h1><p>首先，我们直接拿 Heroku 提供的 Demo 来学习如何部署。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/heroku/node-js-getting-started.git heroku-demo</span><br><span class="line"></span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure></p>
-<p>这样我们就在 <code>heroku-demo</code> 目录下有了一个 Node.js 的项目，然后我们就可以将项目部署到 Heroku 了。</p>
-<ol>
-<li><p>在 Heroku 上创建一个应用程序，准备让 Heroku 接收我们的代码。</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ heroku create</span><br><span class="line">Creating app... <span class="keyword">done</span>, tranquil-crag-99140</span><br><span class="line">https://tranquil-crag-99140.herokuapp.com/ | https://git.heroku.com/tranquil-crag-99140.git</span><br></pre></td></tr></table></figure>
-<p> 这时， Heroku 给我们返回这个 app 的编号 <code>tranquil-crag-99140</code> 及地址 <code>https://tranquil-crag-99140.herokuapp.com/</code> ，即可说明我们已创建成功。</p>
-<p> <img src="https://i.loli.net/2018/07/20/5b519199a8a64.png" alt="c93fe62e0ba6d6daa7b3416566929c9.png"></p>
-</li>
-<li><p>接下来我们终于可以部署代码到 Heroku 了。</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">$ git push heroku master</span><br><span class="line">Counting objects: 490, <span class="keyword">done</span>.</span><br><span class="line">Delta compression using up to 4 threads.</span><br><span class="line">Compressing objects: 100% (368/368), <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (490/490), 230.24 KiB | 20.93 MiB/s, <span class="keyword">done</span>.</span><br><span class="line">Total 490 (delta 87), reused 490 (delta 87)</span><br><span class="line">remote: Compressing <span class="built_in">source</span> files... <span class="keyword">done</span>.</span><br><span class="line">remote: Building <span class="built_in">source</span>:</span><br><span class="line">remote:</span><br><span class="line">remote: -----&gt; Node.js app detected</span><br><span class="line">remote:</span><br><span class="line">remote: -----&gt; Creating runtime environment</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Installing binaries</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Restoring cache</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Building dependencies</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Caching build</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Pruning devDependencies</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Build succeeded!</span><br><span class="line">remote: -----&gt; Discovering process types</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Compressing...</span><br><span class="line">remote:        Done: 18.9M</span><br><span class="line">remote: -----&gt; Launching...</span><br><span class="line">remote:        Released v3</span><br><span class="line">remote:        https://tranquil-crag-99140.herokuapp.com/ deployed to Heroku</span><br><span class="line">remote:</span><br><span class="line">remote: Verifying deploy... <span class="keyword">done</span>.</span><br><span class="line">To https://git.heroku.com/tranquil-crag-99140.git</span><br><span class="line">* [new branch]      master -&gt; master</span><br></pre></td></tr></table></figure>
-<p> 说明太长了所以我只截取了一些重要的过程，最后的 <code>remote: Verifying deploy... done.</code> 说明项目已被成功部署，我们刷新 <code>https://tranquil-crag-99140.herokuapp.com/</code> ，即可看到下图所示的页面。</p>
-<p> <img src="https://i.loli.net/2018/07/20/5b51931843694.png" alt="项目成功部署到heroku.png"><br> 当然我们也可以用 <code>heroku open</code> 来快速打开这个网页。</p>
-</li>
-</ol>
-<p>好啦，你应该学会了吧~ 那么何不尝试做一个小项目并将其部署上去了~ 温故知新哦！</p>
-<hr>
-<h1 id="使用-SSH-Git-传输（扩展）"><a href="#使用-SSH-Git-传输（扩展）" class="headerlink" title="使用 SSH Git 传输（扩展）"></a>使用 SSH Git 传输（扩展）</h1><p>本节是额外补充，上节是使用默认的 HTTP Git 传输，不过 Heroku 也支持使用 SSH Git 传输。所以喜欢用 SSH Git 传输的可以了解一下~</p>
-<p>要使用 SSH Git 传输，需要先配置 SSH 密钥。如果你没有生成过 SSH 密钥，那么需要先输入 <code>ssh-keygen -t rsa</code> 生成，期间有三次询问的过程（如下所示），直接三次回车即可，它将会自动取其默认值（即括号中显示的内容）。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (C:\Users\ASUS-NB\.ssh\id_rsa):</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line">Your identification has been saved <span class="keyword">in</span> C:\Users\ASUS-NB\.ssh\id_rsa.</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> C:\Users\ASUS-NB\.ssh\id_rsa.pub.</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
-<p>然后， <code>heroku keys:add</code> 将公钥上传到 Heroku ，它会询问你是否确定上传，输入 <code>y</code> 即可：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ heroku keys:add</span><br><span class="line">Found an SSH public key at C:\Users\ASUS-NB\.ssh\id_rsa.pub</span><br><span class="line">Would you like to upload it to Heroku? [Y/n]: y</span><br><span class="line">Uploading C:\Users\ASUS-NB\.ssh\id_rsa.pub SSH key... <span class="keyword">done</span></span><br></pre></td></tr></table></figure></p>
-<p>此时，你就可以输入 <code>heroku keys</code> 查看 Heroku 的 keys 了。下图说明我们已成功上传 SSH key。<br><img src="https://i.loli.net/2018/07/20/5b519199a598d.png" alt="查看heroku密钥.png"></p>
-<p>你可以点击这里可以了解更多关于 Heroku <a href="https://devcenter.heroku.com/articles/keys" target="_blank" rel="noopener">管理 SSH 密钥</a> 的 API 。</p>
-<p>SSH Git 传输跟 HTTP Git 传输，在命令上只有一小点区别。我们只需要添加 <code>--ssh-git</code> 到 <code>heroku create</code> 、 <code>heroku git:remote</code> 和 <code>heroku git:clone</code> 命令中即可。例如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ heroku create --ssh-git</span><br></pre></td></tr></table></figure></p>
-<p>如果你始终使用 SSH Git 传输，那么可以为其全局配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/</span><br></pre></td></tr></table></figure></p>
-<p>本文完。</p>
-<p>参考资料总结：</p>
-<ul>
-<li><a href="https://devcenter.heroku.com/start" target="_blank" rel="noopener">Getting Started on Heroku</a></li>
-<li><a href="https://devcenter.heroku.com/articles/keys" target="_blank" rel="noopener">Managing Your SSH Keys</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1930,7 +1949,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
