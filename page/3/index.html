@@ -229,6 +229,366 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/25/webpage-in-mobile-devices/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/25/webpage-in-mobile-devices/" itemprop="url">移动端的适配</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-25T19:40:00+08:00">
+                2018-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>腾讯曾经出过一个面试题：移动端该如何做适配？有位同学分享了他那次的面试经历，有兴趣可以<a href="https://github.com/Bless-L/MyBlog/blob/master/post/2016%E8%85%BE%E8%AE%AF%E5%AE%9E%E4%B9%A0%E7%94%9F%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86%E5%8F%8A%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%8C%EF%BC%89.md" target="_blank" rel="noopener">了解一下</a>。</p>
+<p>移动端在用户群中占了很大的比重，所以做好移动端的适配，基本是前端们必备的技能之一。移动端和PC端的最重要的区别就是</p>
+<ol>
+<li><p>视口大小</p>
+<p> 移动端的视口宽度基本在 1000px 以内，手机端在 320px 至 425px 之间，若将PC端的页面在手机端中展示，最初的做法是用手机端的视口宽度去模拟PC端的 980px ，那么内容会被缩放，用户浏览时需要自行放大。</p>
+</li>
+<li><p>交互方式</p>
+<ul>
+<li>移动端没有 hover 事件，PC端页面的 hover 在手机端中无法展现</li>
+<li>移动端有 touch 事件</li>
+</ul>
+</li>
+</ol>
+<p>那么，要想使得网页在移动端也能很好地展现出来，大概有以下几种方法：</p>
+<h2 id="移动端的适配总结"><a href="#移动端的适配总结" class="headerlink" title="移动端的适配总结"></a>移动端的适配总结</h2><p><small>把总结提到最前写是为了方便复习。</small></p>
+<ol>
+<li><a href="#Viewport元标签">viewport元标签</a></li>
+<li><a href="#媒体查询（Media Queries）">媒体查询</a>，自动探测屏幕宽度来加载相应的CSS</li>
+<li>尽量不使用绝对单位（如px），而使用相对单位（如<a href="#REM">rem</a>、em）</li>
+</ol>
+<h2 id="Viewport元标签"><a href="#Viewport元标签" class="headerlink" title="Viewport元标签"></a>Viewport元标签</h2><p>在移动端中常常会添加 meta viewport 来规定网页的显示形式。</p>
+<blockquote>
+<p><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no, initial-scale=1.0&quot;&gt;</code></p>
+</blockquote>
+<p>上面这行代码的意思是，网页宽度默认等于屏幕宽度（width=device-width），不允许用户缩放（user-scalable=no），网页初始大小占屏幕面积的100%（initial-scale=1.0）。</p>
+<ul>
+<li><code>width</code> 设置视口宽度，device-width指设备宽度</li>
+<li><code>user-scalable</code> 是否允许用户缩放， no 为不允许， yes 为允许</li>
+<li><code>initial-scale</code> 设置页面地初始缩放比例</li>
+<li><code>maximum-scale</code> 允许的最大缩放比例</li>
+<li><code>minimum-scale</code> 允许的最小缩放比例</li>
+</ul>
+<h2 id="媒体查询（Media-Queries）"><a href="#媒体查询（Media-Queries）" class="headerlink" title="媒体查询（Media Queries）"></a>媒体查询（Media Queries）</h2><ul>
+<li><p>样式表中的媒体查询。例如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">media</span> (max-width: <span class="number">980px</span>) &#123;</span><br><span class="line">  <span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段 CSS 代码规定了当媒体的宽度 ≤980px 时，背景色变成红色。</p>
+</li>
+<li><p><code>&lt;link&gt;</code> 标签中的媒体查询。例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">'stylesheet'</span> <span class="attr">href</span>=<span class="string">'style.css'</span> <span class="attr">media</span>=<span class="string">'(max-width: 980px)'</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这段代码表示当满足媒体查询的宽度 ≤980px 时， <code>style.css</code> 才会生效（页面加载时已下载好，等待条件满足时使用）。</p>
+<p>相较之下，第二个例子的媒体查询方法会更方便，即不同媒体查询结果下，引用不同的 CSS 文件，它能避免样式覆盖的问题。</p>
+</li>
+<li><p>CSS 文件中的媒体查询。例如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">import</span> url(<span class="string">"tinyScreen.css"</span>) (max-width: <span class="number">400px</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries" target="_blank" rel="noopener">Click here to learn more about Media Queries</a>.</p>
+<h2 id="触摸屏设备的交互事件"><a href="#触摸屏设备的交互事件" class="headerlink" title="触摸屏设备的交互事件"></a>触摸屏设备的交互事件</h2><ul>
+<li><p>没有 :hover 伪类</p>
+<p>  因为在触摸屏设备中，用户无法像在 PC 端上一样，把鼠标移动到某个带有 :hover 伪类的元素上就能做出回应，所以我们需要为触摸屏设备以 click 事件来模拟 PC 端中的 hover 事件。例如：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- PC 端 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="css">    <span class="selector-id">#xxx</span> &#123;</span></span><br><span class="line"><span class="undefined">      width: 50px;</span></span><br><span class="line"><span class="undefined">      height: 50px;</span></span><br><span class="line"><span class="undefined">      background-color: red;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-id">#xxx</span><span class="selector-pseudo">:hover</span> &#123;</span></span><br><span class="line"><span class="undefined">      background-color: blue;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"xxx"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>  这段代码实现的效果是：</p>
+  <pre style="white-space: normal">
+  <div id="xxx" style="width: 50px;height: 50px;background-color: red;"></div>
+  <script type="text/javascript">
+    xxx.onmouseenter = function(){
+      xxx.style.backgroundColor = 'blue';
+    };
+    xxx.onmouseout = function(){
+      xxx.style.backgroundColor = 'red';
+    };
+  </script>
+  </pre>
+
+<p>  要想在触摸屏设备中实现类似效果，那么代码应该改写成：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 触摸屏设备 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 相同部分已省略，script 加到 body 内最后 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  xxx.onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">if</span>(xxx.style.backgroundColor === <span class="string">'red'</span>)&#123;</span></span><br><span class="line"><span class="javascript">      xxx.style.backgroundColor = <span class="string">'blue'</span></span></span><br><span class="line"><span class="javascript">    &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="javascript">      xxx.style.backgroundColor = <span class="string">'red'</span></span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>touch 事件</p>
+<p>  在这里就不做深入研究，有兴趣可以看 MDN 的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Touch_events" target="_blank" rel="noopener">触摸事件</a>例子，以及<a href="https://developer.mozilla.org/samples/domref/touchevents.html" target="_blank" rel="noopener">演示效果</a>（请在触控设备中打开）。</p>
+</li>
+</ul>
+<h2 id="REM"><a href="#REM" class="headerlink" title="REM"></a>REM</h2><blockquote>
+<p>rem 是一个相对单位，这个单位代表<strong>根元素 <code>&lt;html&gt;</code> 的 <code>font-size</code> 大小</strong>。</p>
+</blockquote>
+<p>例如定义了如下样式，那么 <code>&lt;body&gt;</code> 中的字体大小实际为 18px 。它不仅适用于字体大小，还可以用在 <code>width</code>、 <code>margin</code> 等的样式上。此外，它还可以与其他单位共存。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    html &#123;</span></span><br><span class="line"><span class="undefined">      font-size: 12px;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">    body &#123;</span></span><br><span class="line"><span class="css">      <span class="selector-tag">font-size</span>: 1<span class="selector-class">.5rem</span>;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-id">#div</span> &#123;</span></span><br><span class="line"><span class="undefined">      width: 6rem;</span></span><br><span class="line"><span class="undefined">      height: 6rem;</span></span><br><span class="line"><span class="css">      <span class="selector-tag">border</span>: 1<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-id">#999</span>;</span></span><br><span class="line"><span class="undefined">      padding: 5px;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  这是一段在 body 内的文字。</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'div1'</span>&gt;</span>这是一个在 body 内的 div 。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>代码结果：</p>
+<pre style="white-space: normal">
+<span style="font-size: 18px">这是一段在 body 内的文字。</span>
+<div style="width: 72px; height: 72px; border: 1px solid #999; padding: 5px;">这是一个在 body 内的 div 。</div>
+</pre>
+
+<blockquote>
+<p>插一个拓展知识点：有趣的是，若上面例子中， div1 的宽高的单位改为 <code>em</code> ，则它的实际宽高由 72px 变成 108px 。这是因为 <code>em</code> 表示元素的 <code>font-size</code> 计算值，div1 继承了父元素 <code>&lt;body&gt;</code> 的 <code>font-size</code> 值（18px），所以它的 1em 实际上等于 18px 。 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/length" target="_blank" rel="noopener">Click here to learn more about length units</a>.</p>
+</blockquote>
+<h2 id="Sass-——-强大的-CSS-扩展语言"><a href="#Sass-——-强大的-CSS-扩展语言" class="headerlink" title="Sass —— 强大的 CSS 扩展语言"></a>Sass —— 强大的 CSS 扩展语言</h2><p>使用 Sass 来开发 CSS 可以方便样式的编写。它不仅完全兼容 CSS ，还允许我们使用变量、嵌套等，甚至还可以声明函数来使用。</p>
+<p>下面是一个 scss 文件，我们可以简单看看它的语法规则大概是怎么样的：<br><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">@function px2rem( <span class="variable">$px</span> )&#123;  <span class="comment">//自定义函数</span></span><br><span class="line">  @return <span class="variable">$px</span>/<span class="variable">$deviceWidth</span>*<span class="number">10</span> + rem;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$deviceWidth</span>: <span class="number">640</span>;        <span class="comment">//变量以$符号开头</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">ul</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: px2rem(<span class="number">256</span>);</span><br><span class="line">  <span class="attribute">padding</span>: px2rem(<span class="number">32</span>);</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">  <span class="attribute">list-style</span>: none;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">1.2em</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 嵌套</span></span><br><span class="line">  <span class="selector-tag">li</span> &#123;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">4px</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-tag">li</span>:nth-child(3) &#123;</span><br><span class="line">    <span class="attribute">border-bottom</span>: none;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>经过转换，上面的 scss 文件对应的 css 文件如下：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ul</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">4rem</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0.5rem</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">  <span class="attribute">list-style</span>: none;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">1.2em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">ul</span> <span class="selector-tag">li</span> &#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">4px</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">ul</span> <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child(3)</span> &#123;</span><br><span class="line">  <span class="attribute">border-bottom</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://sass-lang.com/guide" target="_blank" rel="noopener">Click here to learn more about Sass</a>.<br>或者，需要中文的话，这里有一篇阮一峰老师学习<a href="http://www.ruanyifeng.com/blog/2012/06/sass.html" target="_blank" rel="noopener">Sass的博客笔记</a>，讲得很详细也一眼就能看懂。</p>
+<p>结语：后期还会为本文章更新 Flex 布局。爸爸要去吃饭了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/create-jquery-api/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/09/create-jquery-api/" itemprop="url">使用原生JS实现一个jQuery的API</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T16:39:28+08:00">
+                2018-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="原生JS操作"><a href="#原生JS操作" class="headerlink" title="原生JS操作"></a>原生JS操作</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">style</span>=<span class="string">'border: 1px solid #666'</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">'li'</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码结果：</p>
+<ul style="border: 1px solid #666"><br>  <li id="li">Hi</li><br></ul>
+
+<p>现在，我想为 <code>&lt;li&gt;</code> 标签添加一个样式，<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.red</span> &#123; <span class="attribute">color</span>: red; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>并改变文本内容为“Thank you~”。用原生JS的写法就是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">li.classList.add(<span class="string">'red'</span>)</span><br><span class="line">li.textContent = <span class="string">'Thank you~'</span></span><br></pre></td></tr></table></figure></p>
+<p>代码结果：</p>
+<ul style="border: 1px solid #666"><br>  <li style="color: red">Thank you~</li><br></ul>
+
+
+<h2 id="模仿jQuery实现一个API"><a href="#模仿jQuery实现一个API" class="headerlink" title="模仿jQuery实现一个API"></a>模仿jQuery实现一个API</h2><p>如果要模仿jQuery，实现一个jQuery的API，那么实现方法如下：</p>
+<ol>
+<li>封装函数。将每个功能封装成一个函数，需要使用到时调用这个函数即可。 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 封装添加样式的函数addClass */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addClass</span>(<span class="params">node, className</span>) </span>&#123;</span><br><span class="line">  node.classList.add(className)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 封装设置内容的函数setText */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setText</span>(<span class="params">node, text</span>) </span>&#123;</span><br><span class="line">  node.textContent = text</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">addClass(li, <span class="string">'red'</span>)</span><br><span class="line">setText(li, <span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>将第一个参数（节点）提取出来变成 <code>node.functionName()</code> 的形式。</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jQuery</span>(<span class="params">node</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addClass: <span class="function"><span class="keyword">function</span>(<span class="params">className</span>)</span>&#123;</span><br><span class="line">      node.classList.add(className)</span><br><span class="line">    &#125;,</span><br><span class="line">    setText: <span class="function"><span class="keyword">function</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">      node.textContent = text</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> node = jQuery(li)</span><br><span class="line">node.addClass(<span class="string">'red'</span>)</span><br><span class="line">node.setText(<span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>处理多个节点的情况。</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">style</span>=<span class="string">'border: 1px solid #666'</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Welcome<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">jQuery</span>(<span class="params">nodeOrSelector</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> elements = (<span class="keyword">typeof</span> nodeOrSelector === <span class="string">'string'</span>) ? <span class="built_in">document</span>.querySelectorAll(nodeOrSelector) : &#123; <span class="number">0</span>: nodeOrSelector, <span class="attr">length</span>: <span class="number">1</span> &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addClass: <span class="function"><span class="keyword">function</span>(<span class="params">className</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].classList.add(className)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    setText: <span class="function"><span class="keyword">function</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].textContent = text</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> node = jQuery(<span class="string">'li'</span>)</span><br><span class="line">node.addClass(<span class="string">'red'</span>)</span><br><span class="line">node.setText(<span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>简化jQuery函数名</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.$ = jQuery;</span><br><span class="line">$(<span class="string">'li'</span>).addClass(<span class="string">'red'</span>)</span><br><span class="line">$(<span class="string">'li'</span>).setText(<span class="string">'Thank you~'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>最终运行结果：</p>
+<ul style="border: 1px solid #666"><br>  <li style="color: red">Thank you~</li><br>  <li style="color: red">Thank you~</li><br></ul>
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>说白了，jQuery就是一个函数，它返回一个对象，里面包含节点的属性和方法。节点可以调用这些方法来操作DOM。</p>
+<p>PS：完整代码如下<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.jQuery = <span class="function"><span class="keyword">function</span>(<span class="params">nodeOrSelector</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> elements = (<span class="keyword">typeof</span> nodeOrSelector === <span class="string">'string'</span>) ? <span class="built_in">document</span>.querySelectorAll(nodeOrSelector) : &#123;</span><br><span class="line">    <span class="number">0</span>: nodeOrSelector,</span><br><span class="line">    length: <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    addClass: <span class="function"><span class="keyword">function</span>(<span class="params">className</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].classList.add(className)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    setText: <span class="function"><span class="keyword">function</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.length; i++)&#123;</span><br><span class="line">        elements[i].textContent = text</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.$ = jQuery</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/13/some-html-tags/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -983,7 +1343,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1033,7 +1393,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

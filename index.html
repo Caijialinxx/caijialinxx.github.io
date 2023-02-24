@@ -229,6 +229,270 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/14/how-to-delegate-js-events/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/14/how-to-delegate-js-events/" itemprop="url">事件委托——让事件监听更便捷</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-14T15:30:45+08:00">
+                2020-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我们知道，在 HTML 中为一个元素绑定事件，需要对这个元素添加事件监听，如 <code>onclick</code> 属性或者 <code>addEventListener()</code> 。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"list"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-1"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 1)"</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-2"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 2)"</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-3"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 3)"</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-4"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 4)"</span>&gt;</span>Item 4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-5"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 5)"</span>&gt;</span>Item 5<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-6"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 6)"</span>&gt;</span>Item 6<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-1'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 1'</span>) &#125;)</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-2'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 2'</span>) &#125;)</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-3'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 3'</span>) &#125;)</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-4'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 4'</span>) &#125;)</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-5'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 5'</span>) &#125;)</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-6'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 6'</span>) &#125;)</span><br></pre></td></tr></table></figure>
+<p>这样看起来实在是太笨啦！并且在动态增减列表元素的场景下，它无法及时地添加或移除事件监听。怎么让事情变得更简单些呢？那就是使用事件委托来进行监听：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#list'</span>).addEventListener(<span class="string">'click'</span>, (e) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (e.target.tagName === <span class="string">'LI'</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`I am <span class="subst">$&#123;e.target.textContent&#125;</span>`</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>代码是不是立马就变得清爽起来～我们只用一个事件监听就实现在每个 <code>&lt;li&gt;</code> 元素点击时都能执行某些操作。</p>
+<p>但现实中，我们的页面结构往往不会这么简单，需要产生交互的元素里面可能包含了很多子元素，例如图标、被其他标签包裹的文本等，这使得 <code>event.target</code> 不一定是目标元素。这个时候我们就得对当前点击的元素逐层向上寻找父元素，若找到目标元素，则说明我们需要执行对应的操作。所以，我们需要写一个更通用的事件委托：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">delegate</span>(<span class="params">eventType, targetSelector, fn</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.addEventListener(eventType, (e) =&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> currentEl = e.target;</span><br><span class="line">    <span class="keyword">while</span>(!currentEl.matches(targetSelector)) &#123; <span class="comment">// 通过选择器来匹配，而不是写死tagName匹配</span></span><br><span class="line">      <span class="keyword">if</span>(currentEl === <span class="built_in">document</span>.documentElement) &#123; <span class="comment">// 当已经查到顶后，及时停止向上查找</span></span><br><span class="line">        currentEl = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      currentEl = currentEl.parentElement;      </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(currentEl) &#123;</span><br><span class="line">      fn(currentEl);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">delegate(<span class="string">'click'</span>, <span class="string">'li'</span>, () =&gt; &#123; ... &#125;)</span><br></pre></td></tr></table></figure></p>
+<p>最后，你可以到这里来 <a href="https://jsbin.com/negebekuso/3/edit?html,js,output" target="_blank" rel="noopener">Try And Code</a> 一下。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/06/create-multi-git-users/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/06/create-multi-git-users/" itemprop="url">创建多个Git用户、推送多个远程仓库</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-06T17:13:44+08:00">
+                2020-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="创建多个Git用户"><a href="#创建多个Git用户" class="headerlink" title="创建多个Git用户"></a>创建多个Git用户</h2><ol>
+<li><p>生成多个ssh-key，并将对应的publicKey添加到git管理仓库中</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -b 4096 -C <span class="string">"your_email@example.com"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置~/.ssh/config</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The git info for company</span></span><br><span class="line"><span class="comment"># gitlab user(your_email1@example1.com)</span></span><br><span class="line">Host git@x.x.x.x</span><br><span class="line">  HostName x.x.x.x</span><br><span class="line">  PasswordAuthentication no</span><br><span class="line">  Port xxxx</span><br><span class="line">  User your_email1</span><br><span class="line">  IdentityFile ~/.ssh/example1/id_rsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># The git info for my github</span></span><br><span class="line"><span class="comment"># Default github user(your_email2@example2.com)</span></span><br><span class="line">Host git@github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User your_email2</span><br><span class="line">  IdentityFile ~/.ssh/example2/id_rsa</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>复制完整的 SSH 公钥并在对应的远程仓库中添加 SSH key 配置。</p>
+</li>
+<li>验证 SSH 连接 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T [Host]</span><br><span class="line"><span class="comment"># 如 ssh -T git@github.com</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="推送项目到不同仓库地址"><a href="#推送项目到不同仓库地址" class="headerlink" title="推送项目到不同仓库地址"></a>推送项目到不同仓库地址</h2><ol>
+<li><p>进入项目，添加远程仓库B地址</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add 远程仓库B的别名（随意） 远程仓库B的地址</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在A项目中将commit提交到远程仓库B</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push 远程仓库B的别名</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/23/hooks-useState/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -1561,344 +1825,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/09/http-request-and-response/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="caijialinxx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Caijialinxx">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/09/09/http-request-and-response/" itemprop="url">HTTP 的请求和响应</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-09T22:02:04+08:00">
-                2018-09-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>HTTP 协议是用来指导服务器和浏览器之间如何进行沟通的，一般来说端口默认是 <code>80</code> 。浏览器通过向服务器发送 HTTP 请求，来请求服务器中的资源。服务器根据这个请求，返回相应的响应。最后浏览器下载这个响应的实体内容。</p>
-<h2 id="HTTP请求"><a href="#HTTP请求" class="headerlink" title="HTTP请求"></a>HTTP请求</h2><p>根据 <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html" target="_blank" rel="noopener">RFC 2616 的第五章 Request</a> ，一个请求基本包括请求行、请求头、 CRLF 至少这三部分内容，有时还有第四部分请求实体。<br><img src="https://i.loli.net/2018/10/09/5bbc667c2232a.png" alt="RFC 2616规范中HTTP请求的结构"></p>
-<p>例如，我们使用下列命令向 <code>https://www.baidu.com</code> 发送 POST 请求（<a href="https://explainshell.com/explain?cmd=curl+-X+POST+-d+%27%7B%22name%22%3A%22caijialinxx%22%7D%27+-H+%27Content-Type%3A+application%2Fjson%27+-s+-v+https%3A%2F%2Fwww.baidu.com" target="_blank" rel="noopener">点击查看命令的解释</a>），可以看到它的请求报文如下图所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST -d &apos;&#123;&quot;name&quot;:&quot;caijialinxx&quot;&#125;&apos; -H &apos;Content-Type: application/json&apos; -s -v https://www.baidu.com</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://i.loli.net/2018/10/09/5bbc72d1e70f7.png" alt="向 https://www.baidu.com 发送POST请求的请求报文"></p>
-<ul>
-<li>第一部分即为请求行，分别包括 <code>请求方法</code> 、 <code>请求URI</code> 、 <code>HTTP版本</code> ，它们之间使用英文空格 <code>SP</code> 分隔，此外，最后是一个换行符 <code>CRLF</code> 。</li>
-<li>第二部分是以 <code>key: value</code> 形式组成的请求头。其中包括 request-header （如 <code>Host</code> <code>User-Agent</code> <code>Accept</code>）和 entity-header （如 <code>Content-Type</code> <code>Content-Length</code>）。每一对 <code>key: value</code> 请求头后也都有一个 <code>CRLF</code> 。</li>
-<li>第三部分是固定不变的单独一行 <code>CRLF</code> ，用于分隔第二部分和第四部分。</li>
-<li>第四部分是发送请求时带上的请求实体，即 <code>{&quot;name&quot;:&quot;caijialinxx&quot;}</code> 。命令行在第二部分中添加的 <code>Content-Type: application/json</code> 请求头，标示着第四部分是 JSON 格式的数据。</li>
-</ul>
-<p>我们发送请求的方法有以下几种：</p>
-<ul>
-<li><strong>GET</strong><br>GET 方法是 HTTP 请求中最常用的方法，通常用于请求服务器中的某个资源。此方法应只用来获取数据。</li>
-<li>HEAD<br>HEAD 方法与 GET 方法类似，但是服务器在响应中只返回头部，而不返回响应实体。</li>
-<li><strong>POST</strong><br>此方法最初是用来向服务器输入数据的。实际上经常与 HTML 表单结合使用，表单被提交时，数据通常被附加到请求实体中发送给服务器。</li>
-<li><strong>PUT</strong><br>此方法让服务器用请求的实体部分来创建一个由请求中的 URL 命名的新文档，如果这个 URL 已存在，那么此次请求的主体会替代原有的主体。</li>
-<li><strong>PATCH</strong><br>用于请求服务器修改指定资源的某个部分。</li>
-<li><strong>DELETE</strong><br>向服务器请求删除指定 URL 对应的资源。</li>
-<li>OPTIONS<br>请求 Web 服务器告知其支持的各种功能，如支持的方法或对请求某些资源支持的方法。</li>
-<li>CONNECT<br>建立一个到由目标资源标识的服务器的隧道。</li>
-<li>TRACE<br>沿着到目标资源的路径执行一个消息环回测试。</li>
-</ul>
-<h2 id="HTTP响应"><a href="#HTTP响应" class="headerlink" title="HTTP响应"></a>HTTP响应</h2><p>根据 <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6" target="_blank" rel="noopener">RFC 2616 的第六章 Response</a> ，一个响应包括状态行、响应头、 CRLF 和响应实体。<br><img src="https://i.loli.net/2018/10/09/5bbc81ec9067c.png" alt="RFC 2616规范中HTTP响应的结构"></p>
-<p>在上一部分中（<a href="#HTTP请求">HTTP 请求</a>），我们向 <code>https://www.baidu.com</code> 发送了一个 POST 请求，它紧接着返回了响应给我们，让我们来看看它的响应报文：<br><img src="https://i.loli.net/2018/10/09/5bbc84836492c.png" alt="服务器返回的响应报文"></p>
-<ul>
-<li>第一部分即为状态行，分别包括 <code>HTTP版本</code> 、 <code>状态码</code> 、 <code>状态解释</code> ，它们之间使用英文空格 <code>SP</code> 分隔，此外，最后是一个换行符 <code>CRLF</code> 。在此报文中我们可以看到状态码是 <code>302</code> ，表示页面暂时被另一个 URI 所替代，但客户端在未来的请求中仍应使用当前请求的 URI 。</li>
-<li>第二部分是以 <code>key: value</code> 形式组成的响应头。其中包括 general-header (<code>Connection</code> , <code>Date</code>) 、 response-header (<code>ETag</code> , <code>Server</code>) 和 entity-header (<code>Content-Type</code> , <code>Content-Length</code>) 。每一对 <code>key: value</code> 请求头后也都有一个 <code>CRLF</code> 。</li>
-<li>第三部分是固定不变的单独一行 <code>CRLF</code> ，同请求报文的第三部分。</li>
-<li>第四部分是响应实体。在此报文第二部分中我们可以看到 <code>Content-Type: text/html</code> 响应头，表明第四部分是一个 HTML 文档，它有 3824 字节长度的数据。</li>
-</ul>
-<p>关于状态码的详解，请参考我的另一篇文章 <a href="https://caijialinxx.github.io/2018/06/27/http-status-code/" target="_blank" rel="noopener">一些常见的 HTTP 状态码</a> 。</p>
-<h2 id="如何使用开发者工具查看报文"><a href="#如何使用开发者工具查看报文" class="headerlink" title="如何使用开发者工具查看报文"></a>如何使用开发者工具查看报文</h2><p>作为一个前端开发人员，学会用开发者工具分析请求是一件很有帮助且不费时间的事情。下面，我将举例如何在 Chrome 中利用开发者工具查看请求报文和响应报文：</p>
-<ol>
-<li>按下 <kbd>F12</kbd> 即可打开开发者工具。</li>
-<li><p>点击 Network ，当访问一个网页时，这里将会出现很多请求结果。我以阮一峰老师的个人网站为例，在地址栏中输入 <code>www.ruanyifeng.com</code> ，然后可以看到如下请求结果：<br><img src="https://i.loli.net/2018/10/09/5bbcc122db1e4.png" alt="在Chrome中访问www.ruanyifeng.com"></p>
-</li>
-<li><p>我们点开第一个 <code>www.ruanyifeng.com</code> ，点击 Request Header 中的 view source，这才是我们该看的格式。于是它的请求报文如下：<br><img src="https://i.loli.net/2018/10/09/5bbcc11eb4bde.png" alt="www.ruanyifeng.com的请求报文"></p>
-<ul>
-<li>浏览器使用 <code>GET</code> 方法向 <code>http://www.ruanyifeng.com</code> 发送一个请求，并告诉服务器它接受的响应实体类型、 Cookie 等请求头信息。</li>
-</ul>
-</li>
-<li><p>然后同样的，点开 Response Header 中的 view source ，看到服务器发回的响应报文如下所示：<br><img src="https://i.loli.net/2018/10/09/5bbcc11eea954.png" alt="www.ruanyifeng.com的响应报文"></p>
-<ul>
-<li>服务器返回状态码 <code>302</code> ，告诉我们这个域名被响应头 <code>Location</code> 指向的 URI 所暂时替代，并自动完成了重定向，于是得到了第二个请求结果（箭头指向的红框）。</li>
-</ul>
-</li>
-<li><p>查看重定向的请求结果：<br><img src="https://i.loli.net/2018/10/09/5bbcc43290425.png" alt="home.html的报文"></p>
-<ul>
-<li>重定向使得浏览器重新向服务器请求 <code>http://www.ruanyifeng.com/home.html</code> 这个资源，在 Response Headers 中我们可以看到此次请求成功（状态码为 <code>200</code> ），并且返回的响应实体是一个 HTML 文档，也就是我们看到的这个网页，一共有 4346 字节的内容。这个网页最后一次更新是在格林尼治的 2018-5-24 星期四 05:56:54 等信息。</li>
-</ul>
-</li>
-</ol>
-<p>现在应该知道要如何利用开发者工具查看我们的网络请求了吧~ 好处你用过就知道~ 当然开发者工具还不只有这些功能，在这里我就不做深入研究。</p>
-<hr>
-<p>天色已晚，本文完。</p>
-<p>若文中有错误还请指正与包涵！</p>
-<p>原文链接：<a href="https://caijialinxx.github.io/2018/09/09/http-request-and-response/" target="_blank" rel="noopener">https://caijialinxx.github.io/2018/09/09/http-request-and-response/</a></p>
-<p>转载请注明出处。</p>
-<p>参考资料：</p>
-<ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods" target="_blank" rel="noopener">HTTP 请求方法</a> —— MDN</li>
-<li><a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5" target="_blank" rel="noopener">HTTP 协议之请求</a></li>
-<li><a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6" target="_blank" rel="noopener">HTTP 协议之响应</a></li>
-<li><a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10" target="_blank" rel="noopener">HTTP 协议之状态码</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/seo-in-front-end/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="caijialinxx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Caijialinxx">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/30/seo-in-front-end/" itemprop="url">前端搜索引擎优化（SEO）的技巧</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-30T17:17:48+08:00">
-                2018-07-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>我们常常可以看到一些面试题中有问【 HTML 语义化的好处是什么】，很多人都可以溜溜地说其中一个好处就是【有利于 SEO 】。那么，什么是 SEO ，大家真的都清楚吗？</p>
-<h2 id="搜索引擎优化（SEO）"><a href="#搜索引擎优化（SEO）" class="headerlink" title="搜索引擎优化（SEO）"></a>搜索引擎优化（SEO）</h2><p><a href="https://zh.wikipedia.org/wiki/%E6%90%9C%E5%B0%8B%E5%BC%95%E6%93%8E%E6%9C%80%E4%BD%B3%E5%8C%96" target="_blank" rel="noopener">搜索引擎优化</a>（英语： Search Engine Optimization ，缩写为 SEO ），根据维基百科的解释是：</p>
-<blockquote>
-<p>它是一种透过了解搜索引擎的运作规则来调整网站，以及提高目的网站在有关搜索引擎内排名的方式。由于不少研究发现，搜索引擎的用户往往只会留意搜索结果最前面的几个条目，所以不少网站都希望透过各种形式来影响搜索引擎的排序，让自己的网站可以有优秀的搜索排名。当中尤以各种依靠广告维生的网站为甚。</p>
-</blockquote>
-<p>也就是说，通过搜索引擎优化，我们的网站可以在搜索结果的排名中靠前。</p>
-<p>那么，作为一个前端，我们该如何为搜索引擎优化做出一点贡献呢？</p>
-<h2 id="优化的技巧"><a href="#优化的技巧" class="headerlink" title="优化的技巧"></a>优化的技巧</h2><p>在学习如何优化之前，我们最好了解一下当我们在“百度一下”或者“ Google 搜索”时，搜索引擎都做了一些什么。</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/BNHR6IQJGZs?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
-<p>这个视频 <a href="https://youtu.be/BNHR6IQJGZs" target="_blank" rel="noopener">How Search Works</a> 解释了搜索引擎是如何工作的。需要科学上网才能看得到，当然在这里我也会总结一下这个视频的大意：</p>
-<p>当搜索进行时，它会从“蜘蛛”事先抓取到的大量有关联性的索引中，搜索所有包含用户输入的关键字的网页，然后根据算法给出每个网页一个总评分，再根据评分的高低给用户返回搜索结果。而这些包含关键字的内容，可以是文章标题、描述、关键字、内容、甚至是链接等。</p>
-<p>由上可以得知，要想优化，我们可以从这些方面入手。</p>
-<h3 id="创建唯一且准确的网页标题-lt-title-gt"><a href="#创建唯一且准确的网页标题-lt-title-gt" class="headerlink" title="创建唯一且准确的网页标题 &lt;title&gt;"></a>创建唯一且准确的网页标题 <code>&lt;title&gt;</code></h3><p><code>&lt;title&gt;</code> 标记可告诉用户和搜索引擎特定网页的主题是什么。它应放置在 HTML 文档的 <code>&lt;head&gt;</code> 元素中。我们应该为网站上的每个网页创建一个唯一标题，并且尽量避免与网页内容无关或使用默认或模糊的标题。如：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 正确示范 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>前端搜索引擎优化的技巧<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 错误示范 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>我的文档<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="使用-meta-description"><a href="#使用-meta-description" class="headerlink" title="使用 meta description"></a>使用 <code>meta description</code></h3><p>我们可以使用 <code>meta description</code> 标签来准确概括总结网页内容。我们应避免内容中出现关键词的堆砌、描述过长、描述过于笼统简单，如直接拷贝关键词或正文内容、或“这是一个网页”这种没有实际性意义的描述等现象。正确示范如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">'description'</span> <span class="attr">content</span>=<span class="string">'本文主要介绍搜索引擎优化（SEO）的技巧，如使用title、description、keywords、语义化标签、img的alt属性等。'</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="使用-meta-keywords"><a href="#使用-meta-keywords" class="headerlink" title="使用 meta keywords"></a>使用 <code>meta keywords</code></h3><p>我们可以使用 <code>meta keywords</code> 来提炼网页重要关键字，如：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">'keywords'</span> <span class="attr">content</span>=<span class="string">'SEO,搜索引擎优化,网页排名优化'</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>但有些建站者为了网页能有较好的排名，故意在这个标签中大量堆砌关键字，也就是所谓的“<a href="https://zh.wikipedia.org/zh/%E6%90%9C%E5%B0%8B%E5%BC%95%E6%93%8E%E6%9C%80%E4%BD%B3%E5%8C%96#%E9%BB%91%E5%B8%BD%E6%96%B9%E6%B3%95" target="_blank" rel="noopener">黑帽方法</a>”之一。于是搜索引擎为了为用户提供优质的搜索结果，优化了它们的爬取算法——当出现大量关键字堆砌时，搜索引擎可能会降低这个网站的排名甚至将其列入黑名单。所以我们需慎用或者不用这个标签，使用的话一般设置3-4个关键词即可。</p>
-<p>注意： <code>&lt;title&gt;</code> 、 <code>meta description</code> 和 <code>meta keywords</code> 三者的权重依次减小，我们要想网页有好的排名，必须合理使用这三个标签。</p>
-<h3 id="使用语义化元素"><a href="#使用语义化元素" class="headerlink" title="使用语义化元素"></a>使用语义化元素</h3><p>在合适的位置使用合适的元素表达合适的内容，让用户和“蜘蛛”能一目了然文档结构。例如使用 <code>&lt;h1&gt;</code> 可以让“蜘蛛”知道这是很重要的内容。然而，值得注意的是，例如在想要表达强调时，我们不应该滥用标题元素或者 <code>&lt;b&gt;</code> 、 <code>&lt;i&gt;</code> 这种没有实际意义的标签，换而可以使用 <code>&lt;em&gt;</code> 或 <code>&lt;strong&gt;</code> 来表示强调。此外， <code>&lt;h1&gt;</code> 的权重比 <code>&lt;h2&gt;</code> 的大，我们不应该为了增大权重而去滥用 <code>&lt;h1&gt;</code> ，一般来说 <code>&lt;h1&gt;</code> 用于正文的标题。</p>
-<h3 id="利用-lt-img-gt-中的-alt-属性"><a href="#利用-lt-img-gt-中的-alt-属性" class="headerlink" title="利用 &lt;img&gt; 中的 alt 属性"></a>利用 <code>&lt;img&gt;</code> 中的 <code>alt</code> 属性</h3><p><code>alt</code> 属性可以在图片未成功显示时候，使用文本来代替图片的呈现，使“蜘蛛”可以抓取到这个信息。此外它还可以解决浏览器禁用图像或屏幕阅读器解析等问题。</p>
-<h3 id="设置-rel-39-nofollow-39-忽略跟踪"><a href="#设置-rel-39-nofollow-39-忽略跟踪" class="headerlink" title="设置 rel=&#39;nofollow&#39; 忽略跟踪"></a>设置 <code>rel=&#39;nofollow&#39;</code> 忽略跟踪</h3><p>如果某个 <code>&lt;a&gt;</code> 的链接不需要跟踪，那么添加 <code>rel=&#39;nofollow&#39;</code> 即可通知“蜘蛛”忽略跟踪。因为“蜘蛛”分配到每个页面的权重是一定的，为了集中网页权重并将权重分给其他必要的链接，为不必跟踪的链接添加这个属性就显得很必要了。</p>
-<h3 id="提高加载速度"><a href="#提高加载速度" class="headerlink" title="提高加载速度"></a>提高加载速度</h3><p>我们应尽量让结构（HTML）、表现（CSS）及行为（JavaScript）三者分离。如果在一个 HTML 页面中，编写大量的 CSS 样式或脚本，会拖慢其加载速度，此外，如果不为 <code>&lt;img&gt;</code> 定义宽高，那么会引起页面重新渲染，同样也会影响加载速度。一旦加载超时，“蜘蛛”就会放弃爬取。</p>
-<h3 id="扁平化网站结构"><a href="#扁平化网站结构" class="headerlink" title="扁平化网站结构"></a>扁平化网站结构</h3><p>一般来说，一个网站的结构层次越少，越有利于“蜘蛛”的爬取。所以目录结构一般不多于 3 级，否则“蜘蛛”很容易不愿意继续往下爬。就像用户在操作一个网页一样，层级大于 3 就很影响用户体验了，“蜘蛛”就是模仿用户的心理。</p>
-<h3 id="合理安排重要内容的位置"><a href="#合理安排重要内容的位置" class="headerlink" title="合理安排重要内容的位置"></a>合理安排重要内容的位置</h3><p>我们应该将含重要内容的 HTML 代码放在最前面，因为“蜘蛛”爬取 HTML 的顺序是从上到下，有的搜索引擎对抓取长度有限制，所以要保证重要内容被优先爬取。并且，重要内容不应该由 JavaScript 输出，因为“蜘蛛”没有办法读取 JavaScript ，同时也要少用 iframe ，因为“蜘蛛”一般不会去读取它里面的内容。</p>
-<hr>
-<p>本文完。</p>
-<p>若文中有错误还请指正与包涵！</p>
-<p>原文链接：<a href="https://caijialinxx.github.io/2018/07/30/seo-in-front-end/" target="_blank" rel="noopener">https://caijialinxx.github.io/2018/07/30/seo-in-front-end/</a></p>
-<p>转载请注明出处。</p>
-<p>参考资料：</p>
-<ul>
-<li><a href="https://zh.wikipedia.org/wiki/搜尋引擎最佳化" target="_blank" rel="noopener">搜索引擎优化</a> —— 维基百科</li>
-<li><a href="https://www.cnblogs.com/EnSnail/p/5671345.html" target="_blank" rel="noopener">前端SEO技巧</a></li>
-<li><a href="https://support.google.com/webmasters/answer/7451184?hl=zh-Hans" target="_blank" rel="noopener">搜索引擎优化 (SEO) 新手指南</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1949,7 +1875,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1999,7 +1925,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
