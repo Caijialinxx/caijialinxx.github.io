@@ -845,8 +845,68 @@
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>按照 React <code>16.8.0</code> 版本之前的机制，我们知道如果某个组件是函数组件，则这个 function 就相当于 Class 组件中的 <code>render()</code> ，不能拥有自己的状态（故又称其为无状态组件，stateless components），所以数据（输入）必须是来自父组件的 <code>props</code> 。而在 <code>&gt;=16.8.0</code> 中，函数组件支持通过使用 <a href="https://reactjs.org/docs/hooks-intro.html" target="_blank" rel="noopener">Hooks</a> 来为其引入 state 的能力，例如上面所展示的例子：这个 <code>App</code> 组件提供了一个按钮，每次点击这个都会执行 <code>setCount</code> 使得 <code>count</code> 增加 1 ，并更新在视图上。</p>
 <p>为了更直观地看到使用了 Hooks 的函数组件和 Class 组件的区别，我写了一个<a href="https://codesandbox.io/embed/pedantic-grothendieck-bmqgz?fontsize=14&amp;hidenavigation=1&amp;theme=dark" target="_blank" rel="noopener"><del>对比示例</del></a>。</p>
 <blockquote>
-<p>2023-3-11更新：<br>上方的代码链接失效了，我直接将代码贴在下方。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&gt; import React, &#123; Component, useState &#125; from &quot;react&quot;;</span><br><span class="line">&gt; import ReactDOM from &quot;react-dom&quot;;</span><br><span class="line">&gt; </span><br><span class="line">&gt; const logNewValueAfterOneSecond = (c, value) =&gt; console.log(`1 second later, $&#123;c&#125;’s count:`, value);</span><br><span class="line">&gt; </span><br><span class="line">&gt; const FunctionComponent = () =&gt; &#123;</span><br><span class="line">&gt;   const [count, setCount] = useState(0);</span><br><span class="line">&gt;   console.log(&quot;A’s count:&quot;, count);</span><br><span class="line">&gt;   return (</span><br><span class="line">&gt;     &lt;p&gt;</span><br><span class="line">&gt;       &lt;span&gt;A: &#123;count&#125;&lt;/span&gt;</span><br><span class="line">&gt;       &lt;button</span><br><span class="line">&gt;         onClick=&#123;() =&gt; &#123;</span><br><span class="line">&gt;         setCount(count + 1);</span><br><span class="line">&gt;         setTimeout(() =&gt; logNewValueAfterOneSecond(&quot;A&quot;, count), 1000);</span><br><span class="line">&gt;         &#125;&#125;</span><br><span class="line">&gt;       &gt;</span><br><span class="line">&gt;         A+1</span><br><span class="line">&gt;       &lt;/button&gt;</span><br><span class="line">&gt;     &lt;/p&gt;</span><br><span class="line">&gt;    );</span><br><span class="line">&gt;  &#125;;</span><br><span class="line">&gt; </span><br><span class="line">&gt; class ClassComponent extends Component &#123;</span><br><span class="line">&gt;   constructor() &#123;</span><br><span class="line">&gt;     uper();</span><br><span class="line">&gt;     this.state = &#123; count: 0 &#125;;</span><br><span class="line">&gt;   &#125;</span><br><span class="line">&gt;   render() &#123;</span><br><span class="line">&gt;     console.log(&quot;B’s count:&quot;, this.state.count);</span><br><span class="line">&gt;     return (</span><br><span class="line">&gt;       &lt;p&gt;</span><br><span class="line">&gt;         &lt;span&gt;B: &#123;this.state.count&#125;&lt;/span&gt;</span><br><span class="line">&gt;         &lt;button</span><br><span class="line">&gt;           onClick=&#123;() =&gt; &#123;</span><br><span class="line">&gt;             this.setState(&#123; count: this.state.count + 1 &#125;);</span><br><span class="line">&gt;             setTimeout(</span><br><span class="line">&gt;               () =&gt; logNewValueAfterOneSecond(&quot;B&quot;, this.state.count),</span><br><span class="line">&gt;               1000</span><br><span class="line">&gt;             );</span><br><span class="line">&gt;           &#125;&#125;</span><br><span class="line">&gt;         &gt;</span><br><span class="line">&gt;           B+1</span><br><span class="line">&gt;         &lt;/button&gt;</span><br><span class="line">&gt;       &lt;/p&gt;</span><br><span class="line">&gt;     );</span><br><span class="line">&gt;   &#125;</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt; </span><br><span class="line">&gt; function App() &#123;</span><br><span class="line">&gt;   return (</span><br><span class="line">&gt;     &lt;div&gt;</span><br><span class="line">&gt;       &lt;FunctionComponent /&gt;</span><br><span class="line">&gt;       &lt;ClassComponent /&gt;</span><br><span class="line">&gt;     &lt;/div&gt;</span><br><span class="line">&gt;   );</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt; </span><br><span class="line">&gt; const rootElement = document.getElementById(&quot;root&quot;);</span><br><span class="line">&gt; ReactDOM.render(&lt;App /&gt;, rootElement);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure></p>
-<p>新的代码链接：<a href="https://codesandbox.io/s/function-component-vs-class-component-zfybbl" target="_blank" rel="noopener">Function Component vs Class Component</a></p>
+<p>2023-3-11更新：<br>上方的代码链接失效了，我直接将代码贴在下方：</p>
+<pre><code>import React, { Component, useState } from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+
+const logNewValueAfterOneSecond = (c, value) =&gt; console.log(`1 second later, ${c}’s count:`, value);
+
+const FunctionComponent = () =&gt; {
+  const [count, setCount] = useState(0);
+  console.log(&quot;A’s count:&quot;, count);
+  return (
+    &lt;p&gt;
+      &lt;span&gt;A: {count}&lt;/span&gt;
+      &lt;button
+        onClick={() =&gt; {
+        setCount(count + 1);
+        setTimeout(() =&gt; logNewValueAfterOneSecond(&quot;A&quot;, count), 1000);
+        }}
+      &gt;
+        A+1
+      &lt;/button&gt;
+    &lt;/p&gt;
+   );
+ };
+
+class ClassComponent extends Component {
+  constructor() {
+    uper();
+    this.state = { count: 0 };
+  }
+  render() {
+    console.log(&quot;B’s count:&quot;, this.state.count);
+    return (
+      &lt;p&gt;
+        &lt;span&gt;B: {this.state.count}&lt;/span&gt;
+        &lt;button
+          onClick={() =&gt; {
+            this.setState({ count: this.state.count + 1 });
+            setTimeout(
+              () =&gt; logNewValueAfterOneSecond(&quot;B&quot;, this.state.count),
+              1000
+            );
+          }}
+        &gt;
+          B+1
+        &lt;/button&gt;
+      &lt;/p&gt;
+    );
+  }
+}
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;FunctionComponent /&gt;
+      &lt;ClassComponent /&gt;
+    &lt;/div&gt;
+  );
+}
+
+const rootElement = document.getElementById(&quot;root&quot;);
+ReactDOM.render(&lt;App /&gt;, rootElement);
+</code></pre><p>新的代码链接：<a href="https://codesandbox.io/s/function-component-vs-class-component-zfybbl" target="_blank" rel="noopener">Function Component vs Class Component</a></p>
 </blockquote>
 <p><code>A</code> 是使用了 Hooks 的函数组件， <code>B</code> 是我们熟悉的 Class 组件。当我们分别点击两个按钮更新数据时，我们已知 <code>B</code> 组件不会重新调用而是在 <code>setState</code> 通知变化之后重新渲染（render），而 <code>A</code> 组件是如何处理更新的呢？让我们来分析一下这个过程：</p>
 <ul>
