@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Notes,JavaScript,DOM,面试,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="我们知道，在 HTML 中为一个元素绑定事件，需要对这个元素添加事件监听，如 onclick 属性或者 addEventListener() 。12345678&amp;lt;ul id=&quot;list&quot;&amp;gt;  &amp;lt;li id=&quot;item-1&quot; onclick=&quot;console.log(&apos;I am Item 1)&quot;&amp;gt;Item 1&amp;lt;/li&amp;gt;  &amp;lt;li id=&quot;item-2&quot; on">
+<meta name="keywords" content="Notes,JavaScript,DOM,面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件委托——让事件监听更便捷">
+<meta property="og:url" content="http://yoursite.com/2020/04/24/how-to-delegate-js-events/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="我们知道，在 HTML 中为一个元素绑定事件，需要对这个元素添加事件监听，如 onclick 属性或者 addEventListener() 。12345678&amp;lt;ul id=&quot;list&quot;&amp;gt;  &amp;lt;li id=&quot;item-1&quot; onclick=&quot;console.log(&apos;I am Item 1)&quot;&amp;gt;Item 1&amp;lt;/li&amp;gt;  &amp;lt;li id=&quot;item-2&quot; on">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2023-03-25T09:12:37.720Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="事件委托——让事件监听更便捷">
+<meta name="twitter:description" content="我们知道，在 HTML 中为一个元素绑定事件，需要对这个元素添加事件监听，如 onclick 属性或者 addEventListener() 。12345678&amp;lt;ul id=&quot;list&quot;&amp;gt;  &amp;lt;li id=&quot;item-1&quot; onclick=&quot;console.log(&apos;I am Item 1)&quot;&amp;gt;Item 1&amp;lt;/li&amp;gt;  &amp;lt;li id=&quot;item-2&quot; on">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/24/how-to-delegate-js-events/">
+
+
+
+
+
+  <title>事件委托——让事件监听更便捷 | Caijialinxx</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Caijialinxx</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/24/how-to-delegate-js-events/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="caijialinxx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Caijialinxx">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">事件委托——让事件监听更便捷</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-24T15:30:45+08:00">
+                2020-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们知道，在 HTML 中为一个元素绑定事件，需要对这个元素添加事件监听，如 <code>onclick</code> 属性或者 <code>addEventListener()</code> 。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">"list"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-1"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 1)"</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-2"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 2)"</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-3"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 3)"</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-4"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 4)"</span>&gt;</span>Item 4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-5"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 5)"</span>&gt;</span>Item 5<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">"item-6"</span> <span class="attr">onclick</span>=<span class="string">"console.log('I am Item 6)"</span>&gt;</span>Item 6<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-1'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 1'</span>) &#125;)</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-2'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 2'</span>) &#125;)</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-3'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 3'</span>) &#125;)</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-4'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 4'</span>) &#125;)</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-5'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 5'</span>) &#125;)</span><br><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#item-6'</span>).addEventListener(<span class="string">'click'</span>, () =&gt; &#123; <span class="built_in">console</span>.log(<span class="string">'I am Item 6'</span>) &#125;)</span><br></pre></td></tr></table></figure>
+<p>这样看起来实在是太笨啦！并且在动态增减列表元素的场景下，它无法及时地添加或移除事件监听。怎么让事情变得更简单些呢？那就是使用事件委托来进行监听：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.querySelector(<span class="string">'#list'</span>).addEventListener(<span class="string">'click'</span>, (e) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (e.target.tagName === <span class="string">'LI'</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`I am <span class="subst">$&#123;e.target.textContent&#125;</span>`</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>代码是不是立马就变得清爽起来～我们只用一个事件监听就实现在每个 <code>&lt;li&gt;</code> 元素点击时都能执行某些操作。</p>
+<p>但现实中，我们的页面结构往往不会这么简单，需要产生交互的元素里面可能包含了很多子元素，例如图标、被其他标签包裹的文本等，这使得 <code>event.target</code> 不一定是目标元素。这个时候我们就得对当前点击的元素逐层向上寻找父元素，若找到目标元素，则说明我们需要执行对应的操作。所以，我们需要写一个更通用的事件委托：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">delegate</span>(<span class="params">eventType, targetSelector, fn</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.addEventListener(eventType, (e) =&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> currentEl = e.target;</span><br><span class="line">    <span class="keyword">while</span>(!currentEl.matches(targetSelector)) &#123; <span class="comment">// 通过选择器来匹配，而不是写死tagName匹配</span></span><br><span class="line">      <span class="keyword">if</span>(currentEl === <span class="built_in">document</span>.documentElement) &#123; <span class="comment">// 当已经查到顶后，及时停止向上查找</span></span><br><span class="line">        currentEl = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      currentEl = currentEl.parentElement;      </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(currentEl) &#123;</span><br><span class="line">      fn(currentEl);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">delegate(<span class="string">'click'</span>, <span class="string">'li'</span>, () =&gt; &#123; ... &#125;)</span><br></pre></td></tr></table></figure></p>
+<p>最后，你可以到这里来 <a href="https://jsbin.com/negebekuso/3/edit?html,js,output" target="_blank" rel="noopener">Try And Code</a> 一下。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Notes/" rel="tag"># Notes</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/DOM/" rel="tag"># DOM</a>
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/06/create-multi-git-users/" rel="next" title="创建多个Git用户、推送多个远程仓库">
+                <i class="fa fa-chevron-left"></i> 创建多个Git用户、推送多个远程仓库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/02/21/some-classfic-implements-with-js/" rel="prev" title="一些经典的JS手写函数实现">
+                一些经典的JS手写函数实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">caijialinxx</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">caijialinxx</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
