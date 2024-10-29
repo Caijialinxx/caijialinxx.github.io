@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>DOM 事件模型的发展 | Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="DOM Level 1 （背景）W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。 123456&lt;button id&#x3D;&#x27;A&#x27;&gt;A&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DOM 事件模型的发展">
+<meta property="og:url" content="https://caijialinxx.github.io/2018/05/28/dom-event-model/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="DOM Level 1 （背景）W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。 123456&lt;button id&#x3D;&#x27;A&#x27;&gt;A&amp;">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2018/05/16/5afbeb914da76.png">
+<meta property="article:published_time" content="2018-05-28T11:35:03.000Z">
+<meta property="article:modified_time" content="2018-05-28T15:43:16.000Z">
+<meta property="article:author" content="caijialinxx">
+<meta property="article:tag" content="Notes">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="DOM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2018/05/16/5afbeb914da76.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-dom-event-model" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/28/dom-event-model/" class="article-date">
+  <time class="dt-published" datetime="2018-05-28T11:35:03.000Z" itemprop="datePublished">2018-05-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      DOM 事件模型的发展
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="DOM-Level-1-（背景）"><a href="#DOM-Level-1-（背景）" class="headerlink" title="DOM Level 1 （背景）"></a>DOM Level 1 （背景）</h2><p>W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;A&#x27;</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;B&#x27;</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;C&#x27;</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">sayHi</span>(<span class="params"></span>)&#123; <span class="title function_">alert</span>(<span class="string">&#x27;hi&#x27;</span>) &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>利用 HTML 事件属性来分配事件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- A --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;A&#x27;</span> <span class="attr">onclick</span>=<span class="string">&#x27;sayHi&#x27;</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- B --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;B&#x27;</span> <span class="attr">onclick</span>=<span class="string">&#x27;sayHi()&#x27;</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- C --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;C&#x27;</span> <span class="attr">onclick</span>=<span class="string">&#x27;sayHi.call()&#x27;</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码结果：<br><button id='A' onclick='sayHi'>A</button> <button id='B' onclick='sayHi()'>B</button> <button id='C' onclick='sayHi.call()'>C</button></p>
+<script>function sayHi(){ alert('hi') }</script>
+
+<p>在上述代码中，只有 <strong>B</strong> 和 <strong>C</strong> 才能得到我们想要的结果。DOM Level 1 规定，当使用 HTML 事件属性绑定事件名时，必须带上英文括号。因为事件属性的值是指要运行的代码，一旦用户点击按钮，浏览器就 <code>eval(&#39;sayHi()&#39;)</code> 或者 <code>eval(&#39;sayHi.call()&#39;)</code> 。 <code>sayHi</code> 只是一个函数变量名，如果是按钮A，那么浏览器执行的是 <code>eval(&#39;sayHi&#39;)</code> ，这样只是运行了这个变量，并没有执行这个函数。所以切记正确写法为后两者。</p>
+</li>
+<li><p>利用 HTML DOM 来分配事件</p>
+<p>现在，让我们来看看在 js 中，我们又该如何利用 HTML DOM 来得到我们想要的结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">meetAgain</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">&#x27;hi&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line">A.<span class="property">onclick</span> = meetAgain           <span class="comment">//A：正确</span></span><br><span class="line">B.<span class="property">onclick</span> = <span class="title function_">meetAgain</span>()         <span class="comment">//B：错误</span></span><br><span class="line">C.<span class="property">onclick</span> = meetAgain.<span class="title function_">call</span>()    <span class="comment">//C：错误</span></span><br></pre></td></tr></table></figure>
+<p>上述代码中，只有 <strong>A</strong> 才是正确的。因为在 JavaScript 中， <code>onclick</code> 是一个属性， <code>meetAgain</code> 是一个函数对象， <code>A.onclick = meetAgain</code> 是将 <code>meetAgain</code> 函数的对象地址赋给 <code>onclick</code> 属性。而 <code>meetAgain()</code> 和 <code>meetAgain.call()</code> 表示执行函数，返回的结果是 <code>undefined</code> ，那么 B 和 C 的 <code>onclick</code> 的属性值为 <code>undefined</code> ，很显然这并不是我们要的结果。</p>
+</li>
+</ul>
+<p>所以 HTML 事件属性 和 HTML DOM 两者的区别：</p>
+<blockquote>
+<p>HTML 事件属性中分配事件时，需要在函数名后加上“()”，表示当用户点击时就执行这个函数；HTML DOM中为事件属性分配事件时，不需要在函数名后加“()”，表示将函数的对象地址赋给事件属性。</p>
+</blockquote>
+<h2 id="DOM-Level-2-（发展）"><a href="#DOM-Level-2-（发展）" class="headerlink" title="DOM Level 2 （发展）"></a>DOM Level 2 （发展）</h2><p>在 DOM Level 1 中我们可以看到，要为一个元素绑定事件，只能用 <code>onclick</code> 、<code>onmouseup</code> 等属性，这就带来了一个问题，一个属性只能绑定一个事件。DOM Level 2 中最重要的更新就是添加了 DOM 事件模型，使得一个属性可以绑定多个事件。此外，这是我们目前<strong>最常用的 DOM 标准</strong>。</p>
+<ul>
+<li><p>重要的API：<code>target.addEventListener(type, listener, options)</code></p>
+<p>具体看以下代码，来理解 <code>addEventListener()</code> 和 <code>onclick</code> 绑定事件的区别（ HTML 代码仍为本文开头的第一段代码）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">A.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;A1&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">A.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;A2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">B.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;B1&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line">B.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;B2&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当用户分别点击 A按钮 和 B按钮 时，运行结果为：</p>
+<pre>
+> "A1"
+> "A2"
+> "B2"
+</pre>
+
+<p>我们发现，A 的 click 事件的两个结果都运行出来了，而 B 只运行了在后位绑定的事件函数。这是因为 <code>onclick</code> 属性是唯一的，若绑定了两个及以上的事件处理函数，则先绑定的会被新绑定的覆盖。而 <code>addEventListener()</code> 会让事件进入到事件监听队列（eventListeners）中，执行顺序依照队列先进先出的特性。所以不建议直接使用 <code>onclick</code> 属性来绑定事件处理函数，以免被无意覆盖。</p>
+</li>
+<li><p>与 <code>addEventListener()</code> 对应的是 <code>removeEventListener()</code> ，它可以将指定函数移出事件监听队列。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">func</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;C&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line">C.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, func)</span><br><span class="line">C.<span class="title function_">removeEventListener</span>(<span class="string">&#x27;click&#x27;</span>, func)</span><br></pre></td></tr></table></figure>
+<p>此时，点击 C按钮 时，并不会输出任何内容，因为 func 在进入事件监听事件队列后又马上被移出了，等不到用户点击。</p>
+</li>
+</ul>
+<blockquote>
+<p>事件流（Event flow）： IE 提出的事件冒泡（Event bubbling）、网景提出的事件捕获（Event capture）。</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;head&#x27;</span>&gt;</span></span><br><span class="line">  头</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;face&#x27;</span>&gt;</span></span><br><span class="line">    脸</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;nose&#x27;</span>&gt;</span></span><br><span class="line">      鼻子</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Q1：当点击“鼻子”时，头和脸有没有被点击到？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">head.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;头&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line">face.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;脸&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line">nose.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;鼻子&#x27;</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>根据上述代码，当点击“鼻子”时，控制台输出的结果是：</p>
+<pre>
+> "鼻子"
+> "脸"
+> "头"
+</pre>
+
+<p>由此可见，当点击“鼻子”时，“脸”和“头”也被点击到了。因为“鼻子”是“脸”和“头”的一部分，顺序是由里到外，由小到大。</p>
+</li>
+<li><p>Q2：当点击“鼻子”时，三者的事件处理顺序是怎么样的？</p>
+<p>在上一个例子中，我们看到顺序是由里到外（由小到大）的，那么顺序只能是这一种吗？ W3C 给出了两种事件流机制，分别是冒泡流和捕获流。上一个例子就是冒泡流的例子。而要采用冒泡流还是捕获流，就由 <code>addEventListener()</code> 的第三个参数 options 决定 —— 当 options 为 <code>false</code> 时就是冒泡流（默认），为 <code>true</code> 时就是捕获流。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 冒泡阶段，忽略第三个参数则默认为 undefined ，undefined 为 false */</span></span><br><span class="line">head.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;头：冒泡&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line">face.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;脸：冒泡&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line">nose.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;鼻子：冒泡&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 捕获阶段 */</span></span><br><span class="line">head.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;头：捕获&#x27;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br><span class="line">face.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;脸：捕获&#x27;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br><span class="line">nose.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;鼻子：捕获&#x27;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<pre>
+> "头：捕获"
+> "脸：捕获"
+> "鼻子：冒泡"
+> "鼻子：捕获"
+> "脸：冒泡"
+> "头：冒泡"
+</pre>
+
+<p>由这个运行结果，我们可以看出捕获阶段与冒泡阶段的执行顺序是相反的，它是由外到里，由大到小的，且“头”和“脸”都是先捕获后冒泡。而例外的是，“脸”却是先冒泡后捕获。</p>
+<p>其实，捕获阶段的事件是先于冒泡阶段处理的。而当事件流完成祖先元素及父元素的捕获阶段后，到达目标元素（target）时，事件处理顺序遵循函数绑定的顺序处理（即按顺序执行代码）而不是先捕获后冒泡，这个阶段被称为“目标阶段”。理解过程如下图：<br><img src="https://i.loli.net/2018/05/16/5afbeb914da76.png" alt="event-flow.png"></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/05/28/dom-event-model/" data-id="cm2uc0mbt000epggpa7au7mzl" data-title="DOM 事件模型的发展" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/01/same-origin-policy/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          浏览器的同源策略及规避方法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/25/webpage-in-mobile-devices/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">移动端的适配</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

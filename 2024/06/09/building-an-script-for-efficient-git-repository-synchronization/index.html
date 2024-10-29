@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>为了高效同步代码仓库，我写了一个自动化脚本 | Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="在日常开发工作中，我经常会遇到需要在两个代码仓库之间批量同步代码的需求。如果手动执行这些同步命令，不仅繁琐，还可能导致出错。而且一旦我需要请假，则要交代其他同事帮忙同步代码，尽管已经写好了教程文档，还是会有各种问题来咨询我，这让我意识到，如果有一个脚本可以帮我完成这些重复性的工作，那该多好，并且同事们拿到脚本只管运行、确认推送就可以了。于是，基于这些目的，我编写了一个自动化脚本，来实现批量代码同">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为了高效同步代码仓库，我写了一个自动化脚本">
+<meta property="og:url" content="https://caijialinxx.github.io/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="在日常开发工作中，我经常会遇到需要在两个代码仓库之间批量同步代码的需求。如果手动执行这些同步命令，不仅繁琐，还可能导致出错。而且一旦我需要请假，则要交代其他同事帮忙同步代码，尽管已经写好了教程文档，还是会有各种问题来咨询我，这让我意识到，如果有一个脚本可以帮我完成这些重复性的工作，那该多好，并且同事们拿到脚本只管运行、确认推送就可以了。于是，基于这些目的，我编写了一个自动化脚本，来实现批量代码同">
+<meta property="og:locale">
+<meta property="article:published_time" content="2024-06-09T07:39:28.000Z">
+<meta property="article:modified_time" content="2024-10-29T07:10:08.499Z">
+<meta property="article:author" content="caijialinxx">
+<meta property="article:tag" content="Notes">
+<meta property="article:tag" content="Shell脚本">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-building-an-script-for-efficient-git-repository-synchronization" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/" class="article-date">
+  <time class="dt-published" datetime="2024-06-09T07:39:28.000Z" itemprop="datePublished">2024-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      为了高效同步代码仓库，我写了一个自动化脚本
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在日常开发工作中，我经常会遇到需要在两个代码仓库之间批量同步代码的需求。如果手动执行这些同步命令，不仅繁琐，还可能导致出错。而且一旦我需要请假，则要交代其他同事帮忙同步代码，尽管已经写好了教程文档，还是会有各种问题来咨询我，这让我意识到，如果有一个脚本可以帮我完成这些重复性的工作，那该多好，并且同事们拿到脚本只管运行、确认推送就可以了。于是，基于这些目的，我编写了一个自动化脚本，来实现批量代码同步和提交。</p>
+<p>本文将通过展示脚本的初版和优化版，帮助大家更好地理解如何使用 Bash 脚本实现日常任务的自动化。</p>
+</blockquote>
+<h2 id="初版脚本的实现"><a href="#初版脚本的实现" class="headerlink" title="初版脚本的实现"></a>初版脚本的实现</h2><p>实现的关键步骤如下：</p>
+<ul>
+<li>检查当前仓库地址，确认是否与指定地址匹配</li>
+<li>检查或配置目标仓库地址</li>
+<li>确认需要同步的分支是否存在</li>
+<li>同步源仓库代码到目标仓库的对应分支</li>
+<li>在推送前进行用户确认以防误操作</li>
+</ul>
+<p>基于以上步骤，我实现了自动化脚本 <code>fork-v1.sh</code>，我们接着来看看初版脚本是如何实现的：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">error_echo() &#123;</span><br><span class="line">  echo -e &quot;\033[31mERROR: $1\033[0m&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">info_echo() &#123;</span><br><span class="line">  echo -e &quot;\033[34m$1\033[0m&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">success_echo() &#123;</span><br><span class="line">  echo -e &quot;\033[32m$1\033[0m&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cmd_echo() &#123;</span><br><span class="line">  echo -e &quot;\033[33m$1\033[0m&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">confirm_echo() &#123;</span><br><span class="line">  echo -e &quot;\033[47;35m$1\033[0m&quot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查仓库</span></span><br><span class="line">REPOSITORY=&quot;ssh://git@code.xxx.com/com1/repo1.git&quot;</span><br><span class="line">repository_check_result=$(git remote get-url origin 2&gt;&amp;1)</span><br><span class="line">cmd_echo &quot;$ git remote get-url origin&quot;</span><br><span class="line">echo &quot;$repository_check_result&quot;</span><br><span class="line">if [ &quot;$repository_check_result&quot; == $REPOSITORY ]; then</span><br><span class="line">  success_echo &quot;当前仓库检查通过&quot;</span><br><span class="line">else</span><br><span class="line">  error_echo &quot;当前仓库检查不通过，应进入 $REPOSITORY 对应的本地仓库！&quot;</span><br><span class="line">  exit 1</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查源</span></span><br><span class="line">TARGET_ORIGIN=&quot;ssh://git@code.xxx.com/com2/repo2.git&quot;</span><br><span class="line">new_origin_check_result=$(git remote get-url newOrigin 2&gt;&amp;1)</span><br><span class="line">cmd_echo &quot;$ git remote get-url newOrigin&quot;</span><br><span class="line">echo &quot;$new_origin_check_result&quot;</span><br><span class="line">if [ &quot;$new_origin_check_result&quot; == $TARGET_ORIGIN ]; then</span><br><span class="line">  success_echo &quot;当前仓库检查通过&quot;</span><br><span class="line">elif [[ &quot;$new_origin_check_result&quot; =~ &quot;No such remote &#x27;newOrigin&#x27;&quot;]]; then</span><br><span class="line">  info_echo &quot;未设置newOrigin，即将自动设置&quot;</span><br><span class="line">  cmd_echo &quot;$ git remote add newOrigin dev&quot;</span><br><span class="line">  git remote add newOrigin dev</span><br><span class="line">  cmd_echo &quot;$ git remote set-url newOrigin $TARGET_ORIGIN&quot;</span><br><span class="line">  git remote set-url newOrigin $TARGET_ORIGIN</span><br><span class="line">else</span><br><span class="line">  error_echo &quot;newOrigin源检查不通过，请根据日志排查失败原因！&quot;</span><br><span class="line">  exit 1</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查环境参数</span></span><br><span class="line">if [ $# -ne 1 ]; then</span><br><span class="line">  error_echo &#x27;请传入需要处理的环境参数，例如 fork.sh [dev|uat|prod]&#x27;</span><br><span class="line">  exit 1</span><br><span class="line">else</span><br><span class="line">  info_echo &quot;============ 即将执行 repo1 到 repo2 【$1】环境的同步 ============&quot;</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取分支名称</span></span><br><span class="line">if [ $1 == prod ]; then</span><br><span class="line">  OLD_BRANCH_NAME=&quot;repo1-prod&quot;</span><br><span class="line">  NEW_BRANCH_NAME=&quot;ver&quot;</span><br><span class="line">else</span><br><span class="line">  OLD_BRANCH_NAME=&quot;repo1-$1&quot;</span><br><span class="line">  NEW_BRANCH_NAME=&quot;repo2-$1&quot;</span><br><span class="line">fi</span><br><span class="line">info_echo &quot;============ 即将执行 repo1 到 repo2 【$1】环境的同步 ============&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查分支</span></span><br><span class="line">git rev-parse --verify &quot;origin/$OLD_BRANCH_NAME&quot; &gt; /dev/null 2&gt;&amp;1</span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">分支存在</span></span><br><span class="line">  success_echo &quot;分支检查通过&quot;</span><br><span class="line">  info_echo &quot;---------- 切换到该分支 ----------&quot;</span><br><span class="line">  cmd_echo &quot;$ git checkout $OLD_BRANCH_NAME&quot;</span><br><span class="line">  git checkout $OLD_BRANCH_NAME</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">检查是否切换成功</span></span><br><span class="line">  current_branch=$(git symbolic-ref --short HEAD)</span><br><span class="line">  if [ $current_branch == $OLD_BRANCH_NAME ]; then</span><br><span class="line">    success_echo &quot;已切换到 $OLD_BRANCH_NAME 分支&quot;</span><br><span class="line">  else</span><br><span class="line">    error_echo &quot;分支切换失败，当前分支[$current_branch]&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  fi</span><br><span class="line">else</span><br><span class="line">  error_echo &quot;分支检查失败，原因：该分支不存在，请检查传入的环境参数&quot;</span><br><span class="line">  exit 1</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">同步代码</span></span><br><span class="line">info_echo &quot;---------- 同步 repo1 仓库 $OLD_BRANCH_NAME 分支的远程代码 ----------&quot;</span><br><span class="line">cmd_echo &quot;$ git fetch origin&quot;</span><br><span class="line">git fetch origin</span><br><span class="line">cmd_echo &quot;$ git reset --hard origin/$OLD_BRANCH_NAME&quot;</span><br><span class="line">git reset --hard origin/$OLD_BRANCH_NAME</span><br><span class="line"></span><br><span class="line">info_echo &quot;---------- 拉取 repo2 仓库 $NEW_BRANCH_NAME 分支的远程代码 ----------&quot;</span><br><span class="line">cmd_echo &quot;$ git pull newOrigin $NEW_BRANCH_NAME --allow-unrelated-histories&quot;</span><br><span class="line">git pull newOrigin $NEW_BRANCH_NAME --allow-unrelated-histories</span><br><span class="line"></span><br><span class="line">info_echo &quot;---------- 本地 git log 前 5 条 commit 日志简览 ----------&quot;</span><br><span class="line">git log -n 5 --oneline</span><br><span class="line"></span><br><span class="line">info_echo &quot;---------- 请人工确认是否推送到远程 repo2 仓库的 $NEW_BRANCH_NAME 分支 ----------&quot;</span><br><span class="line">confirm_echo &quot;输入y为确认推送，q为退出：&quot;</span><br><span class="line">while true; do</span><br><span class="line">  read user_input</span><br><span class="line">  case $user_input in</span><br><span class="line">    &quot;y&quot;)</span><br><span class="line">      info_echo &quot;---------- 正在推送到远程 repo2 仓库的 $NEW_BRANCH_NAME 分支 ----------&quot;</span><br><span class="line">      git push newOrigin $OLD_BRANCH_NAME:$NEW_BRANCH_NAME</span><br><span class="line">      info_echo &quot;============ 脚本执行完成，请检查是否推送成功 ============&quot;</span><br><span class="line">      break</span><br><span class="line">      ;;</span><br><span class="line">    &quot;q&quot;)</span><br><span class="line">      info_echo &quot;停止并退出fork程序&quot;</span><br><span class="line">      exit 0</span><br><span class="line">      ;;</span><br><span class="line">    *)</span><br><span class="line">      confirm_echo &quot;未知指令，请输入&#x27;y&#x27;或&#x27;q&#x27;（y为确认推送，q为退出）：&quot;</span><br><span class="line">      ;;</span><br><span class="line">  esac</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>虽然初版脚本基本满足需求，但在代码结构、容错性和兼容性上还有进一步优化的空间。</p>
+<h2 id="优化后的脚本"><a href="#优化后的脚本" class="headerlink" title="优化后的脚本"></a>优化后的脚本</h2><p>经过优化后的 <code>fork-v2.sh</code> 代码结构更加清晰，功能也更加健壮。以下为优化版脚本代码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">定义颜色代码常量</span></span><br><span class="line">readonly RED=&#x27;\033[31m&#x27;</span><br><span class="line">readonly GREEN=&#x27;\033[32m&#x27;</span><br><span class="line">readonly BLUE=&#x27;\033[34m&#x27;</span><br><span class="line">readonly YELLOW=&#x27;\033[33m&#x27;</span><br><span class="line">readonly MAGENTA_BG_WHITE=&#x27;\033[47;35m&#x27;</span><br><span class="line">readonly NC=&#x27;\033[0m&#x27;  # No Color</span><br><span class="line"></span><br><span class="line">error_echo() &#123; printf &quot;$&#123;RED&#125;ERROR: %s$&#123;NC&#125;\n&quot; &quot;$1&quot;; &#125;</span><br><span class="line">info_echo() &#123; printf &quot;$&#123;BLUE&#125;%s$&#123;NC&#125;\n&quot; &quot;$1&quot;; &#125;</span><br><span class="line">success_echo() &#123; printf &quot;$&#123;GREEN&#125;%s$&#123;NC&#125;\n&quot; &quot;$1&quot;; &#125;</span><br><span class="line">confirm_echo() &#123; printf &quot;$&#123;MAGENTA_BG_WHITE&#125;%s$&#123;NC&#125;\n&quot; &quot;$1&quot;; &#125;</span><br><span class="line">cmd_echo() &#123; printf &quot;$&#123;YELLOW&#125;%s$&#123;NC&#125;\n&quot; &quot;$1&quot;; &#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常量定义</span></span><br><span class="line">readonly REPOSITORY=&quot;ssh://git@code.xxx.com/com1/repo1.git&quot;</span><br><span class="line">readonly TARGET_ORIGIN=&quot;ssh://git@code.xxx.com/com2/repo2.git&quot;</span><br><span class="line">readonly VALID_ENVS=(&quot;dev&quot; &quot;uat&quot; &quot;prod&quot;)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">帮助信息</span></span><br><span class="line">show_usage() &#123;</span><br><span class="line">  cat &lt;&lt; EOF</span><br><span class="line">用法: $(basename &quot;$0&quot;) &lt;环境&gt;</span><br><span class="line">环境选项:</span><br><span class="line">  dev   开发环境</span><br><span class="line">  uat   测试环境</span><br><span class="line">  prod  生产环境</span><br><span class="line">示例: </span><br><span class="line"><span class="meta prompt_">  $</span><span class="language-bash">(<span class="built_in">basename</span> <span class="string">&quot;<span class="variable">$0</span>&quot;</span>) dev</span></span><br><span class="line">EOF</span><br><span class="line">  exit 1</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查环境参数</span></span><br><span class="line">check_env() &#123;</span><br><span class="line">  if [ $# -ne 1 ]; then</span><br><span class="line">    error_echo &quot;请传入需要处理的环境参数&quot;</span><br><span class="line">    show_usage</span><br><span class="line">  fi</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">使用 =~ 和 IFS 来检查数组是否包含元素</span></span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">通过在数组元素前后添加空格（<span class="string">&quot; <span class="variable">$&#123;VALID_ENVS[*]&#125;</span> &quot;</span>），可以确保准确匹配完整的环境名称，避免部分匹配的问题（比如 <span class="string">&quot;de&quot;</span> 匹配到 <span class="string">&quot;dev&quot;</span>）</span></span><br><span class="line">  [[ &quot; $&#123;VALID_ENVS[*]&#125; &quot; =~ &quot; $1 &quot; ]] || &#123;</span><br><span class="line">    error_echo &quot;无效的环境参数: $1&quot;</span><br><span class="line">    show_usage</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查仓库配置</span></span><br><span class="line">check_repository() &#123;</span><br><span class="line">  cmd_echo &quot;$ git remote get-url origin&quot;</span><br><span class="line"></span><br><span class="line">  local repo_url</span><br><span class="line">  repo_url=$(git remote get-url origin 2&gt;&amp;1) || &#123;</span><br><span class="line">    error_echo &quot;获取仓库地址失败&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  echo &quot;$repo_url&quot;</span><br><span class="line">  </span><br><span class="line">  if [ &quot;$repo_url&quot; != &quot;$REPOSITORY&quot; ]; then</span><br><span class="line">    error_echo &quot;当前仓库检查不通过，应进入 $REPOSITORY 对应的本地仓库！&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  fi</span><br><span class="line">  success_echo &quot;当前仓库检查通过&quot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置目标仓库</span></span><br><span class="line">setup_target_repository() &#123;</span><br><span class="line">  cmd_echo &quot;$ git remote get-url newOrigin&quot;</span><br><span class="line"></span><br><span class="line">  local target_url</span><br><span class="line">  target_url=$(git remote get-url newOrigin 2&gt;&amp;1)</span><br><span class="line">  </span><br><span class="line">  echo &quot;$target_url&quot;</span><br><span class="line">  </span><br><span class="line">  if [ &quot;$target_url&quot; == &quot;$TARGET_ORIGIN&quot; ]; then</span><br><span class="line">    success_echo &quot;目标仓库检查通过&quot;</span><br><span class="line">    return</span><br><span class="line">  fi</span><br><span class="line">  </span><br><span class="line">  if [[ &quot;$target_url&quot; =~ &quot;No such remote &#x27;newOrigin&#x27;&quot; ]]; then</span><br><span class="line">    info_echo &quot;未设置newOrigin，即将自动设置&quot;</span><br><span class="line">    git remote add newOrigin dev &amp;&amp; \</span><br><span class="line">    git remote set-url newOrigin &quot;$TARGET_ORIGIN&quot; || &#123;</span><br><span class="line">      error_echo &quot;设置目标仓库失败&quot;</span><br><span class="line">      exit 1</span><br><span class="line">    &#125;</span><br><span class="line">    return</span><br><span class="line">  fi</span><br><span class="line">  </span><br><span class="line">  error_echo &quot;newOrigin源检查不通过，请根据日志排查失败原因！&quot;</span><br><span class="line">  exit 1</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取分支名称</span></span><br><span class="line">get_branch_names() &#123;</span><br><span class="line">  if [ &quot;$1&quot; == &quot;prod&quot; ]; then</span><br><span class="line">    OLD_BRANCH_NAME=&quot;repo1-prod&quot;</span><br><span class="line">    NEW_BRANCH_NAME=&quot;ver&quot;</span><br><span class="line">  else</span><br><span class="line">    OLD_BRANCH_NAME=&quot;repo1-$1&quot;</span><br><span class="line">    NEW_BRANCH_NAME=&quot;repo2-$1&quot;</span><br><span class="line">  fi</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换并同步分支</span></span><br><span class="line">switch_and_sync_branch() &#123;</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">检查分支是否存在</span></span><br><span class="line">  git rev-parse --verify &quot;origin/$OLD_BRANCH_NAME&quot; &gt; /dev/null 2&gt;&amp;1 || &#123;</span><br><span class="line">    error_echo &quot;分支 $OLD_BRANCH_NAME 不存在，请检查环境参数&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  success_echo &quot;分支检查通过&quot;</span><br><span class="line">  info_echo &quot;---------- 切换到该分支 ----------&quot;</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">切换分支</span></span><br><span class="line">  git checkout &quot;$OLD_BRANCH_NAME&quot; || &#123;</span><br><span class="line">    error_echo &quot;分支切换失败&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">验证当前分支</span></span><br><span class="line">  local current_branch</span><br><span class="line">  current_branch=$(git symbolic-ref --short HEAD)</span><br><span class="line">  if [ &quot;$current_branch&quot; != &quot;$OLD_BRANCH_NAME&quot; ]; then</span><br><span class="line">    error_echo &quot;分支切换失败，当前分支[$current_branch]&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  fi</span><br><span class="line">  success_echo &quot;已切换到 $OLD_BRANCH_NAME 分支&quot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">主函数</span></span><br><span class="line">main() &#123;</span><br><span class="line">  check_env &quot;$1&quot;</span><br><span class="line">  check_repository</span><br><span class="line">  setup_target_repository</span><br><span class="line">  get_branch_names &quot;$1&quot;</span><br><span class="line">  </span><br><span class="line">  info_echo &quot;============ 即将执行 repo1 到 repo2 【$1】环境的同步 ============&quot;</span><br><span class="line">  switch_and_sync_branch</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">同步代码</span></span><br><span class="line">  info_echo &quot;---------- 同步 repo1 仓库 $OLD_BRANCH_NAME 分支的远程代码 ----------&quot;</span><br><span class="line">  git fetch origin &amp;&amp; \</span><br><span class="line">  git reset --hard &quot;origin/$OLD_BRANCH_NAME&quot; || &#123;</span><br><span class="line">    error_echo &quot;同步远程代码失败&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">拉取目标仓库代码</span></span><br><span class="line">  info_echo &quot;---------- 拉取 repo2 仓库 $NEW_BRANCH_NAME 分支的远程代码 ----------&quot;</span><br><span class="line">  git pull newOrigin &quot;$NEW_BRANCH_NAME&quot; --allow-unrelated-histories || &#123;</span><br><span class="line">    error_echo &quot;拉取目标仓库代码失败&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">显示日志</span></span><br><span class="line">  info_echo &quot;---------- 本地 git log 前 5 条 commit 日志简览 ----------&quot;</span><br><span class="line">  git log -n 5 --oneline</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">确认推送</span></span><br><span class="line">  info_echo &quot;---------- 请人工确认是否推送到远程 repo2 仓库的 $NEW_BRANCH_NAME 分支 ----------&quot;</span><br><span class="line">  confirm_echo &quot;输入y为确认推送，q为退出：&quot;</span><br><span class="line">  while true; do</span><br><span class="line">    read -r user_input</span><br><span class="line">    case $user_input in</span><br><span class="line">      &quot;y&quot;)</span><br><span class="line">        info_echo &quot;---------- 正在推送到远程 repo2 仓库的 $NEW_BRANCH_NAME 分支 ----------&quot;</span><br><span class="line">        if git push newOrigin &quot;$OLD_BRANCH_NAME:$NEW_BRANCH_NAME&quot;; then</span><br><span class="line">          info_echo &quot;============ 推送成功 ============&quot;</span><br><span class="line">        else</span><br><span class="line">          error_echo &quot;推送失败&quot;</span><br><span class="line">          exit 1</span><br><span class="line">        fi</span><br><span class="line">        break</span><br><span class="line">        ;;</span><br><span class="line">      &quot;q&quot;)</span><br><span class="line">        info_echo &quot;停止并退出fork程序&quot;</span><br><span class="line">        exit 0</span><br><span class="line">        ;;</span><br><span class="line">      *)</span><br><span class="line">        confirm_echo &quot;未知指令，请输入&#x27;y&#x27;或&#x27;q&#x27;（y为确认推送，q为退出）：&quot;</span><br><span class="line">        ;;</span><br><span class="line">    esac</span><br><span class="line">  done</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main &quot;$@&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="优化点说明"><a href="#优化点说明" class="headerlink" title="优化点说明"></a>优化点说明</h3><ul>
+<li><p><strong>代码结构优化</strong>：通过模块化结构，将各功能封装成独立的函数，如 <code>check_env</code>、<code>check_repository</code>、<code>switch_and_sync_branch</code> 等。每个函数负责特定任务，使代码更清晰，也更易于维护和扩展。</p>
+</li>
+<li><p>**<code>echo -e</code> 替换为 <code>printf</code>**：<code>fork-v2.sh</code> 中用 <code>printf</code> 替换了 <code>echo -e</code>，提高了跨平台兼容性。<code>echo</code> 的行为在不同的 Unix 系统上可能略有不同，特别是 <code>-e</code> 选项的支持情况不一致（如某些系统默认不支持 <code>-e</code>），导致转义字符解析可能不一致。<code>printf</code> 是 POSIX 标准命令，能保证颜色输出在各种系统中的一致性和格式控制。</p>
+</li>
+<li><p><strong>错误检查和处理机制优化</strong>：优化后的脚本对每一步操作都增加了容错处理。每个关键操作（如仓库地址检查、分支切换、代码同步）都使用 <code>||</code> 来保证错误提示和安全退出，防止后续代码在失败条件下继续执行。此外，<code>switch_and_sync_branch</code> 函数在切换分支失败时立即退出，避免错误传播，增强了脚本的稳定性。</p>
+</li>
+</ul>
+<p>通过本次优化，脚本在执行批量代码同步时不仅更加稳定，而且具备了良好的容错和提示信息，提升了工作效率。希望本文对你在脚本开发中有所帮助！</p>
+<hr>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="常用的颜色与文字样式"><a href="#常用的颜色与文字样式" class="headerlink" title="常用的颜色与文字样式"></a>常用的颜色与文字样式</h3><h4 id="文字颜色"><a href="#文字颜色" class="headerlink" title="文字颜色"></a>文字颜色</h4><table>
+<thead>
+<tr>
+<th>颜色</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>黑色</td>
+<td><code>\033[30m</code></td>
+</tr>
+<tr>
+<td>红色</td>
+<td><code>\033[31m</code></td>
+</tr>
+<tr>
+<td>绿色</td>
+<td><code>\033[32m</code></td>
+</tr>
+<tr>
+<td>黄色</td>
+<td><code>\033[33m</code></td>
+</tr>
+<tr>
+<td>蓝色</td>
+<td><code>\033[34m</code></td>
+</tr>
+<tr>
+<td>紫色</td>
+<td><code>\033[35m</code></td>
+</tr>
+<tr>
+<td>青色</td>
+<td><code>\033[36m</code></td>
+</tr>
+<tr>
+<td>白色</td>
+<td><code>\033[37m</code></td>
+</tr>
+</tbody></table>
+<h4 id="背景颜色"><a href="#背景颜色" class="headerlink" title="背景颜色"></a>背景颜色</h4><table>
+<thead>
+<tr>
+<th>颜色</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>黑色背景</td>
+<td><code>\033[40m</code></td>
+</tr>
+<tr>
+<td>红色背景</td>
+<td><code>\033[41m</code></td>
+</tr>
+<tr>
+<td>绿色背景</td>
+<td><code>\033[42m</code></td>
+</tr>
+<tr>
+<td>黄色背景</td>
+<td><code>\033[43m</code></td>
+</tr>
+<tr>
+<td>蓝色背景</td>
+<td><code>\033[44m</code></td>
+</tr>
+<tr>
+<td>紫色背景</td>
+<td><code>\033[45m</code></td>
+</tr>
+<tr>
+<td>青色背景</td>
+<td><code>\033[46m</code></td>
+</tr>
+<tr>
+<td>白色背景</td>
+<td><code>\033[47m</code></td>
+</tr>
+</tbody></table>
+<h4 id="其他常用格式"><a href="#其他常用格式" class="headerlink" title="其他常用格式"></a>其他常用格式</h4><table>
+<thead>
+<tr>
+<th>样式</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>重置所有属性</td>
+<td><code>\033[0m</code></td>
+</tr>
+<tr>
+<td>高亮&#x2F;加粗</td>
+<td><code>\033[1m</code></td>
+</tr>
+<tr>
+<td>下划线</td>
+<td><code>\033[4m</code></td>
+</tr>
+<tr>
+<td>闪烁</td>
+<td><code>\033[5m</code></td>
+</tr>
+<tr>
+<td>反显</td>
+<td><code>\033[7m</code></td>
+</tr>
+</tbody></table>
+<h3 id="特殊参数说明"><a href="#特殊参数说明" class="headerlink" title="特殊参数说明"></a>特殊参数说明</h3><ul>
+<li><code>$0</code>：脚本名称或调用脚本的命令。</li>
+<li><code>$1, $2, ...</code>：脚本接受的第一个、第二个等参数。</li>
+<li><code>$#</code>：传递给脚本的参数个数。</li>
+<li><code>$@</code>：所有参数的数组形式。</li>
+<li><code>$*</code>：所有参数的字符串形式。</li>
+<li><code>$$</code>：当前脚本的进程 ID。</li>
+<li><code>$?</code>：前一个命令的退出状态码。</li>
+</ul>
+<h3 id="EOF-用法"><a href="#EOF-用法" class="headerlink" title="EOF 用法"></a><code>EOF</code> 用法</h3><p><code>EOF</code>（End of File）是结束标记，常用于多行字符串输出，还可以替换为其他单词，比如 <code>END</code> 、<code>STOP</code> 等。两个 <code>EOF</code> 之间的所有内容都会被当作文本输出，最后的 <code>EOF</code> 必须独占一行且顶格写。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF</span><br><span class="line">多行内容</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h3 id="basename-0-用法"><a href="#basename-0-用法" class="headerlink" title="basename &quot;$0&quot; 用法"></a><code>basename &quot;$0&quot;</code> 用法</h3><p><code>basename &quot;$0&quot;</code> 提取脚本文件名，不带路径。常用于帮助信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">例如</span></span><br><span class="line">basename &quot;/Users/caijialinxx/Desktop/fork.sh&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">输出: fork.sh</span></span><br><span class="line"></span><br><span class="line">basename &quot;/path/to/file.txt&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">输出: file.txt</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/" data-id="cm2uc0mbm0003pggp8w2y3ol5" data-title="为了高效同步代码仓库，我写了一个自动化脚本" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2023/03/24/troubleshooting/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">命令行操作时遇到的一些报错解决方案（持续更新...）</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

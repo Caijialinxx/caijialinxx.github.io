@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Windows 系统下的 Heroku 部署 | Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="本篇教程是在 Windows 的 Node.js 环境下使用的~ 如果需要其他语言或平台，请戳 这里 看看有没有你要的。 这是官网的 教程(Node.js) ，全英的，英文阅读能力 OK 的同学可以戳戳，但是！竟然来都来了，那就看一下我写的吧~ 欢迎各位同学指正！ 安装第一步肯定是安装。这里没有多余的文案，直接甩安装地址给你，请各位同学根据自己的系统选择 64位 或 32位 的。 假设你阅读本篇文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 系统下的 Heroku 部署">
+<meta property="og:url" content="https://caijialinxx.github.io/2018/07/25/deploy-on-heroku/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="本篇教程是在 Windows 的 Node.js 环境下使用的~ 如果需要其他语言或平台，请戳 这里 看看有没有你要的。 这是官网的 教程(Node.js) ，全英的，英文阅读能力 OK 的同学可以戳戳，但是！竟然来都来了，那就看一下我写的吧~ 欢迎各位同学指正！ 安装第一步肯定是安装。这里没有多余的文案，直接甩安装地址给你，请各位同学根据自己的系统选择 64位 或 32位 的。 假设你阅读本篇文">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2018/07/20/5b517a5c96035.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/20/5b518195054af.png">
+<meta property="og:image" content="https://i.loli.net/2018/08/25/5b8127ec9255c.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/20/5b519199a8a64.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/20/5b51931843694.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/20/5b519199a598d.png">
+<meta property="article:published_time" content="2018-07-25T12:13:04.000Z">
+<meta property="article:modified_time" content="2018-08-25T12:16:52.000Z">
+<meta property="article:author" content="caijialinxx">
+<meta property="article:tag" content="Notes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2018/07/20/5b517a5c96035.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-deploy-on-heroku" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/25/deploy-on-heroku/" class="article-date">
+  <time class="dt-published" datetime="2018-07-25T12:13:04.000Z" itemprop="datePublished">2018-07-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Windows 系统下的 Heroku 部署
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本篇教程是在 Windows 的 Node.js 环境下使用的~ 如果需要其他语言或平台，请戳 <a target="_blank" rel="noopener" href="https://devcenter.heroku.com/start">这里</a> 看看有没有你要的。</p>
+<p>这是官网的 <a target="_blank" rel="noopener" href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">教程(Node.js)</a> ，全英的，英文阅读能力 OK 的同学可以戳戳，但是！竟然来都来了，那就看一下我写的吧~ 欢迎各位同学指正！</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>第一步肯定是安装。这里没有多余的文案，直接甩安装地址给你，请各位同学根据自己的系统选择 <a target="_blank" rel="noopener" href="https://cli-assets.heroku.com/heroku-x64.exe">64位</a> 或 <a target="_blank" rel="noopener" href="https://cli-assets.heroku.com/heroku-x86.exe">32位</a> 的。</p>
+<p>假设你阅读本篇文章的时候已安装了 Node v8+ 、 对应版本的 npm 和 git 。接下来让我们继续往下走。</p>
+<h1 id="本地创建-Heroku-账户"><a href="#本地创建-Heroku-账户" class="headerlink" title="本地创建 Heroku 账户"></a>本地创建 Heroku 账户</h1><h2 id="在-Windows-的命令提示符上操作"><a href="#在-Windows-的命令提示符上操作" class="headerlink" title="在 Windows 的命令提示符上操作"></a>在 Windows 的命令提示符上操作</h2><p>安装完成之后，你可以直接使用 Windows 的命令提示符（<kbd>Win</kbd> + <kbd>R</kbd>），输入 <code>heroku login</code> ，即可创建你的 Heroku 账户。<br><img src="https://i.loli.net/2018/07/20/5b517a5c96035.png" alt="在命令提示符使用heroku.png"></p>
+<p>但是， Windows 的命令行这么难用（且丑），用习惯 <a target="_blank" rel="noopener" href="https://gitforwindows.org/">Git Bash</a> 的我简直没法忍！我是在 Git Bash 上操作的，所以下面介绍一下 Heroku 在 Git Bash 上的使用（本节的命令都可以在命令提示符里使用）。</p>
+<h2 id="在-Git-Bash-上操作"><a href="#在-Git-Bash-上操作" class="headerlink" title="在 Git Bash 上操作"></a>在 Git Bash 上操作</h2><p>我在 Git Bash 执行 heroku 的命令时，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ heroku login</span><br><span class="line">bash: heroku: <span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure>
+<p>发现它竟然给我错误提示说找不到该命令！后来我找到它的安装路径（G:\heroku\bin），并尝试运行 <code>/g/heroku/bin/heroku -v</code> ，嘿嘿，成了！</p>
+<p><img src="https://i.loli.net/2018/07/20/5b518195054af.png" alt="在Git Bash中使用heroku失败.png"></p>
+<p>原来是我没有给 Git Bash 添加环境变量的关系，那么二话不说立马为它添加环境变量吧~ 步骤如下：</p>
+<ol>
+<li>如果你没有 <code>.bashrc</code> 这个文件，就先创建再编辑。 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">touch</span> ~/.bashrc &amp;&amp; vi ~/.bashrc</span><br></pre></td></tr></table></figure></li>
+<li>在文件中添加 heroku.cmd 的路径作为其环境变量后（如下所示），保存并退出 <code>:wq</code> 即可。 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=&quot;/g/heroku/bin/:$PATH&quot;</span><br></pre></td></tr></table></figure>
+此时，我们就可以在 Git Bash 上愉快地使用 <code>heroku [COMMAND]</code> 了~</li>
+</ol>
+<p><img src="https://i.loli.net/2018/08/25/5b8127ec9255c.png" alt="在Git Bash中成功使用heroku.png"></p>
+<h1 id="部署项目到-Heroku"><a href="#部署项目到-Heroku" class="headerlink" title="部署项目到 Heroku"></a>部署项目到 Heroku</h1><p>首先，我们直接拿 Heroku 提供的 Demo 来学习如何部署。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/heroku/node-js-getting-started.git heroku-demo</span><br><span class="line"></span><br><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<p>这样我们就在 <code>heroku-demo</code> 目录下有了一个 Node.js 的项目，然后我们就可以将项目部署到 Heroku 了。</p>
+<ol>
+<li><p>在 Heroku 上创建一个应用程序，准备让 Heroku 接收我们的代码。</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ heroku create</span><br><span class="line">Creating app... <span class="keyword">done</span>, tranquil-crag-99140</span><br><span class="line">https://tranquil-crag-99140.herokuapp.com/ | https://git.heroku.com/tranquil-crag-99140.git</span><br></pre></td></tr></table></figure>
+<p> 这时， Heroku 给我们返回这个 app 的编号 <code>tranquil-crag-99140</code> 及地址 <code>https://tranquil-crag-99140.herokuapp.com/</code> ，即可说明我们已创建成功。</p>
+<p> <img src="https://i.loli.net/2018/07/20/5b519199a8a64.png" alt="c93fe62e0ba6d6daa7b3416566929c9.png"></p>
+</li>
+<li><p>接下来我们终于可以部署代码到 Heroku 了。</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">$ git push heroku master</span><br><span class="line">Counting objects: 490, <span class="keyword">done</span>.</span><br><span class="line">Delta compression using up to 4 threads.</span><br><span class="line">Compressing objects: 100% (368/368), <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (490/490), 230.24 KiB | 20.93 MiB/s, <span class="keyword">done</span>.</span><br><span class="line">Total 490 (delta 87), reused 490 (delta 87)</span><br><span class="line">remote: Compressing <span class="built_in">source</span> files... <span class="keyword">done</span>.</span><br><span class="line">remote: Building <span class="built_in">source</span>:</span><br><span class="line">remote:</span><br><span class="line">remote: -----&gt; Node.js app detected</span><br><span class="line">remote:</span><br><span class="line">remote: -----&gt; Creating runtime environment</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Installing binaries</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Restoring cache</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Building dependencies</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Caching build</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Pruning devDependencies</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Build succeeded!</span><br><span class="line">remote: -----&gt; Discovering process types</span><br><span class="line">...</span><br><span class="line">remote: -----&gt; Compressing...</span><br><span class="line">remote:        Done: 18.9M</span><br><span class="line">remote: -----&gt; Launching...</span><br><span class="line">remote:        Released v3</span><br><span class="line">remote:        https://tranquil-crag-99140.herokuapp.com/ deployed to Heroku</span><br><span class="line">remote:</span><br><span class="line">remote: Verifying deploy... <span class="keyword">done</span>.</span><br><span class="line">To https://git.heroku.com/tranquil-crag-99140.git</span><br><span class="line">* [new branch]      master -&gt; master</span><br></pre></td></tr></table></figure>
+<p> 说明太长了所以我只截取了一些重要的过程，最后的 <code>remote: Verifying deploy... done.</code> 说明项目已被成功部署，我们刷新 <code>https://tranquil-crag-99140.herokuapp.com/</code> ，即可看到下图所示的页面。</p>
+<p> <img src="https://i.loli.net/2018/07/20/5b51931843694.png" alt="项目成功部署到heroku.png"><br> 当然我们也可以用 <code>heroku open</code> 来快速打开这个网页。</p>
+</li>
+</ol>
+<p>好啦，你应该学会了吧~ 那么何不尝试做一个小项目并将其部署上去了~ 温故知新哦！</p>
+<hr>
+<h1 id="使用-SSH-Git-传输（扩展）"><a href="#使用-SSH-Git-传输（扩展）" class="headerlink" title="使用 SSH Git 传输（扩展）"></a>使用 SSH Git 传输（扩展）</h1><p>本节是额外补充，上节是使用默认的 HTTP Git 传输，不过 Heroku 也支持使用 SSH Git 传输。所以喜欢用 SSH Git 传输的可以了解一下~</p>
+<p>要使用 SSH Git 传输，需要先配置 SSH 密钥。如果你没有生成过 SSH 密钥，那么需要先输入 <code>ssh-keygen -t rsa</code> 生成，期间有三次询问的过程（如下所示），直接三次回车即可，它将会自动取其默认值（即括号中显示的内容）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa</span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (C:\Users\ASUS-NB\.ssh\id_rsa):</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line">Your identification has been saved <span class="keyword">in</span> C:\Users\ASUS-NB\.ssh\id_rsa.</span><br><span class="line">Your public key has been saved <span class="keyword">in</span> C:\Users\ASUS-NB\.ssh\id_rsa.pub.</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>然后， <code>heroku keys:add</code> 将公钥上传到 Heroku ，它会询问你是否确定上传，输入 <code>y</code> 即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ heroku keys:add</span><br><span class="line">Found an SSH public key at C:\Users\ASUS-NB\.ssh\id_rsa.pub</span><br><span class="line">Would you like to upload it to Heroku? [Y/n]: y</span><br><span class="line">Uploading C:\Users\ASUS-NB\.ssh\id_rsa.pub SSH key... <span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>此时，你就可以输入 <code>heroku keys</code> 查看 Heroku 的 keys 了。下图说明我们已成功上传 SSH key。<br><img src="https://i.loli.net/2018/07/20/5b519199a598d.png" alt="查看heroku密钥.png"></p>
+<p>你可以点击这里可以了解更多关于 Heroku <a target="_blank" rel="noopener" href="https://devcenter.heroku.com/articles/keys">管理 SSH 密钥</a> 的 API 。</p>
+<p>SSH Git 传输跟 HTTP Git 传输，在命令上只有一小点区别。我们只需要添加 <code>--ssh-git</code> 到 <code>heroku create</code> 、 <code>heroku git:remote</code> 和 <code>heroku git:clone</code> 命令中即可。例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ heroku create --ssh-git</span><br></pre></td></tr></table></figure>
+
+<p>如果你始终使用 SSH Git 传输，那么可以为其全局配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/</span><br></pre></td></tr></table></figure>
+
+
+<p>本文完。</p>
+<p>参考资料总结：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://devcenter.heroku.com/start">Getting Started on Heroku</a></li>
+<li><a target="_blank" rel="noopener" href="https://devcenter.heroku.com/articles/keys">Managing Your SSH Keys</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/07/25/deploy-on-heroku/" data-id="cm2uc0mbs000cpggpdsa0dxnt" data-title="Windows 系统下的 Heroku 部署" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/30/seo-in-front-end/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          前端搜索引擎优化（SEO）的技巧
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/17/interview-html/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">面试常考题之 HTML</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

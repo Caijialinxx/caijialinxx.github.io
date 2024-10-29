@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>HTTP 的请求和响应 | Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="HTTP 协议是用来指导服务器和浏览器之间如何进行沟通的，一般来说端口默认是 80 。浏览器通过向服务器发送 HTTP 请求，来请求服务器中的资源。服务器根据这个请求，返回相应的响应。最后浏览器下载这个响应的实体内容。 HTTP请求根据 RFC 2616 的第五章 Request ，一个请求基本包括请求行、请求头、 CRLF 至少这三部分内容，有时还有第四部分请求实体。 例如，我们使用下列命令向">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP 的请求和响应">
+<meta property="og:url" content="https://caijialinxx.github.io/2018/09/09/http-request-and-response/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="HTTP 协议是用来指导服务器和浏览器之间如何进行沟通的，一般来说端口默认是 80 。浏览器通过向服务器发送 HTTP 请求，来请求服务器中的资源。服务器根据这个请求，返回相应的响应。最后浏览器下载这个响应的实体内容。 HTTP请求根据 RFC 2616 的第五章 Request ，一个请求基本包括请求行、请求头、 CRLF 至少这三部分内容，有时还有第四部分请求实体。 例如，我们使用下列命令向">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2018/10/09/5bbc667c2232a.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/09/5bbc72d1e70f7.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/09/5bbc81ec9067c.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/09/5bbc84836492c.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/09/5bbcc122db1e4.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/09/5bbcc11eb4bde.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/09/5bbcc11eea954.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/09/5bbcc43290425.png">
+<meta property="article:published_time" content="2018-09-09T14:02:04.000Z">
+<meta property="article:modified_time" content="2018-10-09T16:10:38.000Z">
+<meta property="article:author" content="caijialinxx">
+<meta property="article:tag" content="Notes">
+<meta property="article:tag" content="HTTP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2018/10/09/5bbc667c2232a.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-http-request-and-response" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/09/09/http-request-and-response/" class="article-date">
+  <time class="dt-published" datetime="2018-09-09T14:02:04.000Z" itemprop="datePublished">2018-09-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      HTTP 的请求和响应
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>HTTP 协议是用来指导服务器和浏览器之间如何进行沟通的，一般来说端口默认是 <code>80</code> 。浏览器通过向服务器发送 HTTP 请求，来请求服务器中的资源。服务器根据这个请求，返回相应的响应。最后浏览器下载这个响应的实体内容。</p>
+<h2 id="HTTP请求"><a href="#HTTP请求" class="headerlink" title="HTTP请求"></a>HTTP请求</h2><p>根据 <a target="_blank" rel="noopener" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html">RFC 2616 的第五章 Request</a> ，一个请求基本包括请求行、请求头、 CRLF 至少这三部分内容，有时还有第四部分请求实体。<br><img src="https://i.loli.net/2018/10/09/5bbc667c2232a.png" alt="RFC 2616规范中HTTP请求的结构"></p>
+<p>例如，我们使用下列命令向 <code>https://www.baidu.com</code> 发送 POST 请求（<a target="_blank" rel="noopener" href="https://explainshell.com/explain?cmd=curl+-X+POST+-d+%27%7B%22name%22:%22caijialinxx%22%7D%27+-H+%27Content-Type:+application/json%27+-s+-v+https://www.baidu.com">点击查看命令的解释</a>），可以看到它的请求报文如下图所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X POST -d &#x27;&#123;&quot;name&quot;:&quot;caijialinxx&quot;&#125;&#x27; -H &#x27;Content-Type: application/json&#x27; -s -v https://www.baidu.com</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2018/10/09/5bbc72d1e70f7.png" alt="向 https://www.baidu.com 发送POST请求的请求报文"></p>
+<ul>
+<li>第一部分即为请求行，分别包括 <code>请求方法</code> 、 <code>请求URI</code> 、 <code>HTTP版本</code> ，它们之间使用英文空格 <code>SP</code> 分隔，此外，最后是一个换行符 <code>CRLF</code> 。</li>
+<li>第二部分是以 <code>key: value</code> 形式组成的请求头。其中包括 request-header （如 <code>Host</code> <code>User-Agent</code> <code>Accept</code>）和 entity-header （如 <code>Content-Type</code> <code>Content-Length</code>）。每一对 <code>key: value</code> 请求头后也都有一个 <code>CRLF</code> 。</li>
+<li>第三部分是固定不变的单独一行 <code>CRLF</code> ，用于分隔第二部分和第四部分。</li>
+<li>第四部分是发送请求时带上的请求实体，即 <code>&#123;&quot;name&quot;:&quot;caijialinxx&quot;&#125;</code> 。命令行在第二部分中添加的 <code>Content-Type: application/json</code> 请求头，标示着第四部分是 JSON 格式的数据。</li>
+</ul>
+<p>我们发送请求的方法有以下几种：</p>
+<ul>
+<li><strong>GET</strong><br>GET 方法是 HTTP 请求中最常用的方法，通常用于请求服务器中的某个资源。此方法应只用来获取数据。</li>
+<li>HEAD<br>HEAD 方法与 GET 方法类似，但是服务器在响应中只返回头部，而不返回响应实体。</li>
+<li><strong>POST</strong><br>此方法最初是用来向服务器输入数据的。实际上经常与 HTML 表单结合使用，表单被提交时，数据通常被附加到请求实体中发送给服务器。</li>
+<li><strong>PUT</strong><br>此方法让服务器用请求的实体部分来创建一个由请求中的 URL 命名的新文档，如果这个 URL 已存在，那么此次请求的主体会替代原有的主体。</li>
+<li><strong>PATCH</strong><br>用于请求服务器修改指定资源的某个部分。</li>
+<li><strong>DELETE</strong><br>向服务器请求删除指定 URL 对应的资源。</li>
+<li>OPTIONS<br>请求 Web 服务器告知其支持的各种功能，如支持的方法或对请求某些资源支持的方法。</li>
+<li>CONNECT<br>建立一个到由目标资源标识的服务器的隧道。</li>
+<li>TRACE<br>沿着到目标资源的路径执行一个消息环回测试。</li>
+</ul>
+<h2 id="HTTP响应"><a href="#HTTP响应" class="headerlink" title="HTTP响应"></a>HTTP响应</h2><p>根据 <a target="_blank" rel="noopener" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6">RFC 2616 的第六章 Response</a> ，一个响应包括状态行、响应头、 CRLF 和响应实体。<br><img src="https://i.loli.net/2018/10/09/5bbc81ec9067c.png" alt="RFC 2616规范中HTTP响应的结构"></p>
+<p>在上一部分中（<a href="#HTTP%E8%AF%B7%E6%B1%82">HTTP 请求</a>），我们向 <code>https://www.baidu.com</code> 发送了一个 POST 请求，它紧接着返回了响应给我们，让我们来看看它的响应报文：<br><img src="https://i.loli.net/2018/10/09/5bbc84836492c.png" alt="服务器返回的响应报文"></p>
+<ul>
+<li>第一部分即为状态行，分别包括 <code>HTTP版本</code> 、 <code>状态码</code> 、 <code>状态解释</code> ，它们之间使用英文空格 <code>SP</code> 分隔，此外，最后是一个换行符 <code>CRLF</code> 。在此报文中我们可以看到状态码是 <code>302</code> ，表示页面暂时被另一个 URI 所替代，但客户端在未来的请求中仍应使用当前请求的 URI 。</li>
+<li>第二部分是以 <code>key: value</code> 形式组成的响应头。其中包括 general-header (<code>Connection</code> , <code>Date</code>) 、 response-header (<code>ETag</code> , <code>Server</code>) 和 entity-header (<code>Content-Type</code> , <code>Content-Length</code>) 。每一对 <code>key: value</code> 请求头后也都有一个 <code>CRLF</code> 。</li>
+<li>第三部分是固定不变的单独一行 <code>CRLF</code> ，同请求报文的第三部分。</li>
+<li>第四部分是响应实体。在此报文第二部分中我们可以看到 <code>Content-Type: text/html</code> 响应头，表明第四部分是一个 HTML 文档，它有 3824 字节长度的数据。</li>
+</ul>
+<p>关于状态码的详解，请参考我的另一篇文章 <a href="https://caijialinxx.github.io/2018/06/27/http-status-code/">一些常见的 HTTP 状态码</a> 。</p>
+<h2 id="如何使用开发者工具查看报文"><a href="#如何使用开发者工具查看报文" class="headerlink" title="如何使用开发者工具查看报文"></a>如何使用开发者工具查看报文</h2><p>作为一个前端开发人员，学会用开发者工具分析请求是一件很有帮助且不费时间的事情。下面，我将举例如何在 Chrome 中利用开发者工具查看请求报文和响应报文：</p>
+<ol>
+<li><p>按下 <kbd>F12</kbd> 即可打开开发者工具。</p>
+</li>
+<li><p>点击 Network ，当访问一个网页时，这里将会出现很多请求结果。我以阮一峰老师的个人网站为例，在地址栏中输入 <code>www.ruanyifeng.com</code> ，然后可以看到如下请求结果：<br><img src="https://i.loli.net/2018/10/09/5bbcc122db1e4.png" alt="在Chrome中访问www.ruanyifeng.com"></p>
+</li>
+<li><p>我们点开第一个 <code>www.ruanyifeng.com</code> ，点击 Request Header 中的 view source，这才是我们该看的格式。于是它的请求报文如下：<br><img src="https://i.loli.net/2018/10/09/5bbcc11eb4bde.png" alt="www.ruanyifeng.com的请求报文"></p>
+<ul>
+<li>浏览器使用 <code>GET</code> 方法向 <code>http://www.ruanyifeng.com</code> 发送一个请求，并告诉服务器它接受的响应实体类型、 Cookie 等请求头信息。</li>
+</ul>
+</li>
+<li><p>然后同样的，点开 Response Header 中的 view source ，看到服务器发回的响应报文如下所示：<br><img src="https://i.loli.net/2018/10/09/5bbcc11eea954.png" alt="www.ruanyifeng.com的响应报文"></p>
+<ul>
+<li>服务器返回状态码 <code>302</code> ，告诉我们这个域名被响应头 <code>Location</code> 指向的 URI 所暂时替代，并自动完成了重定向，于是得到了第二个请求结果（箭头指向的红框）。</li>
+</ul>
+</li>
+<li><p>查看重定向的请求结果：<br><img src="https://i.loli.net/2018/10/09/5bbcc43290425.png" alt="home.html的报文"></p>
+<ul>
+<li>重定向使得浏览器重新向服务器请求 <code>http://www.ruanyifeng.com/home.html</code> 这个资源，在 Response Headers 中我们可以看到此次请求成功（状态码为 <code>200</code> ），并且返回的响应实体是一个 HTML 文档，也就是我们看到的这个网页，一共有 4346 字节的内容。这个网页最后一次更新是在格林尼治的 2018-5-24 星期四 05:56:54 等信息。</li>
+</ul>
+</li>
+</ol>
+<p>现在应该知道要如何利用开发者工具查看我们的网络请求了吧~ 好处你用过就知道~ 当然开发者工具还不只有这些功能，在这里我就不做深入研究。</p>
+<hr>
+<p>天色已晚，本文完。</p>
+<p>若文中有错误还请指正与包涵！</p>
+<p>原文链接：<a href="https://caijialinxx.github.io/2018/09/09/http-request-and-response/">https://caijialinxx.github.io/2018/09/09/http-request-and-response/</a></p>
+<p>转载请注明出处。</p>
+<p>参考资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Methods">HTTP 请求方法</a> —— MDN</li>
+<li><a target="_blank" rel="noopener" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5">HTTP 协议之请求</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6">HTTP 协议之响应</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10">HTTP 协议之状态码</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/09/09/http-request-and-response/" data-id="cm2uc0mbz000vpggp6ec56fzk" data-title="HTTP 的请求和响应" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/15/block-formatting-context/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          BFC（块格式化上下文）的理解及其应用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/30/seo-in-front-end/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">前端搜索引擎优化（SEO）的技巧</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

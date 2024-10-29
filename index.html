@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Caijialinxx">
+<meta property="og:url" content="https://caijialinxx.github.io/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:locale">
+<meta property="article:author" content="caijialinxx">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-building-an-script-for-efficient-git-repository-synchronization" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/" class="article-date">
+  <time class="dt-published" datetime="2024-06-09T07:39:28.000Z" itemprop="datePublished">2024-06-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>在日常开发工作中，我经常会遇到需要在两个代码仓库之间批量同步代码的需求。如果手动执行这些同步命令，不仅繁琐，还可能导致出错。而且一旦我需要请假，则要交代其他同事帮忙同步代码，尽管已经写好了教程文档，还是会有各种问题来咨询我，这让我意识到，如果有一个脚本可以帮我完成这些重复性的工作，那该多好，并且同事们拿到脚本只管运行、确认推送就可以了。于是，基于这些目的，我编写了一个自动化脚本，来实现批量代码同步和提交。</p>
+<p>本文将通过展示脚本的初版和优化版，帮助大家更好地理解如何使用 Bash 脚本实现日常任务的自动化。</p>
+</blockquote>
+<h2 id="初版脚本的实现"><a href="#初版脚本的实现" class="headerlink" title="初版脚本的实现"></a>初版脚本的实现</h2><p>实现的关键步骤如下：</p>
+<ul>
+<li>检查当前仓库地址，确认是否与指定地址匹配</li>
+<li>检查或配置目标仓库地址</li>
+<li>确认需要同步的分支是否存在</li>
+<li>同步源仓库代码到目标仓库的对应分支</li>
+<li>在推送前进行用户确认以防误操作</li>
+</ul>
+<p>基于以上步骤，我实现了自动化脚本 <code>fork-v1.sh</code>，我们接着来看看初版脚本是如何实现的：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">error_echo() &#123;</span><br><span class="line">  echo -e &quot;\033[31mERROR: $1\033[0m&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">info_echo() &#123;</span><br><span class="line">  echo -e &quot;\033[34m$1\033[0m&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">success_echo() &#123;</span><br><span class="line">  echo -e &quot;\033[32m$1\033[0m&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cmd_echo() &#123;</span><br><span class="line">  echo -e &quot;\033[33m$1\033[0m&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">confirm_echo() &#123;</span><br><span class="line">  echo -e &quot;\033[47;35m$1\033[0m&quot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查仓库</span></span><br><span class="line">REPOSITORY=&quot;ssh://git@code.xxx.com/com1/repo1.git&quot;</span><br><span class="line">repository_check_result=$(git remote get-url origin 2&gt;&amp;1)</span><br><span class="line">cmd_echo &quot;$ git remote get-url origin&quot;</span><br><span class="line">echo &quot;$repository_check_result&quot;</span><br><span class="line">if [ &quot;$repository_check_result&quot; == $REPOSITORY ]; then</span><br><span class="line">  success_echo &quot;当前仓库检查通过&quot;</span><br><span class="line">else</span><br><span class="line">  error_echo &quot;当前仓库检查不通过，应进入 $REPOSITORY 对应的本地仓库！&quot;</span><br><span class="line">  exit 1</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查源</span></span><br><span class="line">TARGET_ORIGIN=&quot;ssh://git@code.xxx.com/com2/repo2.git&quot;</span><br><span class="line">new_origin_check_result=$(git remote get-url newOrigin 2&gt;&amp;1)</span><br><span class="line">cmd_echo &quot;$ git remote get-url newOrigin&quot;</span><br><span class="line">echo &quot;$new_origin_check_result&quot;</span><br><span class="line">if [ &quot;$new_origin_check_result&quot; == $TARGET_ORIGIN ]; then</span><br><span class="line">  success_echo &quot;当前仓库检查通过&quot;</span><br><span class="line">elif [[ &quot;$new_origin_check_result&quot; =~ &quot;No such remote &#x27;newOrigin&#x27;&quot;]]; then</span><br><span class="line">  info_echo &quot;未设置newOrigin，即将自动设置&quot;</span><br><span class="line">  cmd_echo &quot;$ git remote add newOrigin dev&quot;</span><br><span class="line">  git remote add newOrigin dev</span><br><span class="line">  cmd_echo &quot;$ git remote set-url newOrigin $TARGET_ORIGIN&quot;</span><br><span class="line">  git remote set-url newOrigin $TARGET_ORIGIN</span><br><span class="line">else</span><br><span class="line">  error_echo &quot;newOrigin源检查不通过，请根据日志排查失败原因！&quot;</span><br><span class="line">  exit 1</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查环境参数</span></span><br><span class="line">if [ $# -ne 1 ]; then</span><br><span class="line">  error_echo &#x27;请传入需要处理的环境参数，例如 fork.sh [dev|uat|prod]&#x27;</span><br><span class="line">  exit 1</span><br><span class="line">else</span><br><span class="line">  info_echo &quot;============ 即将执行 repo1 到 repo2 【$1】环境的同步 ============&quot;</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取分支名称</span></span><br><span class="line">if [ $1 == prod ]; then</span><br><span class="line">  OLD_BRANCH_NAME=&quot;repo1-prod&quot;</span><br><span class="line">  NEW_BRANCH_NAME=&quot;ver&quot;</span><br><span class="line">else</span><br><span class="line">  OLD_BRANCH_NAME=&quot;repo1-$1&quot;</span><br><span class="line">  NEW_BRANCH_NAME=&quot;repo2-$1&quot;</span><br><span class="line">fi</span><br><span class="line">info_echo &quot;============ 即将执行 repo1 到 repo2 【$1】环境的同步 ============&quot;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查分支</span></span><br><span class="line">git rev-parse --verify &quot;origin/$OLD_BRANCH_NAME&quot; &gt; /dev/null 2&gt;&amp;1</span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">分支存在</span></span><br><span class="line">  success_echo &quot;分支检查通过&quot;</span><br><span class="line">  info_echo &quot;---------- 切换到该分支 ----------&quot;</span><br><span class="line">  cmd_echo &quot;$ git checkout $OLD_BRANCH_NAME&quot;</span><br><span class="line">  git checkout $OLD_BRANCH_NAME</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">检查是否切换成功</span></span><br><span class="line">  current_branch=$(git symbolic-ref --short HEAD)</span><br><span class="line">  if [ $current_branch == $OLD_BRANCH_NAME ]; then</span><br><span class="line">    success_echo &quot;已切换到 $OLD_BRANCH_NAME 分支&quot;</span><br><span class="line">  else</span><br><span class="line">    error_echo &quot;分支切换失败，当前分支[$current_branch]&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  fi</span><br><span class="line">else</span><br><span class="line">  error_echo &quot;分支检查失败，原因：该分支不存在，请检查传入的环境参数&quot;</span><br><span class="line">  exit 1</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">同步代码</span></span><br><span class="line">info_echo &quot;---------- 同步 repo1 仓库 $OLD_BRANCH_NAME 分支的远程代码 ----------&quot;</span><br><span class="line">cmd_echo &quot;$ git fetch origin&quot;</span><br><span class="line">git fetch origin</span><br><span class="line">cmd_echo &quot;$ git reset --hard origin/$OLD_BRANCH_NAME&quot;</span><br><span class="line">git reset --hard origin/$OLD_BRANCH_NAME</span><br><span class="line"></span><br><span class="line">info_echo &quot;---------- 拉取 repo2 仓库 $NEW_BRANCH_NAME 分支的远程代码 ----------&quot;</span><br><span class="line">cmd_echo &quot;$ git pull newOrigin $NEW_BRANCH_NAME --allow-unrelated-histories&quot;</span><br><span class="line">git pull newOrigin $NEW_BRANCH_NAME --allow-unrelated-histories</span><br><span class="line"></span><br><span class="line">info_echo &quot;---------- 本地 git log 前 5 条 commit 日志简览 ----------&quot;</span><br><span class="line">git log -n 5 --oneline</span><br><span class="line"></span><br><span class="line">info_echo &quot;---------- 请人工确认是否推送到远程 repo2 仓库的 $NEW_BRANCH_NAME 分支 ----------&quot;</span><br><span class="line">confirm_echo &quot;输入y为确认推送，q为退出：&quot;</span><br><span class="line">while true; do</span><br><span class="line">  read user_input</span><br><span class="line">  case $user_input in</span><br><span class="line">    &quot;y&quot;)</span><br><span class="line">      info_echo &quot;---------- 正在推送到远程 repo2 仓库的 $NEW_BRANCH_NAME 分支 ----------&quot;</span><br><span class="line">      git push newOrigin $OLD_BRANCH_NAME:$NEW_BRANCH_NAME</span><br><span class="line">      info_echo &quot;============ 脚本执行完成，请检查是否推送成功 ============&quot;</span><br><span class="line">      break</span><br><span class="line">      ;;</span><br><span class="line">    &quot;q&quot;)</span><br><span class="line">      info_echo &quot;停止并退出fork程序&quot;</span><br><span class="line">      exit 0</span><br><span class="line">      ;;</span><br><span class="line">    *)</span><br><span class="line">      confirm_echo &quot;未知指令，请输入&#x27;y&#x27;或&#x27;q&#x27;（y为确认推送，q为退出）：&quot;</span><br><span class="line">      ;;</span><br><span class="line">  esac</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>虽然初版脚本基本满足需求，但在代码结构、容错性和兼容性上还有进一步优化的空间。</p>
+<h2 id="优化后的脚本"><a href="#优化后的脚本" class="headerlink" title="优化后的脚本"></a>优化后的脚本</h2><p>经过优化后的 <code>fork-v2.sh</code> 代码结构更加清晰，功能也更加健壮。以下为优化版脚本代码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">定义颜色代码常量</span></span><br><span class="line">readonly RED=&#x27;\033[31m&#x27;</span><br><span class="line">readonly GREEN=&#x27;\033[32m&#x27;</span><br><span class="line">readonly BLUE=&#x27;\033[34m&#x27;</span><br><span class="line">readonly YELLOW=&#x27;\033[33m&#x27;</span><br><span class="line">readonly MAGENTA_BG_WHITE=&#x27;\033[47;35m&#x27;</span><br><span class="line">readonly NC=&#x27;\033[0m&#x27;  # No Color</span><br><span class="line"></span><br><span class="line">error_echo() &#123; printf &quot;$&#123;RED&#125;ERROR: %s$&#123;NC&#125;\n&quot; &quot;$1&quot;; &#125;</span><br><span class="line">info_echo() &#123; printf &quot;$&#123;BLUE&#125;%s$&#123;NC&#125;\n&quot; &quot;$1&quot;; &#125;</span><br><span class="line">success_echo() &#123; printf &quot;$&#123;GREEN&#125;%s$&#123;NC&#125;\n&quot; &quot;$1&quot;; &#125;</span><br><span class="line">confirm_echo() &#123; printf &quot;$&#123;MAGENTA_BG_WHITE&#125;%s$&#123;NC&#125;\n&quot; &quot;$1&quot;; &#125;</span><br><span class="line">cmd_echo() &#123; printf &quot;$&#123;YELLOW&#125;%s$&#123;NC&#125;\n&quot; &quot;$1&quot;; &#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">常量定义</span></span><br><span class="line">readonly REPOSITORY=&quot;ssh://git@code.xxx.com/com1/repo1.git&quot;</span><br><span class="line">readonly TARGET_ORIGIN=&quot;ssh://git@code.xxx.com/com2/repo2.git&quot;</span><br><span class="line">readonly VALID_ENVS=(&quot;dev&quot; &quot;uat&quot; &quot;prod&quot;)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">帮助信息</span></span><br><span class="line">show_usage() &#123;</span><br><span class="line">  cat &lt;&lt; EOF</span><br><span class="line">用法: $(basename &quot;$0&quot;) &lt;环境&gt;</span><br><span class="line">环境选项:</span><br><span class="line">  dev   开发环境</span><br><span class="line">  uat   测试环境</span><br><span class="line">  prod  生产环境</span><br><span class="line">示例: </span><br><span class="line"><span class="meta prompt_">  $</span><span class="language-bash">(<span class="built_in">basename</span> <span class="string">&quot;<span class="variable">$0</span>&quot;</span>) dev</span></span><br><span class="line">EOF</span><br><span class="line">  exit 1</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查环境参数</span></span><br><span class="line">check_env() &#123;</span><br><span class="line">  if [ $# -ne 1 ]; then</span><br><span class="line">    error_echo &quot;请传入需要处理的环境参数&quot;</span><br><span class="line">    show_usage</span><br><span class="line">  fi</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">使用 =~ 和 IFS 来检查数组是否包含元素</span></span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">通过在数组元素前后添加空格（<span class="string">&quot; <span class="variable">$&#123;VALID_ENVS[*]&#125;</span> &quot;</span>），可以确保准确匹配完整的环境名称，避免部分匹配的问题（比如 <span class="string">&quot;de&quot;</span> 匹配到 <span class="string">&quot;dev&quot;</span>）</span></span><br><span class="line">  [[ &quot; $&#123;VALID_ENVS[*]&#125; &quot; =~ &quot; $1 &quot; ]] || &#123;</span><br><span class="line">    error_echo &quot;无效的环境参数: $1&quot;</span><br><span class="line">    show_usage</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查仓库配置</span></span><br><span class="line">check_repository() &#123;</span><br><span class="line">  cmd_echo &quot;$ git remote get-url origin&quot;</span><br><span class="line"></span><br><span class="line">  local repo_url</span><br><span class="line">  repo_url=$(git remote get-url origin 2&gt;&amp;1) || &#123;</span><br><span class="line">    error_echo &quot;获取仓库地址失败&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  echo &quot;$repo_url&quot;</span><br><span class="line">  </span><br><span class="line">  if [ &quot;$repo_url&quot; != &quot;$REPOSITORY&quot; ]; then</span><br><span class="line">    error_echo &quot;当前仓库检查不通过，应进入 $REPOSITORY 对应的本地仓库！&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  fi</span><br><span class="line">  success_echo &quot;当前仓库检查通过&quot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">设置目标仓库</span></span><br><span class="line">setup_target_repository() &#123;</span><br><span class="line">  cmd_echo &quot;$ git remote get-url newOrigin&quot;</span><br><span class="line"></span><br><span class="line">  local target_url</span><br><span class="line">  target_url=$(git remote get-url newOrigin 2&gt;&amp;1)</span><br><span class="line">  </span><br><span class="line">  echo &quot;$target_url&quot;</span><br><span class="line">  </span><br><span class="line">  if [ &quot;$target_url&quot; == &quot;$TARGET_ORIGIN&quot; ]; then</span><br><span class="line">    success_echo &quot;目标仓库检查通过&quot;</span><br><span class="line">    return</span><br><span class="line">  fi</span><br><span class="line">  </span><br><span class="line">  if [[ &quot;$target_url&quot; =~ &quot;No such remote &#x27;newOrigin&#x27;&quot; ]]; then</span><br><span class="line">    info_echo &quot;未设置newOrigin，即将自动设置&quot;</span><br><span class="line">    git remote add newOrigin dev &amp;&amp; \</span><br><span class="line">    git remote set-url newOrigin &quot;$TARGET_ORIGIN&quot; || &#123;</span><br><span class="line">      error_echo &quot;设置目标仓库失败&quot;</span><br><span class="line">      exit 1</span><br><span class="line">    &#125;</span><br><span class="line">    return</span><br><span class="line">  fi</span><br><span class="line">  </span><br><span class="line">  error_echo &quot;newOrigin源检查不通过，请根据日志排查失败原因！&quot;</span><br><span class="line">  exit 1</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">获取分支名称</span></span><br><span class="line">get_branch_names() &#123;</span><br><span class="line">  if [ &quot;$1&quot; == &quot;prod&quot; ]; then</span><br><span class="line">    OLD_BRANCH_NAME=&quot;repo1-prod&quot;</span><br><span class="line">    NEW_BRANCH_NAME=&quot;ver&quot;</span><br><span class="line">  else</span><br><span class="line">    OLD_BRANCH_NAME=&quot;repo1-$1&quot;</span><br><span class="line">    NEW_BRANCH_NAME=&quot;repo2-$1&quot;</span><br><span class="line">  fi</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">切换并同步分支</span></span><br><span class="line">switch_and_sync_branch() &#123;</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">检查分支是否存在</span></span><br><span class="line">  git rev-parse --verify &quot;origin/$OLD_BRANCH_NAME&quot; &gt; /dev/null 2&gt;&amp;1 || &#123;</span><br><span class="line">    error_echo &quot;分支 $OLD_BRANCH_NAME 不存在，请检查环境参数&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  success_echo &quot;分支检查通过&quot;</span><br><span class="line">  info_echo &quot;---------- 切换到该分支 ----------&quot;</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">切换分支</span></span><br><span class="line">  git checkout &quot;$OLD_BRANCH_NAME&quot; || &#123;</span><br><span class="line">    error_echo &quot;分支切换失败&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">验证当前分支</span></span><br><span class="line">  local current_branch</span><br><span class="line">  current_branch=$(git symbolic-ref --short HEAD)</span><br><span class="line">  if [ &quot;$current_branch&quot; != &quot;$OLD_BRANCH_NAME&quot; ]; then</span><br><span class="line">    error_echo &quot;分支切换失败，当前分支[$current_branch]&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  fi</span><br><span class="line">  success_echo &quot;已切换到 $OLD_BRANCH_NAME 分支&quot;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">主函数</span></span><br><span class="line">main() &#123;</span><br><span class="line">  check_env &quot;$1&quot;</span><br><span class="line">  check_repository</span><br><span class="line">  setup_target_repository</span><br><span class="line">  get_branch_names &quot;$1&quot;</span><br><span class="line">  </span><br><span class="line">  info_echo &quot;============ 即将执行 repo1 到 repo2 【$1】环境的同步 ============&quot;</span><br><span class="line">  switch_and_sync_branch</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">同步代码</span></span><br><span class="line">  info_echo &quot;---------- 同步 repo1 仓库 $OLD_BRANCH_NAME 分支的远程代码 ----------&quot;</span><br><span class="line">  git fetch origin &amp;&amp; \</span><br><span class="line">  git reset --hard &quot;origin/$OLD_BRANCH_NAME&quot; || &#123;</span><br><span class="line">    error_echo &quot;同步远程代码失败&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">拉取目标仓库代码</span></span><br><span class="line">  info_echo &quot;---------- 拉取 repo2 仓库 $NEW_BRANCH_NAME 分支的远程代码 ----------&quot;</span><br><span class="line">  git pull newOrigin &quot;$NEW_BRANCH_NAME&quot; --allow-unrelated-histories || &#123;</span><br><span class="line">    error_echo &quot;拉取目标仓库代码失败&quot;</span><br><span class="line">    exit 1</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">显示日志</span></span><br><span class="line">  info_echo &quot;---------- 本地 git log 前 5 条 commit 日志简览 ----------&quot;</span><br><span class="line">  git log -n 5 --oneline</span><br><span class="line">  </span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">确认推送</span></span><br><span class="line">  info_echo &quot;---------- 请人工确认是否推送到远程 repo2 仓库的 $NEW_BRANCH_NAME 分支 ----------&quot;</span><br><span class="line">  confirm_echo &quot;输入y为确认推送，q为退出：&quot;</span><br><span class="line">  while true; do</span><br><span class="line">    read -r user_input</span><br><span class="line">    case $user_input in</span><br><span class="line">      &quot;y&quot;)</span><br><span class="line">        info_echo &quot;---------- 正在推送到远程 repo2 仓库的 $NEW_BRANCH_NAME 分支 ----------&quot;</span><br><span class="line">        if git push newOrigin &quot;$OLD_BRANCH_NAME:$NEW_BRANCH_NAME&quot;; then</span><br><span class="line">          info_echo &quot;============ 推送成功 ============&quot;</span><br><span class="line">        else</span><br><span class="line">          error_echo &quot;推送失败&quot;</span><br><span class="line">          exit 1</span><br><span class="line">        fi</span><br><span class="line">        break</span><br><span class="line">        ;;</span><br><span class="line">      &quot;q&quot;)</span><br><span class="line">        info_echo &quot;停止并退出fork程序&quot;</span><br><span class="line">        exit 0</span><br><span class="line">        ;;</span><br><span class="line">      *)</span><br><span class="line">        confirm_echo &quot;未知指令，请输入&#x27;y&#x27;或&#x27;q&#x27;（y为确认推送，q为退出）：&quot;</span><br><span class="line">        ;;</span><br><span class="line">    esac</span><br><span class="line">  done</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main &quot;$@&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="优化点说明"><a href="#优化点说明" class="headerlink" title="优化点说明"></a>优化点说明</h3><ul>
+<li><p><strong>代码结构优化</strong>：通过模块化结构，将各功能封装成独立的函数，如 <code>check_env</code>、<code>check_repository</code>、<code>switch_and_sync_branch</code> 等。每个函数负责特定任务，使代码更清晰，也更易于维护和扩展。</p>
+</li>
+<li><p>**<code>echo -e</code> 替换为 <code>printf</code>**：<code>fork-v2.sh</code> 中用 <code>printf</code> 替换了 <code>echo -e</code>，提高了跨平台兼容性。<code>echo</code> 的行为在不同的 Unix 系统上可能略有不同，特别是 <code>-e</code> 选项的支持情况不一致（如某些系统默认不支持 <code>-e</code>），导致转义字符解析可能不一致。<code>printf</code> 是 POSIX 标准命令，能保证颜色输出在各种系统中的一致性和格式控制。</p>
+</li>
+<li><p><strong>错误检查和处理机制优化</strong>：优化后的脚本对每一步操作都增加了容错处理。每个关键操作（如仓库地址检查、分支切换、代码同步）都使用 <code>||</code> 来保证错误提示和安全退出，防止后续代码在失败条件下继续执行。此外，<code>switch_and_sync_branch</code> 函数在切换分支失败时立即退出，避免错误传播，增强了脚本的稳定性。</p>
+</li>
+</ul>
+<p>通过本次优化，脚本在执行批量代码同步时不仅更加稳定，而且具备了良好的容错和提示信息，提升了工作效率。希望本文对你在脚本开发中有所帮助！</p>
+<hr>
+<h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="常用的颜色与文字样式"><a href="#常用的颜色与文字样式" class="headerlink" title="常用的颜色与文字样式"></a>常用的颜色与文字样式</h3><h4 id="文字颜色"><a href="#文字颜色" class="headerlink" title="文字颜色"></a>文字颜色</h4><table>
+<thead>
+<tr>
+<th>颜色</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>黑色</td>
+<td><code>\033[30m</code></td>
+</tr>
+<tr>
+<td>红色</td>
+<td><code>\033[31m</code></td>
+</tr>
+<tr>
+<td>绿色</td>
+<td><code>\033[32m</code></td>
+</tr>
+<tr>
+<td>黄色</td>
+<td><code>\033[33m</code></td>
+</tr>
+<tr>
+<td>蓝色</td>
+<td><code>\033[34m</code></td>
+</tr>
+<tr>
+<td>紫色</td>
+<td><code>\033[35m</code></td>
+</tr>
+<tr>
+<td>青色</td>
+<td><code>\033[36m</code></td>
+</tr>
+<tr>
+<td>白色</td>
+<td><code>\033[37m</code></td>
+</tr>
+</tbody></table>
+<h4 id="背景颜色"><a href="#背景颜色" class="headerlink" title="背景颜色"></a>背景颜色</h4><table>
+<thead>
+<tr>
+<th>颜色</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>黑色背景</td>
+<td><code>\033[40m</code></td>
+</tr>
+<tr>
+<td>红色背景</td>
+<td><code>\033[41m</code></td>
+</tr>
+<tr>
+<td>绿色背景</td>
+<td><code>\033[42m</code></td>
+</tr>
+<tr>
+<td>黄色背景</td>
+<td><code>\033[43m</code></td>
+</tr>
+<tr>
+<td>蓝色背景</td>
+<td><code>\033[44m</code></td>
+</tr>
+<tr>
+<td>紫色背景</td>
+<td><code>\033[45m</code></td>
+</tr>
+<tr>
+<td>青色背景</td>
+<td><code>\033[46m</code></td>
+</tr>
+<tr>
+<td>白色背景</td>
+<td><code>\033[47m</code></td>
+</tr>
+</tbody></table>
+<h4 id="其他常用格式"><a href="#其他常用格式" class="headerlink" title="其他常用格式"></a>其他常用格式</h4><table>
+<thead>
+<tr>
+<th>样式</th>
+<th>代码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>重置所有属性</td>
+<td><code>\033[0m</code></td>
+</tr>
+<tr>
+<td>高亮&#x2F;加粗</td>
+<td><code>\033[1m</code></td>
+</tr>
+<tr>
+<td>下划线</td>
+<td><code>\033[4m</code></td>
+</tr>
+<tr>
+<td>闪烁</td>
+<td><code>\033[5m</code></td>
+</tr>
+<tr>
+<td>反显</td>
+<td><code>\033[7m</code></td>
+</tr>
+</tbody></table>
+<h3 id="特殊参数说明"><a href="#特殊参数说明" class="headerlink" title="特殊参数说明"></a>特殊参数说明</h3><ul>
+<li><code>$0</code>：脚本名称或调用脚本的命令。</li>
+<li><code>$1, $2, ...</code>：脚本接受的第一个、第二个等参数。</li>
+<li><code>$#</code>：传递给脚本的参数个数。</li>
+<li><code>$@</code>：所有参数的数组形式。</li>
+<li><code>$*</code>：所有参数的字符串形式。</li>
+<li><code>$$</code>：当前脚本的进程 ID。</li>
+<li><code>$?</code>：前一个命令的退出状态码。</li>
+</ul>
+<h3 id="EOF-用法"><a href="#EOF-用法" class="headerlink" title="EOF 用法"></a><code>EOF</code> 用法</h3><p><code>EOF</code>（End of File）是结束标记，常用于多行字符串输出，还可以替换为其他单词，比如 <code>END</code> 、<code>STOP</code> 等。两个 <code>EOF</code> 之间的所有内容都会被当作文本输出，最后的 <code>EOF</code> 必须独占一行且顶格写。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat &lt;&lt; EOF</span><br><span class="line">多行内容</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+
+<h3 id="basename-0-用法"><a href="#basename-0-用法" class="headerlink" title="basename &quot;$0&quot; 用法"></a><code>basename &quot;$0&quot;</code> 用法</h3><p><code>basename &quot;$0&quot;</code> 提取脚本文件名，不带路径。常用于帮助信息。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">例如</span></span><br><span class="line">basename &quot;/Users/caijialinxx/Desktop/fork.sh&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">输出: fork.sh</span></span><br><span class="line"></span><br><span class="line">basename &quot;/path/to/file.txt&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">输出: file.txt</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/" data-id="cm2uc0mbm0003pggp8w2y3ol5" data-title="为了高效同步代码仓库，我写了一个自动化脚本" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-troubleshooting" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/03/24/troubleshooting/" class="article-date">
+  <time class="dt-published" datetime="2023-03-24T11:30:18.000Z" itemprop="datePublished">2023-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Github-SSH"><a href="#Github-SSH" class="headerlink" title="Github - SSH"></a>Github - SSH</h2><p>官网文档：<a target="_blank" rel="noopener" href="https://docs.github.com/en/authentication/troubleshooting-ssh">https://docs.github.com/en/authentication/troubleshooting-ssh</a></p>
+<h3 id="REMOTE-HOST-IDENTIFICATION-HAS-CHANGED"><a href="#REMOTE-HOST-IDENTIFICATION-HAS-CHANGED" class="headerlink" title="REMOTE HOST IDENTIFICATION HAS CHANGED!"></a>REMOTE HOST IDENTIFICATION HAS CHANGED!</h3><blockquote>
+<p>Error: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@<br>@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @<br>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@<br>IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!<br>Someone could be eavesdropping on you right now (man-in-the-middle attack)!<br>It is also possible that a host key has just been changed.<br>The fingerprint for the RSA key sent by the remote host is<br>SHA256:uNiVztksCsDhcc0u9e8BujQXVUpKZIDTMczCvj3tD2s.<br>Please contact your system administrator.<br>Add correct host key in &#x2F;Users&#x2F;caijialinxx&#x2F;.ssh&#x2F;known_hosts to get rid of this message.<br>Offending RSA key in &#x2F;Users&#x2F;caijialinxx&#x2F;.ssh&#x2F;known_hosts:1<br>Host key for github.com has changed and you have requested strict checking.<br>Host key verification failed.<br>fatal: Could not read from remote repository.</p>
+<p>Please make sure you have the correct access rights<br>and the repository exists.</p>
+</blockquote>
+<p>Github 远程主机地址变更，导致 SSH 链接失败。解决方法：</p>
+<ul>
+<li>在 <code>~/.ssh/known_hosts</code> 删除对应IP的host记录</li>
+<li>或者删除整个 <code>~/.ssh/known_hosts</code> 文件</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="xcrun-error-invalid-active-developer-path"><a href="#xcrun-error-invalid-active-developer-path" class="headerlink" title="xcrun: error: invalid active developer path"></a>xcrun: error: invalid active developer path</h3><blockquote>
+<p>xcrun: error: invalid active developer path (&#x2F;Library&#x2F;Developer&#x2F;CommandLineTools), missing xcrun at: &#x2F;Library&#x2F;Developer&#x2F;CommandLineTools&#x2F;usr&#x2F;bin&#x2F;xcrun</p>
+</blockquote>
+<p>更新完 macOS 版本之后，使用终端出现这个报错，是因为 xcode 在更新后可能会需要重新安装。执行下行命令重装 xcode 即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ xcode-select --install</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2023/03/24/troubleshooting/" data-id="cm2uc0mc4001dpggpe38m73la" data-title="命令行操作时遇到的一些报错解决方案（持续更新...）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-react-17-important-changes" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2022/05/02/react-17-important-changes/" class="article-date">
+  <time class="dt-published" datetime="2022-05-02T12:07:44.000Z" itemprop="datePublished">2022-05-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>React 17 版本没有产生新的特性，是一个为了后续版本升级更方便、安全的垫脚石。其中比较重要升级点如下：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2020/08/10/react-v17-rc.html#changes-to-event-delegation">事件委托</a>。从挂在到 <code>document</code> 上，变更为挂在到 <strong>rootNode</strong> （React应用挂载的根节点）上。<br>  <img src="https://legacy.reactjs.org/static/bb4b10114882a50090b8ff61b3c4d0fd/31868/react_17_delegation.png" alt="React 17 的事件委托"><br>  这使得当存在多个不同版本的 React 树嵌套，或者嵌入到其他程序构建的应用程序中时，不会破坏 <code>e.stopPropagation()</code> 。<br>  另外，React 17 的事件传递更接近原生 DOM 。具体表现为在 React 16 及更早版本中，即使你在 React 事件中调用了 <code>e.stopPropagation()</code> ， <code>document</code> 监听器器仍然会接收到，这是因为原生事件已经处于 <code>document</code> 层级了。在 React 17 中传递将会按要求停止，不会再触发 <code>document</code> 对应的事件。</li>
+<li><a target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html">新的 JSX 转换</a>。与 Babel 合作，提供一种全新版本的 JSX 转换方式——无需额外导入 React 。  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  旧的 JSX 转换方式会将它转成下列代码：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">React</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;h1&#x27;</span>, <span class="literal">null</span>, <span class="string">&#x27;Hello world&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  而在 React 17 中，源码可以写成这样：  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  新的 JSX 转换方式会将它转成下列代码：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Inserted by a compiler (don&#x27;t import it yourself!)</span></span><br><span class="line"><span class="keyword">import</span> &#123;jsx <span class="keyword">as</span> _jsx&#125; <span class="keyword">from</span> <span class="string">&#x27;react/jsx-runtime&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">_jsx</span>(<span class="string">&#x27;h1&#x27;</span>, &#123; <span class="attr">children</span>: <span class="string">&#x27;Hello world&#x27;</span> &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  在升级到 React 17 过程中，如果想批量移除无用的 React 导入，可以在你的项目中执行 <code>npx react-codemod update-react-imports</code> ，即可批量移除：  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  将会被替换成  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  如果使用了其他如 Hook 的 React 导入：  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [text, setText] = <span class="title class_">React</span>.<span class="title function_">useState</span>(<span class="string">&#x27;Hello World&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;text&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  将会被替换成  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; useState &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [text, setText] = <span class="title class_">React</span>.<span class="title function_">useState</span>(<span class="string">&#x27;Hello World&#x27;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;text&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><a target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2020/08/10/react-v17-rc.html#no-event-pooling">移除了事件池</a>。<br>  React 在旧浏览器中为了性能而重用不同事件之间的事件对象，并在它们之间将所有事件字段设置为null。在 React 16 及更早版本，你必须调用 <code>e.persist()</code> 才能正确使用事件，否则需要提前读取需要的属性。而现代浏览器中，这个性能优化并没有作用，所以 React 17 已经彻底移除了“事件池”</li>
+<li><a target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2020/08/10/react-v17-rc.html#effect-cleanup-timing">异步执行 <code>useEffect</code> 清理函数</a>。<br>  此前 <code>useEffect</code> 在组件卸载时，是同步执行的，类似于 <code>componentWillUnmount</code> ，这对于大型应用程序来说并不理想，因为它会减慢大屏过渡的速度。在 React 17 中这个过程将会变成异步执行，即在更新已渲染完成后执行。若想要保持同步执行，那么可以使用 <code>useLayoutEffect</code> 来代替。当然，不必担心的是， React 17 会保证在执行任何新的副作用之前执行完所有副作用的清理函数。<br>  当然这个改动会有潜在的问题，当组件中使用了 ref 来执行一些清理操作，如下代码所示：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  someRef.<span class="property">current</span>.<span class="title function_">someSetupMethod</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    someRef.<span class="property">current</span>.<span class="title function_">someCleanupMethod</span>();</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+  由于 ref 的值是可变的，所以在异步调用时，这个 ref 的值已经被设置为 <code>null</code> 了，也就意味着这个清理函数并无法执行。那么解决方案除了使用上述的 <code>useLayoutEffect</code> 同步执行以外，还可以这样：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> instance = someRef.<span class="property">current</span>;</span><br><span class="line">  instance.<span class="title function_">someSetupMethod</span>();</span><br><span class="line">  <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    instance.<span class="title function_">someCleanupMethod</span>();</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+  将 ref 的值的引用赋值到一个新的变量，那么在清理函数执行时，可以保证这个引用还存在在内存中，可以调用到里面的方法。</li>
+<li><a target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2020/08/10/react-v17-rc.html#consistent-errors-for-returning-undefined"><code>render</code> 中返回 <code>undefined</code> 时一致的报错表现</a>。<br>  此前， React 只在 class 组件或函数组件中做了“返回 <code>undefined</code>”的检查，错误遗漏了 <code>forwardRef</code> 和 <code>memo</code> 组件， React 17 中已经将这个错误修复了。如果有意返回空内容，可以返回 <code>null</code> 。</li>
+<li><a target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2020/08/10/react-v17-rc.html#native-component-stacks">更好的组件堆栈跟踪</a>。报错时，不再是简单的 JS 堆栈，而是可以显示出具体的 React 组件堆栈信息，并可以快速定位到。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2022/05/02/react-17-important-changes/" data-id="cm2uc0mc20015pggp0v7vcz94" data-title="React 17 的重要更新" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-typescript" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/10/02/typescript/" class="article-date">
+  <time class="dt-published" datetime="2021-10-02T11:55:04.000Z" itemprop="datePublished">2021-10-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>入职这家公司后，项目中大多有使用 TypeScript 进行开发，经过一段时间的使用，我打算为它写写博客。</p>
+<h2 id="TypeScript-是什么，与-JavaScript-有什么区别？"><a href="#TypeScript-是什么，与-JavaScript-有什么区别？" class="headerlink" title="TypeScript 是什么，与 JavaScript 有什么区别？"></a>TypeScript 是什么，与 JavaScript 有什么区别？</h2><p>TypeScript 是 JavaScript 的超集，它支持所有 JavaScript 的特性，同时为 JavaScript 提供了类型。也就是说，用一个公示表示即为 <code>TypeScript = JavaScript + Type</code> 。 JavaScript 可以直接运行在浏览器和 Node.js 中，但 TypeScript 不行，它需要经过编译转换成 JavaScript 才行。</p>
+<h2 id="为什么需要-TypeScript-，相比-JavaScript-有什么优势？"><a href="#为什么需要-TypeScript-，相比-JavaScript-有什么优势？" class="headerlink" title="为什么需要 TypeScript ，相比 JavaScript 有什么优势？"></a>为什么需要 TypeScript ，相比 JavaScript 有什么优势？</h2><p>JavaScript 从不检查变量的类型，这其实是比较危险的一件事，开发人员编写代码时很容易变得没有“规矩”，运行代码时可能会遇到意料之外的表现或者 Bug 。<strong>正确</strong>、<strong>严格</strong>地使用 TypeScript 可以帮助我们在编写代码时就<strong>避免掉类型或条件判断上的低级错误</strong>，并且 IDE 可以给我们<strong>提供类型甚至代码提示</strong>。</p>
+<p>为什么我要强调“正确”、“严格”呢？因为在工作中我就遇到少部分同事因为偷懒不使用类型或者随意使用 <code>any</code> ，当我需要查看某一个变量、函数入参或函数返回值等的类型时，往往需要去到声明或定义的地方阅读代码才能确保它的类型到底是哪个(些)，这多少会造成一定的不便及心智负担。</p>
+<p>而在遇到规范使用 TypeScript 写出来的代码时，我感觉到心情都舒畅不少。</p>
+<h2 id="一些特殊的类型"><a href="#一些特殊的类型" class="headerlink" title="一些特殊的类型"></a>一些特殊的类型</h2><h3 id="顶级类型-any"><a href="#顶级类型-any" class="headerlink" title="顶级类型 any"></a>顶级类型 <code>any</code></h3><p><code>any</code> 属于顶级类型（top type），滥用它会使 TypeScript 的作用大打折扣，因为这个类型就是不做任何检查，它允许任何类型的值赋值给 <code>any</code> ，同时也可以将 <code>any</code> 类型的变量任意赋值给其他有严格类型限制的变量。当然，我们可以在 TypeScript 的编译配置中给 <code>noImplicitAny</code> 设置为 <code>true</code> ，即可在编译阶段检查到若使用了 <code>any</code> 就报错，以限制其使用。</p>
+<h3 id="另一个顶级类型-unknown"><a href="#另一个顶级类型-unknown" class="headerlink" title="另一个顶级类型 unknown"></a>另一个顶级类型 <code>unknown</code></h3><p>与 <code>any</code> 相同的是， <code>unknown</code> 也是顶级类型，允许任何类型的值赋值给 <code>unknown</code> 类型的变量。但不同的是， <code>unknown</code> 的类型检查比 <code>any</code> 严格，当将 <code>unknown</code> 类型的变量赋值给其他严格类型的变量时，会报错：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">value</span>: <span class="built_in">unknown</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">someString</span>: <span class="built_in">string</span> = value;</span><br><span class="line"><span class="comment">// 报错：Type &#x27;unknown&#x27; is not assignable to type &#x27;string&#x27;.(2322)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="与前两者完全相反的-never"><a href="#与前两者完全相反的-never" class="headerlink" title="与前两者完全相反的 never"></a>与前两者完全相反的 <code>never</code></h3><p><code>never</code> 是底类型（bottom type），表示不应该出现的类型，任何类型的变量都<strong>不能</strong>赋值给 <code>never</code> 类型的变量，并且 <code>never</code> 类型的变量也不能赋值给其他类型的变量。对于它的使用，尤雨溪给出了一个<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/354601204/answer/888551021">示例</a>，看看这个例子，我们就能知道它的应用场景是什么了。</p>
+<h2 id="type-V-S-interface"><a href="#type-V-S-interface" class="headerlink" title="type V.S. interface"></a><code>type</code> V.S. <code>interface</code></h2><p>在平时的开发中，你们使用 <code>type</code> 还是 <code>interface</code> 更多呢？我的使用习惯中，通常对对象的类型定义我是时候后者，而对于前者往往是用在需要用到联合类型（Union Type）的时候。它们两者的区别有以下：</p>
+<ul>
+<li>前者实际上是创建一个<em>类型别名</em>，它不创建一个新的类型，而后者会。</li>
+<li>前者使用 <code>&amp;</code> 来实现类型的扩展，而后者使用 <code>extends</code> 实现接口继承。</li>
+<li>前者不可以多次定义，否则会报错，类型于 <code>const</code> ，而后者可以重复定义，并且通过重复定义可实现扩展。  <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">ObjectProps</span> &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> <span class="title class_">ObjectProps</span> &#123;</span><br><span class="line">  <span class="attr">b</span>: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="attr">obj</span>: <span class="title class_">ObjectProps</span> = &#123; <span class="attr">a</span>: <span class="string">&#x27;123&#x27;</span>, <span class="attr">b</span>: <span class="number">123</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Y = <span class="built_in">string</span>;</span><br><span class="line"><span class="keyword">type</span> Y = <span class="built_in">number</span>;</span><br><span class="line"><span class="comment">// Duplicate identifier &#x27;Y&#x27;.(2300)</span></span><br></pre></td></tr></table></figure></li>
+<li>前者可以直接定义为简单类型，而后者不行。</li>
+</ul>
+<h2 id="常用的工具类型（未完待续…）"><a href="#常用的工具类型（未完待续…）" class="headerlink" title="常用的工具类型（未完待续…）"></a>常用的工具类型（未完待续…）</h2><p>详参考<a target="_blank" rel="noopener" href="https://www.typescriptlang.org/docs/handbook/utility-types.html">Utility Types</a>。</p>
+<ul>
+<li><code>Partial&lt;Type&gt;</code> 、 <code>Required&lt;Type&gt;</code></li>
+<li><code>Pick&lt;Type, Keys&gt;</code> 、 <code>Omit&lt;Type, Keys&gt;</code></li>
+<li><code>Exclude&lt;UnionType, ExcludedMembers&gt;</code> 、 <code>Extract&lt;Type, Union&gt;</code></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2021/10/02/typescript/" data-id="cm2uc0mc6001jpggpecbkdo6k" data-title="TypeScript 的使用心得及笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-some-classfic-implements-with-js" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/02/21/some-classfic-implements-with-js/" class="article-date">
+  <time class="dt-published" datetime="2021-02-21T09:10:26.000Z" itemprop="datePublished">2021-02-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>以下手写函数的测试&#x2F;调试地址：<a target="_blank" rel="noopener" href="https://jsbin.com/ruyukifofu/4/edit?js,console">https://jsbin.com/ruyukifofu/4/edit?js,console</a></p>
+</blockquote>
+<h2 id="防抖节流"><a href="#防抖节流" class="headerlink" title="防抖节流"></a>防抖节流</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 防抖：在xx时间内连续触发不执行，直至停止操作后的xx时间后才执行一次。</span></span><br><span class="line"><span class="comment"> * 假设一个点代表一个时间间隔，防抖设置等待5个时间间隔，#表示一个时间间隔内触发一次动作，!表示实际触发结果：</span></span><br><span class="line"><span class="comment"> * ##··#·#·······##······</span></span><br><span class="line"><span class="comment"> * ············!········!</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">debounce</span> = (<span class="params">fn, delay</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">let</span> timer = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (timer) &#123;</span><br><span class="line">      <span class="built_in">clearTimeout</span>(timer);</span><br><span class="line">    &#125;</span><br><span class="line">    timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      fn.<span class="title function_">apply</span>(<span class="literal">undefined</span>, args);</span><br><span class="line">    &#125;, delay);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 节流：第一次触发执行后，需等待xx时间后才能再次触发，期间连续触发不执行。</span></span><br><span class="line"><span class="comment"> * 假设一个点代表一个时间间隔，节流设置等待5个时间间隔，#表示一个时间间隔内触发一次动作，!表示实际触发结果：</span></span><br><span class="line"><span class="comment"> * ##··#·#·······##······</span></span><br><span class="line"><span class="comment"> * !·····!·······!·······</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">throttle</span> = (<span class="params">fn, delay</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">let</span> timer = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!timer) &#123;</span><br><span class="line">      fn.<span class="title function_">apply</span>(<span class="literal">undefined</span>, args);</span><br><span class="line">      timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        timer = <span class="literal">null</span>;</span><br><span class="line">      &#125;, delay);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试代码</span></span><br><span class="line"><span class="keyword">const</span> fn = <span class="title function_">debounce</span>(<span class="function">(<span class="params">...args</span>) =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(args), <span class="number">2000</span>);</span><br><span class="line"><span class="keyword">const</span> fn2 = <span class="title function_">throttle</span>(<span class="function">(<span class="params">...args</span>) =&gt;</span> <span class="variable language_">console</span>.<span class="title function_">log</span>(args), <span class="number">2000</span>);</span><br><span class="line"><span class="keyword">let</span> intervalCount = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> timerId = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  intervalCount += <span class="number">1</span>;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(intervalCount);</span><br><span class="line">  <span class="title function_">fn1</span>(<span class="string">&quot;debounce&quot;</span>, intervalCount);</span><br><span class="line">  <span class="title function_">fn2</span>(<span class="string">&quot;throttle&quot;</span>, intervalCount);</span><br><span class="line">  <span class="keyword">if</span> (intervalCount &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">    <span class="built_in">clearTimeout</span>(timerId);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Promise</span> &#123;</span><br><span class="line">  #<span class="title class_">PromiseState</span> = <span class="string">&quot;pending&quot;</span>;</span><br><span class="line">  #<span class="title class_">PromiseResult</span> = <span class="literal">undefined</span>;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">fn</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">resolve</span> = (<span class="params">response</span>) =&gt; &#123;</span><br><span class="line">      <span class="variable language_">this</span>.#<span class="title class_">PromiseState</span> = <span class="string">&quot;fulfilled&quot;</span>;</span><br><span class="line">      <span class="variable language_">this</span>.#<span class="title class_">PromiseResult</span> = response;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">reject</span> = (<span class="params">reason</span>) =&gt; &#123;</span><br><span class="line">      <span class="variable language_">this</span>.#<span class="title class_">PromiseState</span> = <span class="string">&quot;rejected&quot;</span>;</span><br><span class="line">      <span class="variable language_">this</span>.#<span class="title class_">PromiseResult</span> = reason;</span><br><span class="line">    &#125;;</span><br><span class="line">    fn.<span class="title function_">call</span>(<span class="variable language_">this</span>, resolve, reject);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">then</span>(<span class="params">onfulfilled, onrejected</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> result;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">this</span>.#<span class="title class_">PromiseState</span> === <span class="string">&quot;fulfilled&quot;</span> &amp;&amp; <span class="keyword">typeof</span> onfulfilled === <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">          result = <span class="title function_">onfulfilled</span>(<span class="variable language_">this</span>.#<span class="title class_">PromiseResult</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable language_">this</span>.#<span class="title class_">PromiseState</span> === <span class="string">&quot;rejected&quot;</span> &amp;&amp; <span class="keyword">typeof</span> onfulfilled === <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">          result = <span class="title function_">onrejected</span>(<span class="variable language_">this</span>.#<span class="title class_">PromiseResult</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_">resolve</span>(result);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="title function_">reject</span>(e);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">catch</span>(onrejected) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="title function_">resolve</span>(<span class="title function_">onrejected</span>(<span class="variable language_">this</span>.#<span class="title class_">PromiseResult</span>));</span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="title function_">reject</span>(e);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Promise</span>.<span class="property">resolve</span> = <span class="function">(<span class="params">data</span>) =&gt;</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> <span class="title function_">resolve</span>(data));</span><br><span class="line"><span class="title class_">Promise</span>.<span class="property">reject</span> = <span class="function">(<span class="params">data</span>) =&gt;</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">_, reject</span>) =&gt;</span> <span class="title function_">reject</span>(data));</span><br><span class="line"><span class="title class_">Promise</span>.<span class="property">all</span> = <span class="function">(<span class="params">promises</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> result = [];</span><br><span class="line">  <span class="keyword">let</span> fulfilledCount = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    promises.<span class="title function_">forEach</span>(<span class="function">(<span class="params">p, i</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (!(p <span class="keyword">instanceof</span> <span class="title class_">Promise</span>)) &#123;</span><br><span class="line">        fulfilledCount += <span class="number">1</span>;</span><br><span class="line">        result[i] = p;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        p.<span class="title function_">then</span>(</span><br><span class="line">          <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">            fulfilledCount += <span class="number">1</span>;</span><br><span class="line">            result[i] = data;</span><br><span class="line">            <span class="keyword">if</span> (fulfilledCount &gt;= promises.<span class="property">length</span>) &#123;</span><br><span class="line">              <span class="title function_">resolve</span>(result);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">reject</span>(data);</span><br><span class="line">          &#125;</span><br><span class="line">        );</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试代码</span></span><br><span class="line"><span class="keyword">var</span> p1 = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> <span class="title function_">resolve</span>(<span class="number">1.1</span>));</span><br><span class="line">p1.<span class="title function_">then</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2.1</span>, data); <span class="keyword">return</span> <span class="number">2.1</span>; &#125;, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2.2</span>, data); <span class="keyword">return</span> <span class="number">2.2</span>; &#125;) <span class="comment">// =&gt; 2.1 1.1</span></span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3.1</span>, data); <span class="keyword">return</span> <span class="number">3.1</span>; &#125;, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3.2</span>, data); <span class="keyword">return</span> <span class="number">3.2</span>; &#125;); <span class="comment">// =&gt; 3.1 2.1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p2 = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> <span class="title function_">reject</span>(<span class="number">1.2</span>));</span><br><span class="line">p2.<span class="title function_">then</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2.1</span>, data); <span class="keyword">return</span> <span class="number">2.1</span>; &#125;, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2.2</span>, data); <span class="keyword">throw</span> <span class="number">2.2</span>; &#125;) <span class="comment">// =&gt; 2.2 1.2</span></span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3.1</span>, data); <span class="keyword">return</span> <span class="number">3.1</span>; &#125;, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3.2</span>, data); <span class="keyword">return</span> <span class="number">3.2</span>; &#125;); <span class="comment">// =&gt; 3.2 2.2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p3 = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> <span class="title function_">resolve</span>(<span class="number">1.1</span>));</span><br><span class="line">p3.<span class="title function_">then</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2.1</span>, data); <span class="keyword">throw</span> <span class="number">2.1</span>; &#125;, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2.2</span>, data); <span class="keyword">return</span> <span class="number">2.2</span>; &#125;) <span class="comment">// =&gt; 2.1 1.1</span></span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3.1</span>, data); <span class="keyword">return</span> <span class="number">3.1</span>; &#125;, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">3.2</span>, data); <span class="keyword">return</span> <span class="number">3.2</span>; &#125;); <span class="comment">// =&gt; 3.2 2.1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p4 = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> <span class="title function_">resolve</span>(<span class="number">1.1</span>));</span><br><span class="line">p4.<span class="title function_">then</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2.1</span>, data); <span class="keyword">throw</span> <span class="number">2.1</span>; &#125;) <span class="comment">// =&gt; 2.1 1.1</span></span><br><span class="line">  .<span class="title function_">catch</span>(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;catch&quot;</span>, data); <span class="keyword">throw</span> <span class="string">&quot;catch error&quot;</span>; &#125;); <span class="comment">// catch 2.1</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Promise</span>.<span class="title function_">all</span>([<span class="number">1</span>, <span class="title class_">Promise</span>.<span class="title function_">resolve</span>(<span class="number">2</span>)]).<span class="title function_">then</span>(<span class="function">(<span class="params">values</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(values); &#125;); <span class="comment">// [1,2]</span></span><br><span class="line"><span class="title class_">Promise</span>.<span class="title function_">all</span>([<span class="number">1</span>, <span class="title class_">Promise</span>.<span class="title function_">reject</span>(<span class="string">&#x27;err&#x27;</span>)]).<span class="title function_">catch</span>(<span class="function">(<span class="params">err</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(err); &#125;); <span class="comment">// &#x27;err&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.类型判断   2.递归   3.检查环</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">deepClone</span> = (<span class="params">originalData, cache</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (!cache) &#123;</span><br><span class="line">    cache = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (originalData <span class="keyword">instanceof</span> <span class="title class_">Object</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (cache.<span class="title function_">get</span>(originalData)) &#123;</span><br><span class="line">      <span class="comment">// 检查环，如果已经有拷贝过这个对象，则直接返回</span></span><br><span class="line">      <span class="keyword">return</span> cache.<span class="title function_">get</span>(originalData)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> result</span><br><span class="line">    <span class="keyword">if</span> (originalData <span class="keyword">instanceof</span> <span class="title class_">Function</span>) &#123;</span><br><span class="line">      <span class="comment">// 函数</span></span><br><span class="line">      <span class="keyword">if</span> (originalData.<span class="property"><span class="keyword">prototype</span></span>) &#123;</span><br><span class="line">        <span class="comment">// function() &#123;&#125;</span></span><br><span class="line">        result = <span class="keyword">function</span> (<span class="params"></span>) &#123; originalData.<span class="title function_">apply</span>(<span class="variable language_">this</span>, <span class="variable language_">arguments</span>) &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 箭头函数</span></span><br><span class="line">        result = <span class="function">(<span class="params">...args</span>) =&gt;</span> &#123; originalData.<span class="title function_">apply</span>(<span class="literal">undefined</span>, args) &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (originalData <span class="keyword">instanceof</span> <span class="title class_">Array</span>) &#123;</span><br><span class="line">      <span class="comment">// 数组</span></span><br><span class="line">      result = [];</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (originalData <span class="keyword">instanceof</span> <span class="title class_">Date</span>) &#123;</span><br><span class="line">      <span class="comment">// 日期</span></span><br><span class="line">      result = <span class="keyword">new</span> <span class="title class_">Date</span>(originalData - <span class="number">0</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (originalData <span class="keyword">instanceof</span> <span class="title class_">RegExp</span>) &#123;</span><br><span class="line">      <span class="comment">// 正则</span></span><br><span class="line">      result = <span class="keyword">new</span> <span class="title class_">RegExp</span>(originalData.<span class="title function_">valueOf</span>());</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> originalData.<span class="title function_">valueOf</span>() !== <span class="string">&#x27;object&#x27;</span>) &#123;</span><br><span class="line">      <span class="comment">// 构造函数new出来的boolean、number、string</span></span><br><span class="line">      result = <span class="keyword">new</span> originalData.<span class="title function_">constructor</span>(<span class="params">originalData.valueOf()</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 普通对象</span></span><br><span class="line">      result = &#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    cache.<span class="title function_">set</span>(originalData, result); <span class="comment">// 为当前处理的对象cache当前结果，需要递归执行前，否则递归进入后无法获取到cache</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> originalData) &#123;</span><br><span class="line">      result[key] = <span class="title function_">deepClone</span>(originalData[key], cache);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> originalData === <span class="string">&#x27;symbol&#x27;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Symbol</span>(originalData.<span class="property">description</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// boolean,string,number,undefined,null,bigint</span></span><br><span class="line">    <span class="keyword">return</span> originalData</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试函数</span></span><br><span class="line"><span class="title function_">deepClone</span>(<span class="number">123</span>); <span class="comment">// 123</span></span><br><span class="line"><span class="title function_">deepClone</span>(<span class="title class_">Symbol</span>(<span class="string">&#x27;this is a symbol&#x27;</span>)); <span class="comment">// Symbol(this is a symbol)</span></span><br><span class="line"><span class="title function_">deepClone</span>(<span class="title class_">BigInt</span>(<span class="number">12345678901234567890</span>)); <span class="comment">// 12345678901234567168n</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  <span class="attr">num</span>: <span class="title class_">NaN</span>,</span><br><span class="line">  <span class="attr">txt</span>: <span class="string">&#x27;text&#x27;</span>,</span><br><span class="line">  <span class="attr">bool</span>: <span class="keyword">new</span> <span class="title class_">Boolean</span>(<span class="number">1</span>),</span><br><span class="line">  <span class="attr">symb</span>: <span class="title class_">Symbol</span>(<span class="string">&#x27;symbol&#x27;</span>),</span><br><span class="line">  <span class="attr">fn</span>: <span class="function">(<span class="params">v1, v2</span>) =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;箭头函数&#x27;</span>, <span class="variable language_">this</span>, v1, v2); &#125;, <span class="comment">// this-&gt;window</span></span><br><span class="line">  <span class="attr">obj</span>: &#123;</span><br><span class="line">    <span class="attr">fn</span>: <span class="keyword">function</span>(<span class="params">v1, v2</span>) &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;普通函数&#x27;</span>, <span class="variable language_">this</span>, v1, v2);  &#125;, <span class="comment">// this-&gt;obj</span></span><br><span class="line">    <span class="attr">arr</span>: [<span class="number">1</span>, <span class="literal">null</span>, &#123; <span class="attr">a</span>: [<span class="number">3</span>], <span class="attr">b</span>: &#123; <span class="attr">c</span>: <span class="number">7</span> &#125; &#125;, <span class="title class_">BigInt</span>(<span class="number">13245</span>), <span class="literal">undefined</span>, <span class="literal">false</span>],</span><br><span class="line">    <span class="attr">date</span>: <span class="keyword">new</span> <span class="title class_">Date</span>(<span class="string">&#x27;1996-7-8&#x27;</span>),</span><br><span class="line">    <span class="attr">num</span>: <span class="title class_">Number</span>()</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">reg</span>: <span class="keyword">new</span> <span class="title class_">RegExp</span>(<span class="regexp">/\s+/g</span>)</span><br><span class="line">&#125;</span><br><span class="line">obj.<span class="property">self</span> = obj</span><br><span class="line"><span class="keyword">const</span> clonedObj = <span class="title function_">deepClone</span>(obj);</span><br><span class="line">clonedObj.<span class="property">self</span> === clonedObj; <span class="comment">// true</span></span><br><span class="line">obj.<span class="property">obj</span>.<span class="property">arr</span>[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">clonedObj.<span class="property">obj</span>.<span class="property">arr</span>[<span class="number">0</span>]; <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="数组去重"><a href="#数组去重" class="headerlink" title="数组去重"></a>数组去重</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现一：</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">uniq</span> = (<span class="params">array</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> map = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">  array.<span class="title function_">forEach</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">    map.<span class="title function_">set</span>(item, <span class="number">1</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> [...map.<span class="title function_">keys</span>()];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现二</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">uniq2</span> = (<span class="params">array</span>) =&gt; [...<span class="keyword">new</span> <span class="title class_">Set</span>(array)];</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">xhr.<span class="title function_">open</span>(<span class="string">&quot;GET&quot;</span>, <span class="string">&quot;/archives/&quot;</span>);</span><br><span class="line">xhr.<span class="property">onreadystatechange</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (xhr.<span class="property">readyState</span> === <span class="number">4</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (xhr.<span class="property">status</span> &gt;= <span class="number">200</span> &amp;&amp; xhr.<span class="property">status</span> &lt; <span class="number">300</span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(xhr.<span class="property">response</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">xhr.<span class="title function_">send</span>();</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="发布订阅"><a href="#发布订阅" class="headerlink" title="发布订阅"></a>发布订阅</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">EventHub</span> = &#123;</span><br><span class="line">  <span class="attr">eventMap</span>: &#123;&#125;, <span class="comment">// 映射</span></span><br><span class="line">  <span class="attr">on</span>: <span class="function">(<span class="params">type, fn</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="title class_">EventHub</span>.<span class="property">eventMap</span>[type] = <span class="title class_">EventHub</span>.<span class="property">eventMap</span>[type] || [];</span><br><span class="line">    <span class="title class_">EventHub</span>.<span class="property">eventMap</span>[type].<span class="title function_">push</span>(fn);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">emit</span>: <span class="function">(<span class="params">type, ...args</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title class_">EventHub</span>.<span class="property">eventMap</span>[type]) &#123;</span><br><span class="line">      <span class="title class_">EventHub</span>.<span class="property">eventMap</span>[type].<span class="title function_">forEach</span>(<span class="function">(<span class="params">fn</span>) =&gt;</span> &#123;</span><br><span class="line">        fn.<span class="title function_">apply</span>(<span class="literal">undefined</span>, args);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">off</span>: <span class="function">(<span class="params">type, fn</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> queue = <span class="title class_">EventHub</span>.<span class="property">eventMap</span>[type];</span><br><span class="line">    <span class="keyword">if</span> (queue &amp;&amp; queue.<span class="title function_">includes</span>(fn)) &#123;</span><br><span class="line">      <span class="keyword">const</span> index = queue.<span class="title function_">indexOf</span>(fn);</span><br><span class="line">      queue.<span class="title function_">splice</span>(index, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 测试代码</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">fn</span> = (<span class="params">...args</span>) =&gt; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;xxx emit&quot;</span>, ...args);</span><br><span class="line"><span class="title class_">EventHub</span>.<span class="title function_">on</span>(<span class="string">&quot;xxx&quot;</span>, fn);</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title class_">EventHub</span>.<span class="title function_">emit</span>(<span class="string">&quot;xxx&quot;</span>, <span class="string">&quot;jialin&quot;</span>, <span class="string">&quot;cai&quot;</span>);</span><br><span class="line">  <span class="title class_">EventHub</span>.<span class="title function_">off</span>(<span class="string">&quot;xxx&quot;</span>, fn);</span><br><span class="line">&#125;, <span class="number">3000</span>);</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title class_">EventHub</span>.<span class="title function_">emit</span>(<span class="string">&quot;xxx&quot;</span>, <span class="string">&quot;caijialinxx&quot;</span>);</span><br><span class="line">&#125;, <span class="number">4000</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">delegate</span>(<span class="params">selector, eventType, fn</span>) &#123;</span><br><span class="line">  <span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(eventType, <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> target = e.<span class="property">target</span>;</span><br><span class="line">    <span class="keyword">while</span>(!target.<span class="title function_">matches</span>(selector)) &#123;</span><br><span class="line">      target = target.<span class="property">parentElement</span>;</span><br><span class="line">      <span class="keyword">if</span>(target === <span class="variable language_">document</span>.<span class="property">documentElement</span>) &#123;</span><br><span class="line">        target = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(target) &#123;</span><br><span class="line">      <span class="title function_">fn</span>(target)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="可拖拽的元素"><a href="#可拖拽的元素" class="headerlink" title="可拖拽的元素"></a>可拖拽的元素</h2><p>凑数用的，手写一个可拖拽的元素。预览链接：<a target="_blank" rel="noopener" href="https://codepen.io/caijialinxx/pen/JjaMjVm">https://codepen.io/caijialinxx/pen/JjaMjVm</a><br>这个加上了边框计算：<a target="_blank" rel="noopener" href="https://jsbin.com/bikojavuva/1/edit?css,js,output">https://jsbin.com/bikojavuva/1/edit?css,js,output</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;dragger&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: pink;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">margin-left</span>: <span class="number">50px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.dragger</span> &#123;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid red;</span><br><span class="line">  <span class="attribute">cursor</span>: pointer;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0px</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0px</span>;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dragger = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.dragger&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> box = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;.box&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> draggable = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">let</span> x, y; <span class="comment">// 记录当一次鼠标的坐标</span></span><br><span class="line"><span class="keyword">const</span> boxWidth = box.<span class="property">offsetWidth</span>;</span><br><span class="line"><span class="keyword">const</span> boxHeight = box.<span class="property">offsetHeight</span>;</span><br><span class="line"><span class="keyword">const</span> offsetX = box.<span class="property">offsetLeft</span>; <span class="comment">// dragger可移动范围的横向偏移量</span></span><br><span class="line"><span class="keyword">const</span> offsetY = box.<span class="property">offsetTop</span>; <span class="comment">// dragger可移动范围的纵向偏移量</span></span><br><span class="line"><span class="keyword">const</span> maxLeft = boxWidth - dragger.<span class="property">offsetWidth</span>;</span><br><span class="line"><span class="keyword">const</span> maxTop = boxHeight - dragger.<span class="property">offsetHeight</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 帮助函数：获取范围内的值</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">getValueInRange</span> = (<span class="params">val, min, max</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span>(val &lt; min) <span class="keyword">return</span> min;</span><br><span class="line">  <span class="keyword">if</span>(val &gt; max) <span class="keyword">return</span> max;</span><br><span class="line">  <span class="keyword">return</span> val</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 鼠标点击拖动目标时设置draggable为true并记录当前鼠标坐标。</span></span><br><span class="line">dragger.<span class="property">onmousedown</span> = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  draggable = <span class="literal">true</span>;</span><br><span class="line">  x = e.<span class="property">clientX</span>;</span><br><span class="line">  y = e.<span class="property">clientY</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在document上监听鼠标移动事件</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="property">onmousemove</span> = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span>(!draggable) <span class="keyword">return</span>; <span class="comment">// 当draggable为false时不执行拖动逻辑</span></span><br><span class="line">  <span class="keyword">const</span> deltaX = e.<span class="property">clientX</span> - x; <span class="comment">// 计算横向偏移量</span></span><br><span class="line">  <span class="keyword">const</span> deltaY = e.<span class="property">clientY</span> - y; <span class="comment">// 计算纵向偏移量</span></span><br><span class="line">  <span class="keyword">let</span> left = <span class="built_in">parseFloat</span>(dragger.<span class="property">style</span>.<span class="property">left</span> || <span class="number">0</span>) + deltaX; <span class="comment">// 计算当前dragger的left值</span></span><br><span class="line">  <span class="keyword">let</span> top = <span class="built_in">parseFloat</span>(dragger.<span class="property">style</span>.<span class="property">top</span> || <span class="number">0</span>) + deltaY; <span class="comment">// 计算当前dragger的top值</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 设置dragger的left/top在规定范围内</span></span><br><span class="line">  dragger.<span class="property">style</span>.<span class="property">left</span> = <span class="title function_">getValueInRange</span>(left, <span class="number">0</span>, maxLeft) + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">  dragger.<span class="property">style</span>.<span class="property">top</span> = <span class="title function_">getValueInRange</span>(top, <span class="number">0</span>, maxTop) + <span class="string">&#x27;px&#x27;</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 设置x、y坐标在当前规定范围内</span></span><br><span class="line">  x = <span class="title function_">getValueInRange</span>(e.<span class="property">clientX</span>, offsetX, offsetX + boxWidth);</span><br><span class="line">  y = <span class="title function_">getValueInRange</span>(e.<span class="property">clientY</span>, offsetY, offsetY + boxHeight);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在全局松开鼠标即设置draggable为false不拖动</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="property">onmouseup</span> = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  draggable = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2021/02/21/some-classfic-implements-with-js/" data-id="cm2uc0mc5001fpggp0zk94171" data-title="一些经典的JS手写函数实现" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-how-to-delegate-js-events" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/04/24/how-to-delegate-js-events/" class="article-date">
+  <time class="dt-published" datetime="2020-04-24T07:30:45.000Z" itemprop="datePublished">2020-04-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/04/24/how-to-delegate-js-events/">事件委托——让事件监听更便捷</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>我们知道，在 HTML 中为一个元素绑定事件，需要对这个元素添加事件监听，如 <code>onclick</code> 属性或者 <code>addEventListener()</code> 。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">&quot;list&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">&quot;item-1&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;console.log(&#x27;I am Item 1)&quot;</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">&quot;item-2&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;console.log(&#x27;I am Item 2)&quot;</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">&quot;item-3&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;console.log(&#x27;I am Item 3)&quot;</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">&quot;item-4&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;console.log(&#x27;I am Item 4)&quot;</span>&gt;</span>Item 4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">&quot;item-5&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;console.log(&#x27;I am Item 5)&quot;</span>&gt;</span>Item 5<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">&quot;item-6&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;console.log(&#x27;I am Item 6)&quot;</span>&gt;</span>Item 6<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#item-1&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="function">() =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I am Item 1&#x27;</span>) &#125;)</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#item-2&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="function">() =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I am Item 2&#x27;</span>) &#125;)</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#item-3&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="function">() =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I am Item 3&#x27;</span>) &#125;)</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#item-4&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="function">() =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I am Item 4&#x27;</span>) &#125;)</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#item-5&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="function">() =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I am Item 5&#x27;</span>) &#125;)</span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#item-6&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="function">() =&gt;</span> &#123; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;I am Item 6&#x27;</span>) &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这样看起来实在是太笨啦！并且在动态增减列表元素的场景下，它无法及时地添加或移除事件监听。怎么让事情变得更简单些呢？那就是使用事件委托来进行监听：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#list&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (e.<span class="property">target</span>.<span class="property">tagName</span> === <span class="string">&#x27;LI&#x27;</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`I am <span class="subst">$&#123;e.target.textContent&#125;</span>`</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>代码是不是立马就变得清爽起来～我们只用一个事件监听就实现在每个 <code>&lt;li&gt;</code> 元素点击时都能执行某些操作。</p>
+<p>但现实中，我们的页面结构往往不会这么简单，需要产生交互的元素里面可能包含了很多子元素，例如图标、被其他标签包裹的文本等，这使得 <code>event.target</code> 不一定是目标元素。这个时候我们就得对当前点击的元素逐层向上寻找父元素，若找到目标元素，则说明我们需要执行对应的操作。所以，我们需要写一个更通用的事件委托：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">delegate</span>(<span class="params">eventType, targetSelector, fn</span>) &#123;</span><br><span class="line">  <span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(eventType, <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> currentEl = e.<span class="property">target</span>;</span><br><span class="line">    <span class="keyword">while</span>(!currentEl.<span class="title function_">matches</span>(targetSelector)) &#123; <span class="comment">// 通过选择器来匹配，而不是写死tagName匹配</span></span><br><span class="line">      <span class="keyword">if</span>(currentEl === <span class="variable language_">document</span>.<span class="property">documentElement</span>) &#123; <span class="comment">// 当已经查到顶后，及时停止向上查找</span></span><br><span class="line">        currentEl = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      currentEl = currentEl.<span class="property">parentElement</span>;      </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(currentEl) &#123;</span><br><span class="line">      <span class="title function_">fn</span>(currentEl);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">delegate</span>(<span class="string">&#x27;click&#x27;</span>, <span class="string">&#x27;li&#x27;</span>, <span class="function">() =&gt;</span> &#123; ... &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>最后，你可以到这里来 <a target="_blank" rel="noopener" href="https://jsbin.com/negebekuso/3/edit?html,js,output">Try And Code</a> 一下。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2020/04/24/how-to-delegate-js-events/" data-id="cm2uc0mby000rpggp2frm9dqt" data-title="事件委托——让事件监听更便捷" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-create-multi-git-users" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/03/06/create-multi-git-users/" class="article-date">
+  <time class="dt-published" datetime="2020-03-06T09:13:44.000Z" itemprop="datePublished">2020-03-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2020/03/06/create-multi-git-users/">创建多个Git用户、推送多个远程仓库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="创建多个Git用户"><a href="#创建多个Git用户" class="headerlink" title="创建多个Git用户"></a>创建多个Git用户</h2><ol>
+<li>生成多个ssh-key，并将对应的publicKey添加到git管理仓库中 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -b 4096 -C <span class="string">&quot;your_email@example.com&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>配置~&#x2F;.ssh&#x2F;config <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The git info for company</span></span><br><span class="line"><span class="comment"># gitlab user(your_email1@example1.com)</span></span><br><span class="line">Host git@x.x.x.x</span><br><span class="line">  HostName x.x.x.x</span><br><span class="line">  PasswordAuthentication no</span><br><span class="line">  Port xxxx</span><br><span class="line">  User your_email1</span><br><span class="line">  IdentityFile ~/.ssh/example1/id_rsa</span><br><span class="line"></span><br><span class="line"><span class="comment"># The git info for my github</span></span><br><span class="line"><span class="comment"># Default github user(your_email2@example2.com)</span></span><br><span class="line">Host git@github.com</span><br><span class="line">  HostName github.com</span><br><span class="line">  User your_email2</span><br><span class="line">  IdentityFile ~/.ssh/example2/id_rsa</span><br></pre></td></tr></table></figure></li>
+<li>复制完整的 SSH 公钥并在对应的远程仓库中添加 SSH key 配置。</li>
+<li>验证 SSH 连接 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T [Host]</span><br><span class="line"><span class="comment"># 如 ssh -T git@github.com</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="推送项目到不同仓库地址"><a href="#推送项目到不同仓库地址" class="headerlink" title="推送项目到不同仓库地址"></a>推送项目到不同仓库地址</h2><ol>
+<li><p>进入项目，添加远程仓库B地址</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add 远程仓库B的别名（随意） 远程仓库B的地址</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在A项目中将commit提交到远程仓库B</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push 远程仓库B的别名</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2020/03/06/create-multi-git-users/" data-id="cm2uc0mbr000bpggpa6jj3mq6" data-title="创建多个Git用户、推送多个远程仓库" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hooks-useState" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/12/23/hooks-useState/" class="article-date">
+  <time class="dt-published" datetime="2019-12-23T12:49:18.000Z" itemprop="datePublished">2019-12-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/12/23/hooks-useState/">useState 的原理及模拟实现 —— React Hooks 系列（一）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>2023-3-11更新：<br>今天回顾之前写的这篇博客，发现在模拟 useState 实现中，有个很明显的 Bug ，并且有些代码链接也失效了，故更新一版，更新部分会用引用说明，详见下文。</p>
+</blockquote>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useState &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ReactDOM</span> <span class="keyword">from</span> <span class="string">&quot;react-dom&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>count: &#123;count&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span> =&gt;</span> setCount(count + 1)&#125;&gt;+1<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> rootElement = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"><span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>, rootElement);</span><br></pre></td></tr></table></figure>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>按照 React <code>16.8.0</code> 版本之前的机制，我们知道如果某个组件是函数组件，则这个 function 就相当于 Class 组件中的 <code>render()</code> ，不能拥有自己的状态（故又称其为无状态组件，stateless components），所以数据（输入）必须是来自父组件的 <code>props</code> 。而在 <code>&gt;=16.8.0</code> 中，函数组件支持通过使用 <a target="_blank" rel="noopener" href="https://reactjs.org/docs/hooks-intro.html">Hooks</a> 来为其引入 state 的能力，例如上面所展示的例子：这个 <code>App</code> 组件提供了一个按钮，每次点击这个都会执行 <code>setCount</code> 使得 <code>count</code> 增加 1 ，并更新在视图上。</p>
+<p>为了更直观地看到使用了 Hooks 的函数组件和 Class 组件的区别，我写了一个<a target="_blank" rel="noopener" href="https://codesandbox.io/embed/pedantic-grothendieck-bmqgz?fontsize=14&hidenavigation=1&theme=dark"><del>对比示例</del></a>。</p>
+<blockquote>
+<p>2023-3-11更新：<br>上方的代码链接失效了，我直接将代码贴在下方：</p>
+<pre><code>import React, &#123; Component, useState &#125; from &quot;react&quot;;
+import ReactDOM from &quot;react-dom&quot;;
+
+const logNewValueAfterOneSecond = (c, value) =&gt; console.log(`1 second later, $&#123;c&#125;’s count:`, value);
+
+const FunctionComponent = () =&gt; &#123;
+  const [count, setCount] = useState(0);
+  console.log(&quot;A’s count:&quot;, count);
+  return (
+    &lt;p&gt;
+      &lt;span&gt;A: &#123;count&#125;&lt;/span&gt;
+      &lt;button
+        onClick=&#123;() =&gt; &#123;
+        setCount(count + 1);
+        setTimeout(() =&gt; logNewValueAfterOneSecond(&quot;A&quot;, count), 1000);
+        &#125;&#125;
+      &gt;
+        A+1
+      &lt;/button&gt;
+    &lt;/p&gt;
+   );
+ &#125;;
+
+class ClassComponent extends Component &#123;
+  constructor() &#123;
+    uper();
+    this.state = &#123; count: 0 &#125;;
+  &#125;
+  render() &#123;
+    console.log(&quot;B’s count:&quot;, this.state.count);
+    return (
+      &lt;p&gt;
+        &lt;span&gt;B: &#123;this.state.count&#125;&lt;/span&gt;
+        &lt;button
+          onClick=&#123;() =&gt; &#123;
+            this.setState(&#123; count: this.state.count + 1 &#125;);
+            setTimeout(
+              () =&gt; logNewValueAfterOneSecond(&quot;B&quot;, this.state.count),
+              1000
+            );
+          &#125;&#125;
+        &gt;
+          B+1
+        &lt;/button&gt;
+      &lt;/p&gt;
+    );
+  &#125;
+&#125;
+
+function App() &#123;
+  return (
+    &lt;div&gt;
+      &lt;FunctionComponent /&gt;
+      &lt;ClassComponent /&gt;
+    &lt;/div&gt;
+  );
+&#125;
+
+const rootElement = document.getElementById(&quot;root&quot;);
+ReactDOM.render(&lt;App /&gt;, rootElement);
+</code></pre>
+<p>新的代码链接：<a target="_blank" rel="noopener" href="https://codesandbox.io/s/function-component-vs-class-component-zfybbl">Function Component vs Class Component</a></p>
+</blockquote>
+<p><code>A</code> 是使用了 Hooks 的函数组件， <code>B</code> 是我们熟悉的 Class 组件。当我们分别点击两个按钮更新数据时，我们已知 <code>B</code> 组件不会重新调用而是在 <code>setState</code> 通知变化之后重新渲染（render），而 <code>A</code> 组件是如何处理更新的呢？让我们来分析一下这个过程：</p>
+<ul>
+<li><p>A. 点击按钮「A+1」</p>
+<ol>
+<li>按钮「A+1」的 click 事件触发，执行异步的 <code>setCount(count + 1)</code></li>
+<li>开启定时器，将在一秒之后执行回调函数 <code>() =&gt; logNewValueAfterOneSecond(&#39;A&#39;, count)</code></li>
+<li>按钮「A+1」的 click 事件执行到结尾，异步 <code>setCount</code> 起效，输出“<em>A’s count: 1</em>”， <code>&lt;span&gt;0&lt;/span&gt;</code> 更新为 <code>&lt;span&gt;1&lt;/span&gt;</code> （只更新 <code>span</code> 的文本）</li>
+<li>一秒到了，定时器的回调函数执行，输出“<em>1 second later, A’s count: 0</em>”</li>
+</ol>
+</li>
+<li><p>B. 点击按钮「B+1」</p>
+<ol>
+<li>按钮「B+1」的 click 事件触发，执行异步的 <code>this.setState(state =&gt; (&#123; count: state.count + 1 &#125;))</code></li>
+<li>开启定时器，将在一秒之后执行回调函数 <code>() =&gt; logNewValueAfterOneSecond(&#39;B&#39;, this.state.count)</code></li>
+<li>按钮「B+1」的 click 事件执行到结尾，异步 <code>setState</code> 起效，输出“<em>B’s count: 1</em>”且 <code>&lt;span&gt;0&lt;/span&gt;</code> 更新为 <code>&lt;span&gt;1&lt;/span&gt;</code> （只更新 <code>span</code> 的文本）</li>
+<li>一秒到了，定时器的回调函数执行，输出“<em>1 second later, B’s count: 1</em>”</li>
+</ol>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2019/12/23/pSEFYXhRcQmNtur.gif" alt="Hooks+函数组件 V.S. Class组件"></p>
+<p>通过上面的步骤分析，我们可以看到，有区别的就是步骤 <strong>1</strong>、<strong>4</strong> 。先说说 B ——在 B.1 中 <code>setState</code> 通知变化后， React 不会立即更新组件，而是会延迟调用它，到了步骤 3 时 React 对 state 的变更才真正生效（类似于 <code>Object.assign(previousState, &#123;count: state.count + 1&#125;)</code>）， <code>this.state.count</code> 的值更新为 1 ，且由于 <code>shouldComponentUpdate()</code> 默认返回 <code>true</code> ，所以成功触发新的一次渲染，于是组件 <code>B</code> 的 DOM 更新（不清楚组件更新过程的同学可以戳<a target="_blank" rel="noopener" href="https://reactjs.org/docs/react-component.html">这里</a>补功课，重点放在<a target="_blank" rel="noopener" href="https://zh-hans.reactjs.org/docs/react-component.html#the-component-lifecycle">生命周期</a>和<a target="_blank" rel="noopener" href="https://zh-hans.reactjs.org/docs/react-component.html#setstate">setState</a>两个模块）。整个过程没有重新生成这个组件实例，它们始终在同一个环境，所以一秒后输出 <code>B</code> 的 <code>count</code> 是 <em>1</em> ，而 A ：</p>
+<ol>
+<li>首先， <code>A</code> 中的 <code>count</code> 和 <code>setCount</code> 是由钩子函数 <code>useState()</code> 返回的两个值。</li>
+<li><code>count</code> 的初始值是 0 ，与我们赋予的一样。</li>
+<li>上面我说到，函数组件相当于 Class 组件中的 <code>render()</code> ，所以我们大胆假设在按钮第一次点击异步执行 <code>setCount(count + 1)</code> 之后，重新 render ，即 <code>A()</code> 被重新调用，此时 <code>count</code> 从 <code>useState()</code> 中再次获取到的值更新为 1 ，返回的值通过 diff 最终局部更新。</li>
+</ol>
+<p>但是奇怪的是，为什么一秒之后定时器回调函数执行后输出的 <code>count</code> 是旧的值呢？请大家再看一遍 3 ，「<code>A()</code> 被重新调用」，「<code>count</code> 从 <code>useState()</code> 中再次获取值」，那么此时的 <code>count</code> 还为彼时的 <code>count</code> 吗？答案当然是「不」！它们已经是存在于不同环境的两个变量了。<br>假设 2 中的 <code>count</code> 是 count0（值为0），而 3 中的 <code>count</code> 是 count1（值为1）。定时器是什么时候设定的？在第一次点击按钮时。这个时候 <code>logNewValueAfterOneSecond()</code> 传入的 <code>count</code> 实际上是还没有更新的 count0 ，一秒之后，虽然 <code>count</code> 已更新为 count1 ，但 <code>logNewValueAfterOneSecond()</code> 调用的 <code>count</code> 并没有更新，还是之前的 count0 ，所以必然输出 0 。<br>这下看起来明了了一些吗？接下来我们来尝试模拟实现一下 <code>useState()</code> 吧～</p>
+<h2 id="模拟实现"><a href="#模拟实现" class="headerlink" title="模拟实现"></a>模拟实现</h2><p><code>React.useState()</code> 里都做了些什么：</p>
+<ol>
+<li><p>将初始值赋给一个变量我们称之为 <code>state</code></p>
+</li>
+<li><p>返回这个变量 <code>state</code> 以及改变这个 <code>state</code> 的回调函数我们称之为 <code>setState</code></p>
+</li>
+<li><p>当 <code>setState()</code> 被调用时， <code>state</code> 被其传入的新值重新赋值，并且更新根视图</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">useState</span>(<span class="params">initialState</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> _state = initialState;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">setState</span> = (<span class="params">newState</span>) =&gt; &#123;</span><br><span class="line">    _state = newState;</span><br><span class="line">    <span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>, rootElement);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> [_state, setState];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>每次更新时，函数组件会被重新调用，也就是说 <code>useState()</code> 会被重新调用，为了使 <code>state</code> 的新值被记录（而不是一直被重新赋上 <code>initialState</code>），需要将其提到外部作用域声明</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> _state;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">useState</span>(<span class="params">initialState</span>) &#123;</span><br><span class="line">  _state = _state === <span class="literal">undefined</span> ? initialState : _state;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">setState</span> = (<span class="params">newState</span>) =&gt; &#123;</span><br><span class="line">    _state = newState;</span><br><span class="line">    <span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>, rootElement);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> [_state, setState];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 好的，现在让我们来调用一下，目前暂时是达到了 <code>React.useState()</code> 一样的效果。<a target="_blank" rel="noopener" href="https://codesandbox.io/s/elegant-dust-5x1oc?fontsize=14&hidenavigation=1&theme=dark">Open in CodeSandbox</a><br> <img src="https://i.loli.net/2019/12/23/M3hwZkCTgVLD6Gp.gif" alt="模拟 React.useState 1.0"></p>
+</li>
+<li><p>但是，如果添加多个 <code>useState()</code> ，就一定会出现 BUG 了。因为当前的 <code>_state</code> 只能存放一个单一变量。如果我将 <code>_state</code> 改成数组存储呢？让这个数组 <code>_state</code> 根据当前操作 <code>useState()</code> 的索引向内添加 state</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> _state = [], _index = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">useState</span>(<span class="params">initialState</span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> curIndex = _index; <span class="comment">// 记录当前操作的索引</span></span><br><span class="line">  _state[curIndex] = _state[curIndex] === <span class="literal">undefined</span> ? initialState : _state[curIndex];</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">setState</span> = (<span class="params">newState</span>) =&gt; &#123;</span><br><span class="line">    _state[curIndex] = newState;</span><br><span class="line">    <span class="title class_">ReactDOM</span>.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>, rootElement);</span><br><span class="line">    _index = <span class="number">0</span>; <span class="comment">// 每更新一次都需要将_index归零，才不会不断重复增加_state</span></span><br><span class="line">  &#125;</span><br><span class="line">  _index += <span class="number">1</span>; <span class="comment">// 下一个操作的索引</span></span><br><span class="line">  <span class="keyword">return</span> [_state[curIndex], setState];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 虽然通过使用数组存储 <code>_state</code> 成功模拟了多个 <code>useState()</code> 的情况（<a target="_blank" rel="noopener" href="https://codesandbox.io/s/frosty-flower-9i1y7">Open in CodeSandbox</a>），但这要求我们保证 <code>useState()</code> 的调用顺序，所以我们不能在循环、条件或嵌套函数中调用 <code>useState()</code> ，这在 <code>React.useState()</code> 同样要求，官网还给出了专门的<a target="_blank" rel="noopener" href="https://reactjs.org/docs/hooks-rules.html#explanation">解释</a>。</p>
+</li>
+<li><p>让我们的 <code>setState()</code> 也支持<a target="_blank" rel="noopener" href="https://reactjs.org/docs/hooks-reference.html#functional-updates">函数式更新</a>和<a target="_blank" rel="noopener" href="https://reactjs.org/docs/hooks-reference.html#lazy-initial-state">惰性初始state</a>：<a target="_blank" rel="noopener" href="https://codesandbox.io/s/pedantic-flower-cbyfg">Open in CodeSandbox</a></p>
+</li>
+<li><p>通过 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is"><code>Object.is()</code></a> 比较算法来判断 <code>_state</code> 是否需要更新：<a target="_blank" rel="noopener" href="https://codesandbox.io/s/bold-fire-jv9y7">Open in CodeSandbox</a></p>
+</li>
+</ol>
+<h3 id="2023-3-11更新"><a href="#2023-3-11更新" class="headerlink" title="2023-3-11更新"></a>2023-3-11更新</h3><blockquote>
+<p>细心的同学可能在第4步是就已经发现问题了——判断 <code>_state</code> 是初始赋值还是处于更新阶段时，上文使用的条件是 <code>_state === undefined ? initialState : _state[curIndex]</code> 。那么这样就会导致一个问题——当我想要更新的值就是 <code>undefined</code> 时，岂不是会被判定为是“初始赋值”并被更新值为传入的 <code>initialState</code> 而非当前想要的结果。<br>那么如何把这个条件判断写得更合理呢？结合第5步，我们修改代码如下：</p>
+<pre><code>// 使用hasOwnProperty去判断当前索引是否被创建，如果有这个索引，说明已经对这个state赋初始值了，如果没有，则说明是新创建的，需要使用initialState赋初始值。
+_state[curIndex] = !_state.hasOwnProperty(curIndex) ? initialState : _state[curIndex];
+</code></pre>
+<p>最终版代码：<a target="_blank" rel="noopener" href="https://codesandbox.io/s/usestate-final-version-0icns7">useState final version - Open in CodeSandbox</a></p>
+</blockquote>
+<p>至此，我的模拟实现已结束。而实际上， React 并不是真的是这样实现的。上面提到的 <code>_state</code> 其实对应 React 的 <code>memoizedState</code> ，而 <code>_index</code> 实际上是利用了链表。有兴趣的同学可以自己去读<a target="_blank" rel="noopener" href="https://github.com/facebook/react/blob/master/packages/react-reconciler/src/ReactFiberHooks.js">源码</a>或者参阅这篇<a target="_blank" rel="noopener" href="https://juejin.im/post/5bdfc1c4e51d4539f4178e1f">博客</a>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [state, setState] = <span class="title class_">React</span>.<span class="title function_">useState</span>(initialState);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>React 16.8.0 正式增加了 Hooks ，它为函数组件引入了 state 的能力，换句话说就是使函数组件拥有了 Class 组件的功能。</li>
+<li><code>React.useState()</code> 返回的第二个参数 <code>setState</code> 用于更新 <code>state</code> ，并且会触发新的渲染。同时，在后续新的渲染中 <code>React.useState()</code> 返回的第一个 <code>state</code> 值始终是最新的。</li>
+<li>为了保证 <code>memoizedState</code> 的顺序与 <code>React.useState()</code> 正确对应，我们需要保证 Hooks 在<strong>最顶层调用</strong>，也就是<strong>不能</strong>在循环、条件或嵌套函数中调用。</li>
+<li><code>React.useState()</code> 通过 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is"><code>Object.is()</code></a> 来判断 <code>memoizedState</code> 是否需要更新。</li>
+</ul>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://reactjs.org/docs/hooks-reference.html#usestate">Hooks API Reference - useState</a></li>
+<li><a target="_blank" rel="noopener" href="https://reactjs.org/docs/hooks-rules.html">Rules of Hooks</a></li>
+<li><a target="_blank" rel="noopener" href="https://reactjs.org/docs/hooks-intro.html">Introducing Hooks</a></li>
+<li><a target="_blank" rel="noopener" href="https://juejin.im/post/5bdfc1c4e51d4539f4178e1f">阅读源码后，来讲讲React Hooks是怎么实现的 - Jokcy</a></li>
+</ul>
+<p>以上 React 的参考资料的中文版直接在前面加“zh-hans.”即可，即 <a target="_blank" rel="noopener" href="https://zh-hans.reactjs.org/">https://zh-hans.reactjs.org/</a>… ，不过似乎要翻墙才可以😂</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2019/12/23/hooks-useState/" data-id="cm2uc0mbx000ppggp4ddl1m9p" data-title="useState 的原理及模拟实现 —— React Hooks 系列（一）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/" rel="tag">React</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-fix-react-error-321-by-webpack-externals" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/11/20/fix-react-error-321-by-webpack-externals/" class="article-date">
+  <time class="dt-published" datetime="2019-11-20T05:58:24.000Z" itemprop="datePublished">2019-11-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/11/20/fix-react-error-321-by-webpack-externals/">从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近把自己（未完待续）的轮子库 <a target="_blank" rel="noopener" href="https://github.com/Caijialinxx/ui-demo"><code>cui-demo</code></a> 尝试发布到 npm 上，在测试项目中尝试引用时，报了一个无情的错。<br><img src="https://i.loli.net/2019/11/23/CTO5zkAInMRlt8Q.png" alt="Minified React error #321"></p>
+<blockquote>
+<p>「不看废话版」<br><br>排除了我的代码问题后，这个报错的原因应该是我的轮子库没有成功获取到测试项目（宿主环境）的依赖 <code>react</code> 和 <code>react-dom</code> 。解决方法如下：<br></p>
+<ol>
+<li>在 webpack 配置中将 <code>react</code> 和 <code>react-dom</code> 标记为 <code>externals</code>（这同时要求 <code>output.libraryTarget</code> 为 <code>umd</code> ），使轮子库可以在运行时获取到宿主环境的依赖。即  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">externals</span>: &#123;</span><br><span class="line">    <span class="attr">react</span>: &#123;</span><br><span class="line">      <span class="attr">commonjs</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">commonjs2</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">amd</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">root</span>: <span class="string">&#x27;React&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;react-dom&#x27;</span>: &#123;</span><br><span class="line">      <span class="attr">commonjs</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">commonjs2</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">amd</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">root</span>: <span class="string">&#x27;ReactDOM&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li>在 <code>package.json</code> 中为 <code>react</code> 和 <code>react-dom</code> 添加同伴依赖 <code>peerDependencies</code> 的映射，这是为了检测宿主环境中这两项依赖的版本如果低于你规定的最低版本，那么在 npm@3 中会给出警告（npm@1 和 npm@2 中会自动安装）。配置如下：  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;peerDependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;react&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^16.8.4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;react-dom&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^16.8.4&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+</blockquote>
+<br>
+Debug 开始：
+
+<p>为什么说这个错误提示无情呢？让我们来慢慢走进这个报错世界：</p>
+<ol>
+<li><p>它让我转到 <a target="_blank" rel="noopener" href="https://reactjs.org/docs/error-decoder.html/?invariant=321">https://reactjs.org/docs/error-decoder.html/?invariant=321</a> 去看完整信息。好，我知道这个报错是非法 Hook 调用（Invalid Hook Call）的问题了。</p>
+</li>
+<li><p>然后我继续看 <a target="_blank" rel="noopener" href="https://fb.me/react-invalid-hook-call">https://fb.me/react-invalid-hook-call</a> 提供的 debug 方法。</p>
+<ul>
+<li><p>Breaking the Rules of Hooks<br>  违反 Hooks 规则的错误，我用我的狗头保证，不是的🐶。</p>
+</li>
+<li><p>Mismatching Versions of React and React DOM<br>  React DOM 版本与 React 不匹配（低于16.8.0），也排除了。（见下图）</p>
+</li>
+<li><p>Duplicate React<br>  意外地引入了两个 React ，还是排除了。（见下图）</p>
+<p>  <img src="https://i.loli.net/2019/11/23/Pjy5US7ap2mvfwu.png" alt="根据官网进行的debug"></p>
+<p>  而且我的轮子库的 <code>package.json</code> 中对 <code>react</code> 和 <code>react-dom</code> 的版本设置也是符合要求的：</p>
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;devDependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="attr">&quot;react&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^16.8.4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;react-dom&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^16.8.4&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>  在这两个证据之下，我不得不怀疑自己的狗头是不是保不住了… 难不成我真的违反了 Hooks 的规则？？不应该呀… 如果真是这样，那我平时自己写轮子运行的时候就会报错不通过了呀…</p>
+</li>
+</ul>
+</li>
+<li><p>带着疑问，我决定去参考 <a target="_blank" rel="noopener" href="https://github.com/ant-design/ant-design/blob/master/package.json">ant-design</a> 和 <a target="_blank" rel="noopener" href="https://github.com/ElemeFE/element/blob/master/package.json">element-ui</a> 的 <code>package.json</code> 文件，看看它们是如何配置依赖的。后来发现它们还在 <a target="_blank" rel="noopener" href="https://docs.npmjs.com/files/package.json#peerdependencies"><code>peerDependencies</code></a> 中指定了兼容的版本号。虽说我的轮子库对 <code>react</code> &#x2F; <code>react-dom</code> 的依赖宽松到 <code>&gt;=16.8.4 &lt;17.0.0</code> ，完全兼容测试项目的 <code>^16.12.0</code> ， <code>peerDependencies</code> 在这应该不起作用，但为了防止其他用户使用我这个轮子库时宿主环境的依赖版本低于要求，我还是得给 <code>package.json</code> 添加这个映射：</p>
+ <figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    ...  </span><br><span class="line">    &quot;react&quot;: &quot;^16.8.4&quot;,</span><br><span class="line">    &quot;react-dom&quot;: &quot;^16.8.4&quot;</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="addition">+ &quot;peerDependencies&quot;: &#123;</span></span><br><span class="line"><span class="addition">+   &quot;react&quot;: &quot;^16.8.4&quot;,</span></span><br><span class="line"><span class="addition">+   &quot;react-dom&quot;: &quot;^16.8.4&quot;</span></span><br><span class="line"><span class="addition">+ &#125;,</span></span><br><span class="line">  &quot;dependencies&quot;: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 抱着“瞎猫碰上死耗子”的心态，我重新把更改后的轮子库发布到 npm 中。但最后这个更改果然并没有让 <code>#321</code> 的报错消失。</p>
+<p> 无情展露无余。</p>
+</li>
+</ol>
+<br>
+
+<p>在几次顽强地挣扎和重试后，我真的摸不着头脑了。谷歌了很多篇文章，终于，老天不负有心人，我终于找到了问题所在——原来项目中真的存在着多个 <code>react</code> 实例， <code>cui-demo</code> 打包时 webpack 把 <code>react</code> 一起把它打包进 bundles 里了：</p>
+<p><img src="https://i.loli.net/2019/11/25/Gl3dDPoxergbiTC.png" alt="webpack"></p>
+<p>为了解决这个问题，我应该在 webpack 构建时将 <code>react</code> 和 <code>react-dom</code> 标记为 <code>externals</code> （外部扩展），这样它们就不会被打包进 bundles 中，而是在运行时自动从宿主环境中获取这些扩展依赖。配置如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&#x27;dist/lib&#x27;</span>),</span><br><span class="line">    <span class="attr">library</span>: <span class="string">&#x27;CUI&#x27;</span>,</span><br><span class="line">    <span class="attr">libraryTarget</span>: <span class="string">&#x27;umd&#x27;</span>      <span class="comment">// 当扩展依赖是对象(&#123; root, amd, commonjs, ... &#125;)时，libraryTarget必须为&#x27;umd&#x27;。查看：https://webpack.js.org/configuration/externals/#object</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">externals</span>: &#123;</span><br><span class="line">    <span class="attr">react</span>: &#123;</span><br><span class="line">      <span class="attr">commonjs</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">commonjs2</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">amd</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">root</span>: <span class="string">&#x27;React&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;react-dom&#x27;</span>: &#123;</span><br><span class="line">      <span class="attr">commonjs</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">commonjs2</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">amd</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">root</span>: <span class="string">&#x27;ReactDOM&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/11/23/XwuHk3a86DVcr2p.png" alt="webpack 新增 externals 配置"></p>
+<p>好的，再重新发布看看。</p>
+<p>YES！终于成功了！在 webpack 中排除依赖打包进外部 bundles 中即可解决我测试项目中 <code>Minified React error #321</code> 的报错～戳<a target="_blank" rel="noopener" href="https://codesandbox.io/s/crazy-https-r9scn?fontsize=14&hidenavigation=1&theme=dark">此</a>体验一下新鲜出炉的轮子库 <a target="_blank" rel="noopener" href="https://github.com/Caijialinxx/ui-demo"><code>cui-demo</code></a> 吧！</p>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/facebook/react/issues/16029#issuecomment-518156374">Invariant Violation: Minified React error #321 - react issues #16029
+</a></li>
+<li><a target="_blank" rel="noopener" href="https://webpack.js.org/configuration/externals/">Externals - webpack</a> &#x2F; <a target="_blank" rel="noopener" href="https://webpack.docschina.org/configuration/externals/">中文版</a></li>
+<li><a target="_blank" rel="noopener" href="https://webpack.js.org/guides/author-libraries/">Authoring Libraries - webpack</a> &#x2F; <a target="_blank" rel="noopener" href="https://webpack.docschina.org/guides/author-libraries">中文版</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.npmjs.com/files/package.json#peerdependencies">npm-package.json peerDependencies</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.domenic.me/peer-dependencies/">Peer Dependencies</a> &#x2F; <a target="_blank" rel="noopener" href="https://github.com/hongfanqie/peer-dependencies">Ivan Yan的中文翻译</a></li>
+<li><a target="_blank" rel="noopener" href="https://javascript.ruanyifeng.com/nodejs/packagejson.html#toc3">package.json文件 - JavaScript 标准参考教程（alpha）</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2019/11/20/fix-react-error-321-by-webpack-externals/" data-id="cm2uc0mbv000jpggpfqpvbdnd" data-title="从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-how-useful-the-key-attribute-in-react-is" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/09/26/how-useful-the-key-attribute-in-react-is/" class="article-date">
+  <time class="dt-published" datetime="2019-09-26T07:56:40.000Z" itemprop="datePublished">2019-09-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2019/09/26/how-useful-the-key-attribute-in-react-is/">原来React里的key这么有用！</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>相信React用户在撸代码的日常中，一定遇到过这个报错：</p>
+<p><img src="https://i.loli.net/2019/10/16/CJWrpevz89xTK7Z.png" alt="React中常见的key属性警告"></p>
+<p>嗯，没错了，熟悉的配方，熟悉的报错～ 有些小伙伴看到是「Warning」也就置之不理了，有些凭经验反手给元素加上一个 <code>key=&#123;唯一的值&#125;</code> 属性就迅速解决这个报错了。</p>
+<p>不知道有多少小伙伴知道为什么React这么看重这个 <code>key</code> 属性，反正我以前凭直觉添加个唯一的id，再不济用索引就完事了。今天才明白，原来 <code>key</code> 这么有用，而且用好了还能避免性能问题甚至是 Bug ！</p>
+<h2 id="Key-为何而来？"><a href="#Key-为何而来？" class="headerlink" title="Key 为何而来？"></a>Key 为何而来？</h2><p>在正式开始解释 <code>key</code> 属性之前，我得先说说React的Diffing算法。为了避免本文重心偏离及篇幅太长，我打算概括性地介绍一下这个过程：</p>
+<p>首先检查根元素的类型。</p>
+<ol>
+<li>如果类型不一样，则卸载整个旧的DOM树，并重建新的DOM树。</li>
+<li>如果类型一样，React会检查两者的属性。如果属性有改变，就更新相应的属性。</li>
+<li>在比较完该节点后，递归地检查其子节点。默认情况下，React会同时遍历旧树和新树的子节点列表，在存在差异时则触发一个变化。<br> 例如： <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>third<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+ React成功匹配两个 <code>&lt;li&gt;first&lt;/li&gt;</code> ，然后有成功匹配两个 <code>&lt;li&gt;second&lt;/li&gt;</code> ，下一步发现新树多了 <code>&lt;li&gt;third&lt;/li&gt;</code> ，于是插入该新的子节点。但是如果我们是这样去插入一个新的节点，性能将会降低： <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>third<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+ React不会按我们的预期那样将 <code>&lt;li&gt;first&lt;/li&gt;</code> 和 <code>&lt;li&gt;second&lt;/li&gt;</code> 当作是原有的子节点，它会将三个 <code>&lt;li&gt;</code> 都当成新的变化来更新。毕竟当数据量大了之后，这将会是一个很大的性能问题。</li>
+</ol>
+<p>那么为了解决这个问题，React提出使用 <strong><code>key</code></strong> 属性来匹配旧树和新树的子节点。例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&quot;1&quot;</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&quot;2&quot;</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&quot;3&quot;</span>&gt;</span>third<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&quot;1&quot;</span>&gt;</span>first<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&quot;2&quot;</span>&gt;</span>second<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样一来，React在检查到这些子节点时，就知道key为 <code>&quot;3&quot;</code> 的节点是新项，而 <code>&quot;1&quot;</code> 和 <code>&quot;2&quot;</code> 是老朋友了，大家挪个位欢迎新朋友就座就好了。</p>
+<h2 id="Key-如何设置？"><a href="#Key-如何设置？" class="headerlink" title="Key 如何设置？"></a>Key 如何设置？</h2><ul>
+<li>一般来说，我们会将 <code>key</code> 的值设置为数据的「id」。例如 <code>&lt;li key=&#123;todo.id&#125;&gt;&#123;todo.content&#125;&lt;/li&gt;</code> 。</li>
+<li>如果没有id的话，我们可以为数据模型添加新的id属性，或者对部分内容进行hash处理，以生成每一项的key。<br>PS: <code>key</code> 仅在它的邻项之间要求唯一，并不具有全局性哦！</li>
+<li>再不济，我们可以用索引index来作为key值，但是这个方法在一些情况下容易出Bug！例如说在需要重新排序时，由于组件示例的更新和复用是以它们的key为根据的，所以当我们对项目重新排序时， <code>key</code> 由于索引的变化也会跟着改变，而诸如非受控组件的状态却不会随之一起改变。官方给出的两个例子就能很好地说明问题：<a target="_blank" rel="noopener" href="https://reactjs.org/redirect-to-codepen/reconciliation/index-used-as-key">以index为key</a> v.s. <a target="_blank" rel="noopener" href="https://reactjs.org/redirect-to-codepen/reconciliation/no-index-used-as-key">以id为key</a> 。<br>当然，如果我们将第一个例子中的 <code>&lt;input/&gt;</code> 改为受控组件，也可以避免这个问题（送上我改写第一个例子的<a target="_blank" rel="noopener" href="https://codepen.io/caijialinxx/pen/QWWKwVM?editors=0010">传送门</a>）。</li>
+</ul>
+<hr>
+<p>在长篇大论的铺垫中，终于说完了那么一丁点儿正文。本文就当作是官方文档的一个不对口的翻译吧，如果有理解错误或者不够深入的地方敬请指出～！送上<a target="_blank" rel="noopener" href="https://reactjs.org/docs/reconciliation.html#keys">官方原文</a>。也欢迎大家给我多排除「知识陷阱」～</p>
+<p>END.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2019/09/26/how-useful-the-key-attribute-in-react-is/" data-id="cm2uc0mby000tpggpbksv6fkg" data-title="原来React里的key这么有用！" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/" rel="tag">React</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

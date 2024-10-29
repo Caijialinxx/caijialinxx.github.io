@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>MVC 是什么？ | Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="MVC 是什么我说 MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范，用一种业务逻辑、数据、界面显示分离的方法组织代码，将业务逻辑聚集到一个部件里面，在改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑。  这是来自百度百科的介绍。看上面这段话，我帮你们提取出关键字，再翻译成我们能理解的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MVC 是什么？">
+<meta property="og:url" content="https://caijialinxx.github.io/2018/07/08/MVC/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="MVC 是什么我说 MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范，用一种业务逻辑、数据、界面显示分离的方法组织代码，将业务逻辑聚集到一个部件里面，在改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑。  这是来自百度百科的介绍。看上面这段话，我帮你们提取出关键字，再翻译成我们能理解的">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2018/07/08/5b41e262f3b8d.png">
+<meta property="article:published_time" content="2018-07-08T10:59:58.000Z">
+<meta property="article:modified_time" content="2018-07-08T11:02:04.000Z">
+<meta property="article:author" content="caijialinxx">
+<meta property="article:tag" content="Notes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2018/07/08/5b41e262f3b8d.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-MVC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/08/MVC/" class="article-date">
+  <time class="dt-published" datetime="2018-07-08T10:59:58.000Z" itemprop="datePublished">2018-07-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      MVC 是什么？
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="MVC-是什么"><a href="#MVC-是什么" class="headerlink" title="MVC 是什么"></a>MVC 是什么</h2><h3 id="我说"><a href="#我说" class="headerlink" title="我说"></a>我说</h3><blockquote>
+<p>MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范，用一种业务逻辑、数据、界面显示分离的方法组织代码，将业务逻辑聚集到一个部件里面，在改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑。</p>
+</blockquote>
+<p>这是来自<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/MVC%E6%A1%86%E6%9E%B6/9241230?fr=aladdin&fromid=85990&fromtitle=MVC">百度百科</a>的介绍。看上面这段话，我帮你们提取出关键字，再翻译成我们能理解的话，就是：</p>
+<blockquote>
+<p>MVC 是一种<strong>代码组织形式</strong>，它可以将代码按照 <strong><code>Model</code></strong> （数据层）、 <strong><code>View</code></strong> （视图层）和 <strong><code>Controller</code></strong> （控制层）这三种形式组织代码，每层互相独立、各司其职，却又相互联系、相互依赖。</p>
+</blockquote>
+<p>这样是不是好理解多了，那么这三层的作用如下所述：</p>
+<ul>
+<li><code>Model</code> 负责数据管理，包括数据逻辑、数据请求、数据存储等功能。例如，前端的 Model 主要负责 AJAX 请求或 LocalStorage 的存储</li>
+<li><code>View</code> 负责用户界面的呈现。例如，前端的 View 主要负责 HTML 页面的渲染</li>
+<li><code>Controller</code> 负责处理 View 层的事件，并更新 Model 中的数据；也负责监听 Model 层的数据变化，并及时更新到 View 层。</li>
+</ul>
+<h3 id="代码说"><a href="#代码说" class="headerlink" title="代码说"></a>代码说</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> model = &#123;</span><br><span class="line">  <span class="attr">data</span>: <span class="literal">null</span>,</span><br><span class="line">  <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// model 的初始化，一般是要与数据库建立连接，所以包含一些验证信息（id, key）</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">fetch</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 获取数据库中的 data(s)</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">add</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 向数据库中添加 data(s)</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">update</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 更新数据库中的 data(s)</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">delete</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 删除数据库中的 data(s)</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> view = &#123;</span><br><span class="line">  <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// view 获取需要被操作的对象，供 controller 操作</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> controller = &#123;</span><br><span class="line">  <span class="attr">view</span>: <span class="literal">null</span>,</span><br><span class="line">  <span class="attr">model</span>: <span class="literal">null</span>,</span><br><span class="line">  <span class="title function_">init</span>(<span class="params">view, model</span>) &#123;</span><br><span class="line">    <span class="comment">// controller 初始化本地 view 或 model ，并执行相关逻辑操作</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">view</span> = view</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">model</span> = model</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">bindEvents</span>()</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">bindEvents</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 处理 view 层的事件，如果数据有变化就更新 model 层</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 监听 model 层的数据变化，更新到 view 层</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">controller.<span class="title function_">init</span>(view, model)</span><br></pre></td></tr></table></figure>
+
+<h3 id="图说"><a href="#图说" class="headerlink" title="图说"></a>图说</h3><p>由上面的文字和代码，我们可以已经可以知道 <code>Model</code> 、 <code>View</code> 和 <code>Controller</code> 三者的关系了。再用图总结一下，就如下所示：<br><img src="https://i.loli.net/2018/07/08/5b41e262f3b8d.png" alt="图说MVC.png"></p>
+<h2 id="MVC-有什么用"><a href="#MVC-有什么用" class="headerlink" title="MVC 有什么用"></a>MVC 有什么用</h2><p>WHAT!? 上面的例子还不能让你知道 MVC 的好处吗？</p>
+<p>想象一下，你要做了一个网页应用，某一天，某个功能不够好想完善，或者出了 BUG ，假设你把所有 JS 代码全部集中在一个文件里，而且没有整理代码的习惯，是的，你需要在几百行甚至上千行的代码中找到那个功能的代码，………….（不如先给自己准备一瓶眼药水）</p>
+<p>好了，不废话了，在你的代码量大的时候，使用 MVC 来组织封装代码，那么在你要找代码的时候，就可以快速定位了。</p>
+<p>例如，你想改变某个控件在被点击时的动画效果——好的，这是 <code>Controller</code> 层的事，那么直接找到 <code>Controller</code> 层中那个控件的 <code>click</code> 事件做修改就可以了；</p>
+<p>或者你发现同一个文档中有两个拥有相同 <code>id</code> 的元素，你已经在 HMTL 中改正，现在只需要去对应的 JS 中改变 <code>View</code> 层中使用错误 id 获取的这个元素的正确 id 即可。</p>
+<p>…被我绕晕了吗？相信聪明的你，可以看懂，哈哈哈哈哈。</p>
+<h2 id="总结（其实可以直接看这个）"><a href="#总结（其实可以直接看这个）" class="headerlink" title="总结（其实可以直接看这个）"></a>总结<small>（其实可以直接看这个）</small></h2><ol>
+<li>MVC 是一种 <ul>
+<li>按照 <code>Model</code> 、 <code>View</code> 和 <code>Controller</code> 三层结构</li>
+<li>来组织代码</li>
+<li>的形式 &#x2F; 理念 &#x2F; 典范</li>
+</ul>
+</li>
+<li>它可以<ul>
+<li>提高代码的可重用性</li>
+<li>减少三层结构之间的互相干扰</li>
+<li>提高程序的可扩展性和可维护性</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>本文到此结束，谢谢观赏，敬请勘误。<br>E-mail: <a href="mailto:&#x63;&#97;&#x69;&#106;&#x69;&#97;&#108;&#x69;&#110;&#120;&#120;&#x40;&#x66;&#111;&#120;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#109;">&#x63;&#97;&#x69;&#106;&#x69;&#97;&#108;&#x69;&#110;&#120;&#120;&#x40;&#x66;&#111;&#120;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/07/08/MVC/" data-id="cm2uc0mbd0000pggpdgdbd6nn" data-title="MVC 是什么？" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/12/cookie/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          HTTP 牌的 Cookie
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/06/27/http-status-code/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">一些常见的 HTTP 状态码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

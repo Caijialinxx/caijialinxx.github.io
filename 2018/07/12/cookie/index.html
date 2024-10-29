@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>HTTP 牌的 Cookie | Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Cookie 是什么？今天要介绍的 Cookie ，不是皇冠丹麦牌的哦，而是我们 HTTP 牌的~  HTTP Cookie（也叫Web Cookie或浏览器Cookie）是服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一服务器再发起请求时被携带并发送到服务器上。  由上面的介绍，提炼成简短的一句话就是——Cookie是一段数据。 MDN 的介绍已非常清晰易懂。目前使用最广泛">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP 牌的 Cookie">
+<meta property="og:url" content="https://caijialinxx.github.io/2018/07/12/cookie/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="Cookie 是什么？今天要介绍的 Cookie ，不是皇冠丹麦牌的哦，而是我们 HTTP 牌的~  HTTP Cookie（也叫Web Cookie或浏览器Cookie）是服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一服务器再发起请求时被携带并发送到服务器上。  由上面的介绍，提炼成简短的一句话就是——Cookie是一段数据。 MDN 的介绍已非常清晰易懂。目前使用最广泛">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2018/07/12/5b46c913a2451.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/12/5b46c913b9072.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/12/5b46ca8c202a2.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/12/5b46ca8c1648d.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/12/5b46e92152a80.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/12/5b46f6f3dea55.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/12/5b46fbd56617b.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/12/5b46fb656f489.png">
+<meta property="article:published_time" content="2018-07-12T07:38:29.000Z">
+<meta property="article:modified_time" content="2018-07-12T07:57:40.000Z">
+<meta property="article:author" content="caijialinxx">
+<meta property="article:tag" content="Notes">
+<meta property="article:tag" content="HTTP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2018/07/12/5b46c913a2451.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-cookie" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/12/cookie/" class="article-date">
+  <time class="dt-published" datetime="2018-07-12T07:38:29.000Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      HTTP 牌的 Cookie
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Cookie-是什么？"><a href="#Cookie-是什么？" class="headerlink" title="Cookie 是什么？"></a>Cookie 是什么？</h2><p>今天要介绍的 Cookie ，不是皇冠丹麦牌的哦，而是我们 HTTP 牌的~</p>
+<blockquote>
+<p>HTTP Cookie（也叫Web Cookie或浏览器Cookie）是服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一服务器再发起请求时被携带并发送到服务器上。</p>
+</blockquote>
+<p>由上面的介绍，提炼成简短的一句话就是——<strong>Cookie是一段数据</strong>。 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies">MDN</a> 的介绍已非常清晰易懂。目前使用最广泛的是由网景公司在其制定的标准上进行扩展后的产物。</p>
+<h2 id="能吃吗？"><a href="#能吃吗？" class="headerlink" title="能吃吗？"></a>能吃吗？</h2><p>HTTP Cookie 当然不能吃，但是！它可以用于<strong>识别用户身份</strong>和<strong>记录用户操作历史</strong>。</p>
+<ul>
+<li>识别用户身份<br>例如，当用户登录一个网站时，如果用户需要记住登录，那么服务器就会发送一个包含此用户登录凭证（用户名和密码的某种加密形式）的 Cookie 到用户本地（将会被存储在计算机的硬盘中），那么在 Cookie 的有效期内再次访问这个网站，浏览器就会自动带上这个 Cookie 去访问服务器，服务器识别到这个 Cookie ，就可以免去用户登录这个操作。</li>
+<li>记录操作历史<br>假设现有一个用户在网上购物，由于 HTTP 协议是无状态的，即服务器不知道用户上一次做了什么，如果不依靠其他的手段，服务器是无法记录到用户买了什么的，而 Cookie 就可以弥补这一缺陷——用户每选购一个商品，服务器就可以向用户发送一段 Cookie ，记录那个商品的信息。这样每当用户访问新的商品页面，浏览器就会把 Cookie 发给服务器，服务器在这个 Cookie 里追加信息。最后，结账的时候，服务器读取接受到的 Cookie 就可以知道用户一共选购了什么商品。</li>
+</ul>
+<blockquote>
+<p>MDN 中详细描述了 Cookie 的使用场景：</p>
+<ul>
+<li>会话状态管理（如用户登录状态、购物车、游戏分数或其它需要记录的信息）</li>
+<li>个性化设置（如用户自定义设置、主题等）</li>
+<li>浏览器行为跟踪（如跟踪分析用户行为等）</li>
+</ul>
+</blockquote>
+<h2 id="有什么口味？"><a href="#有什么口味？" class="headerlink" title="有什么口味？"></a>有什么口味？</h2><p>没有榛仁味，也没有果干味。按它的储存位置，可以分为<strong>内存Cookie</strong>和<strong>硬盘Cookie</strong>：</p>
+<ul>
+<li>内存 Cookie 由浏览器维护，保存在内存中，浏览器关闭后就消失了，其存在时间是短暂的。</li>
+<li>硬盘 Cookie 保存在硬盘里，有一个过期时间，除非用户手动清理或到了过期时间，硬盘Cookie不会被删除，其存在时间是长期的。</li>
+</ul>
+<p>所以，按存在时间，还可分为<strong>会话期Cookie</strong>和<strong>持久性Cookie</strong>：</p>
+<ul>
+<li>会话期 Cookie 不需要指定过期时间（ <code>Expires</code> ）或者有效期（ <code>Max-Age</code> ）。需要注意的是，有些浏览器提供了会话恢复功能，这种情况下即使关闭了浏览器，会话期 Cookie 也会被保留下来，就好像浏览器从来没有关闭一样。</li>
+<li>持久性 Cookie 可以指定一个特定的过期时间（ <code>Expires</code> ）或有效期（ <code>Max-Age</code> ）。</li>
+</ul>
+<h2 id="制作的关键工序"><a href="#制作的关键工序" class="headerlink" title="制作的关键工序"></a>制作的关键工序</h2><ul>
+<li>后端人员在响应头中设置 Cookie<br>  Node.js 下的后端代码如下：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;user=caijialinxx@foxmail.com&quot;</span>);</span><br></pre></td></tr></table></figure>
+  如果要设置多个 Cookies ，那么使用数组包含每一个元素即可，即：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, [<span class="string">&quot;user=caijialinxx@foxmail.com&quot;</span>, <span class="string">&quot;language=javascript&quot;</span>]);</span><br></pre></td></tr></table></figure></li>
+<li>用户在浏览器中修改 Cookie<br>  一些浏览器自带或安装开发者工具允许用户查看、修改或删除特定网站的 Cookies 信息。这也带来了一个问题，用户可以伪造 Cookie 来操作网页。</li>
+</ul>
+<h2 id="保质期多久？"><a href="#保质期多久？" class="headerlink" title="保质期多久？"></a>保质期多久？</h2><p>后端开发人员可以加多点防腐剂，让 Cookie 的有效期长一点，也可以让它几分钟之后就过期，取决于后端人员如何设置。一般默认的有效期是20分钟，每个浏览器的默认时长可能不同。</p>
+<p>这个防腐剂就是上面提到的 <code>Expires</code> 或者 <code>Max-Age</code> 属性。</p>
+<ul>
+<li><code>Expires</code> 属性<br>  它可以指定一个具体的到期时间，到了指定时间之后浏览器就不会再保存这个 Cookie 。例如：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;user=caijialinxx@foxmail.com; Expires=Thu, 12 Jul 2018 02:54:00 GMT&quot;</span>)</span><br></pre></td></tr></table></figure>
+  那么，可以看到收到的响应头中含有  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: user=caijialinxx@foxmail.com; Expires=Thu, 12 Jul 2018 04:00:00 GMT</span><br></pre></td></tr></table></figure>
+  <img src="https://i.loli.net/2018/07/12/5b46c913a2451.png" alt="响应头中的Set-Cookie字段"><br>  且新增了这条 Cookie 如下图所示：<br>  <img src="https://i.loli.net/2018/07/12/5b46c913b9072.png" alt="设置了Expires的Cookie"><br>  但是由于这个时间是依赖本地时间来决定 Cookie 具体何时过期，所以没有办法保证 Cookie 一定会在服务器指定的时间过期。</li>
+<li><code>Max-Age</code> 属性<br>  它可以规定从现在开始，在指定的时间后 Cookie 到期，单位为秒。例如：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;user=caijialinxx@foxmail.com; Max-Age=60&quot;</span>)</span><br></pre></td></tr></table></figure>
+  那么，可以看到收到的响应头中含有  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: user=caijialinxx@foxmail.com; Max-Age=60</span><br></pre></td></tr></table></figure>
+  <img src="https://i.loli.net/2018/07/12/5b46ca8c202a2.png" alt="响应头中的Set-Cookie字段"><br>  我们可以看到 Cookie 在 <code>2018-07-12T03:30:24.539Z</code> 后过期，这个时间是根据我们启动服务器后，增加60s后得到的时间。<br>  <img src="https://i.loli.net/2018/07/12/5b46ca8c1648d.png" alt="a1d3d7198a21adbb2c8248a80f20590.png"></li>
+</ul>
+<h2 id="食品安全认证"><a href="#食品安全认证" class="headerlink" title="食品安全认证"></a>食品安全认证</h2><p>在第4节中我们知道了，用户可以借助浏览器的开发者工具修改 Cookie ，那么这意味着我们可以篡改网站的 Cookie 如下图所示：<br><img src="https://i.loli.net/2018/07/12/5b46e92152a80.png" alt="在开发者工具中读写Cookie"><br>具体的危害可以查看<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Cookie#%E5%81%B7%E7%AA%83Cookies%E5%92%8C%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB">偷窃Cookies和脚本攻击——维基百科</a>。<br>为了避免这种情况，我们可以添加 <code>HttpOnly</code> 标记：</p>
+<ul>
+<li><code>HttpOnly</code> 可以使 Cookie 无法通过 JavaScript 的 <code>document.cookie</code> 读写。  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;user=caijialinxx@foxmail.com; HttpOnly&quot;</span>)</span><br></pre></td></tr></table></figure>
+  响应头中含有  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: user=caijialinxx@foxmail.com; HttpOnly</span><br></pre></td></tr></table></figure>
+  但可以在 Application 中更改，如下图所示。<br>  <img src="https://i.loli.net/2018/07/12/5b46f6f3dea55.png" alt="标记了HTTPOnly后Cookie仍可被更改"></li>
+</ul>
+<p>此外，还有 <code>Secure</code> 标记：</p>
+<ul>
+<li><code>Secure</code> 可以使 Cookie 只能通过被 HTTPS 协议加密过的请求发送给服务器，如果不是 HTTPS 协议，那么浏览器将不会接受这个 Cookie 。  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;user=caijialinxx@foxmail.com; Secure&quot;</span>)</span><br></pre></td></tr></table></figure>
+  响应头中含有  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: user=caijialinxx@foxmail.com; Secure</span><br></pre></td></tr></table></figure>
+  <img src="https://i.loli.net/2018/07/12/5b46fbd56617b.png" alt="响应头返回的Set-Cookie中含有Secure标记"><br>  因为此网站是 <code>http://localhost:8888</code> ，所以在请求头中浏览器无法发送 Cookie 。<br>  <img src="https://i.loli.net/2018/07/12/5b46fb656f489.png" alt="请求头中无Cookie字段"><br>  但即便设置了 <code>Secure</code> 标记，敏感信息也不应该通过 Cookie 传输，因为Cookie有其固有的不安全性，<code>Secure</code> 标记也无法提供确实的安全保障。从 Chrome 52 和 Firefox 52 开始，不安全的站点（http:）无法使用 Cookie 的 <code>Secure</code> 标记。</li>
+</ul>
+<h2 id="它的不美味之处"><a href="#它的不美味之处" class="headerlink" title="它的不美味之处"></a>它的不美味之处</h2><ul>
+<li>Cookie 会被附加在每个 HTTP 请求中，所以无形中增加了流量，带来额外的开销。</li>
+<li>由于在 HTTP 请求中的 Cookie 是明文传递的，所以安全性成问题，除非用 HTTPS 。</li>
+<li>Cookie 的大小一般限制在 4KB 左右，对于复杂的存储需求来说是不够用的。</li>
+<li>识别不精确， Cookie 只能定位到用户、浏览器和计算机这三者的组合，一旦有一个不同， Cookie 的内容就会不同或者是存储位置不一样。</li>
+<li>不准确的状态——浏览器的“回退”按键会使 Cookie 无法记录上一次的用户操作。</li>
+<li>Cookies 在某种程度上说已经严重危及用户的隐私和安全，它会被利用于投放广告。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>Cookie 是一段数据，它由服务器发送给浏览器并保存到本地，存储着用户的一些信息（如用户登录状态、个性化设置等），在此浏览器下一次访问此服务器时，这段 Cookie 会被附加在 HTTP 请求中发送给服务器。</li>
+<li>Cookie 的大小一般为 4KB ，默认有效期一般为 20mins ，但可以通过 <code>Expires</code> （UTC格式）或 <code>Max-Age</code> （秒数）来设置其过期时间。</li>
+<li>Node.js 设置 Cookie 的 API ： <code>response.setHeader(&quot;Set-Cookie&quot;, &quot;name=value&quot;)</code> 。</li>
+<li>浏览器读写 Cookie 的 API ： <code>document.cookie</code> 。若要阻止用户通过 JavaScript 来读写 Cookie ，只需要添加 <code>HttpOnly</code> 标记。</li>
+<li><code>Secure</code> 标记可以使 Cookie 只能通过 HTTPS 加密过的请求发送服务器，如果不是 HTTPS 请求，浏览器会自动忽略。</li>
+<li>由于 Cookie 会被附加在 HTTP 请求中，且是明文传递，所以会增加流量以及有安全问题。建议使用 Web storage API （ <code>sessionStorage</code> 或 <code>localStorage </code> ）或 IndexedDB 。</li>
+</ol>
+<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>在这篇笔记写到一半的时候，我看到了 MDN 的介绍，我觉得它写得已经很好了，一度有不想写直接抛出链接的想法……..<br>然鹅，这篇笔记可是我自己消化的东西啊。不管怎么样，都还是应该要自己写出来。只不过我还是会把 MDN 的链接放在下面作为扩展阅读，当然还有其他一些优秀的博客笔记。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies">HTTP Cookie, MDN</a></li>
+<li><a target="_blank" rel="noopener" href="http://ulricqin.com/post/httponly-cookie/">说说HttpOnly Cookie的作用</a></li>
+<li><a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/bom/cookie.html">Cookie, JavaScript 标准参考教程</a>——阮一峰</li>
+<li><a target="_blank" rel="noopener" href="https://latesthackingnews.com/2017/07/03/what-is-httponly-cookie/">What is httponly cookie?</a> ——外文阅读，有兴趣请戳</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/07/12/cookie/" data-id="cm2uc0mbn0004pggp2kkw4r67" data-title="HTTP 牌的 Cookie" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/07/16/cookie-session-webStorage/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Cookie, Session, LocalStorage &amp; SessionStorage
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/08/MVC/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">MVC 是什么？</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Caijialinxx">
+<meta property="og:url" content="https://caijialinxx.github.io/page/3/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:locale">
+<meta property="article:author" content="caijialinxx">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-cookie" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/12/cookie/" class="article-date">
+  <time class="dt-published" datetime="2018-07-12T07:38:29.000Z" itemprop="datePublished">2018-07-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/07/12/cookie/">HTTP 牌的 Cookie</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="Cookie-是什么？"><a href="#Cookie-是什么？" class="headerlink" title="Cookie 是什么？"></a>Cookie 是什么？</h2><p>今天要介绍的 Cookie ，不是皇冠丹麦牌的哦，而是我们 HTTP 牌的~</p>
+<blockquote>
+<p>HTTP Cookie（也叫Web Cookie或浏览器Cookie）是服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一服务器再发起请求时被携带并发送到服务器上。</p>
+</blockquote>
+<p>由上面的介绍，提炼成简短的一句话就是——<strong>Cookie是一段数据</strong>。 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies">MDN</a> 的介绍已非常清晰易懂。目前使用最广泛的是由网景公司在其制定的标准上进行扩展后的产物。</p>
+<h2 id="能吃吗？"><a href="#能吃吗？" class="headerlink" title="能吃吗？"></a>能吃吗？</h2><p>HTTP Cookie 当然不能吃，但是！它可以用于<strong>识别用户身份</strong>和<strong>记录用户操作历史</strong>。</p>
+<ul>
+<li>识别用户身份<br>例如，当用户登录一个网站时，如果用户需要记住登录，那么服务器就会发送一个包含此用户登录凭证（用户名和密码的某种加密形式）的 Cookie 到用户本地（将会被存储在计算机的硬盘中），那么在 Cookie 的有效期内再次访问这个网站，浏览器就会自动带上这个 Cookie 去访问服务器，服务器识别到这个 Cookie ，就可以免去用户登录这个操作。</li>
+<li>记录操作历史<br>假设现有一个用户在网上购物，由于 HTTP 协议是无状态的，即服务器不知道用户上一次做了什么，如果不依靠其他的手段，服务器是无法记录到用户买了什么的，而 Cookie 就可以弥补这一缺陷——用户每选购一个商品，服务器就可以向用户发送一段 Cookie ，记录那个商品的信息。这样每当用户访问新的商品页面，浏览器就会把 Cookie 发给服务器，服务器在这个 Cookie 里追加信息。最后，结账的时候，服务器读取接受到的 Cookie 就可以知道用户一共选购了什么商品。</li>
+</ul>
+<blockquote>
+<p>MDN 中详细描述了 Cookie 的使用场景：</p>
+<ul>
+<li>会话状态管理（如用户登录状态、购物车、游戏分数或其它需要记录的信息）</li>
+<li>个性化设置（如用户自定义设置、主题等）</li>
+<li>浏览器行为跟踪（如跟踪分析用户行为等）</li>
+</ul>
+</blockquote>
+<h2 id="有什么口味？"><a href="#有什么口味？" class="headerlink" title="有什么口味？"></a>有什么口味？</h2><p>没有榛仁味，也没有果干味。按它的储存位置，可以分为<strong>内存Cookie</strong>和<strong>硬盘Cookie</strong>：</p>
+<ul>
+<li>内存 Cookie 由浏览器维护，保存在内存中，浏览器关闭后就消失了，其存在时间是短暂的。</li>
+<li>硬盘 Cookie 保存在硬盘里，有一个过期时间，除非用户手动清理或到了过期时间，硬盘Cookie不会被删除，其存在时间是长期的。</li>
+</ul>
+<p>所以，按存在时间，还可分为<strong>会话期Cookie</strong>和<strong>持久性Cookie</strong>：</p>
+<ul>
+<li>会话期 Cookie 不需要指定过期时间（ <code>Expires</code> ）或者有效期（ <code>Max-Age</code> ）。需要注意的是，有些浏览器提供了会话恢复功能，这种情况下即使关闭了浏览器，会话期 Cookie 也会被保留下来，就好像浏览器从来没有关闭一样。</li>
+<li>持久性 Cookie 可以指定一个特定的过期时间（ <code>Expires</code> ）或有效期（ <code>Max-Age</code> ）。</li>
+</ul>
+<h2 id="制作的关键工序"><a href="#制作的关键工序" class="headerlink" title="制作的关键工序"></a>制作的关键工序</h2><ul>
+<li>后端人员在响应头中设置 Cookie<br>  Node.js 下的后端代码如下：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;user=caijialinxx@foxmail.com&quot;</span>);</span><br></pre></td></tr></table></figure>
+  如果要设置多个 Cookies ，那么使用数组包含每一个元素即可，即：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, [<span class="string">&quot;user=caijialinxx@foxmail.com&quot;</span>, <span class="string">&quot;language=javascript&quot;</span>]);</span><br></pre></td></tr></table></figure></li>
+<li>用户在浏览器中修改 Cookie<br>  一些浏览器自带或安装开发者工具允许用户查看、修改或删除特定网站的 Cookies 信息。这也带来了一个问题，用户可以伪造 Cookie 来操作网页。</li>
+</ul>
+<h2 id="保质期多久？"><a href="#保质期多久？" class="headerlink" title="保质期多久？"></a>保质期多久？</h2><p>后端开发人员可以加多点防腐剂，让 Cookie 的有效期长一点，也可以让它几分钟之后就过期，取决于后端人员如何设置。一般默认的有效期是20分钟，每个浏览器的默认时长可能不同。</p>
+<p>这个防腐剂就是上面提到的 <code>Expires</code> 或者 <code>Max-Age</code> 属性。</p>
+<ul>
+<li><code>Expires</code> 属性<br>  它可以指定一个具体的到期时间，到了指定时间之后浏览器就不会再保存这个 Cookie 。例如：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;user=caijialinxx@foxmail.com; Expires=Thu, 12 Jul 2018 02:54:00 GMT&quot;</span>)</span><br></pre></td></tr></table></figure>
+  那么，可以看到收到的响应头中含有  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: user=caijialinxx@foxmail.com; Expires=Thu, 12 Jul 2018 04:00:00 GMT</span><br></pre></td></tr></table></figure>
+  <img src="https://i.loli.net/2018/07/12/5b46c913a2451.png" alt="响应头中的Set-Cookie字段"><br>  且新增了这条 Cookie 如下图所示：<br>  <img src="https://i.loli.net/2018/07/12/5b46c913b9072.png" alt="设置了Expires的Cookie"><br>  但是由于这个时间是依赖本地时间来决定 Cookie 具体何时过期，所以没有办法保证 Cookie 一定会在服务器指定的时间过期。</li>
+<li><code>Max-Age</code> 属性<br>  它可以规定从现在开始，在指定的时间后 Cookie 到期，单位为秒。例如：  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;user=caijialinxx@foxmail.com; Max-Age=60&quot;</span>)</span><br></pre></td></tr></table></figure>
+  那么，可以看到收到的响应头中含有  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: user=caijialinxx@foxmail.com; Max-Age=60</span><br></pre></td></tr></table></figure>
+  <img src="https://i.loli.net/2018/07/12/5b46ca8c202a2.png" alt="响应头中的Set-Cookie字段"><br>  我们可以看到 Cookie 在 <code>2018-07-12T03:30:24.539Z</code> 后过期，这个时间是根据我们启动服务器后，增加60s后得到的时间。<br>  <img src="https://i.loli.net/2018/07/12/5b46ca8c1648d.png" alt="a1d3d7198a21adbb2c8248a80f20590.png"></li>
+</ul>
+<h2 id="食品安全认证"><a href="#食品安全认证" class="headerlink" title="食品安全认证"></a>食品安全认证</h2><p>在第4节中我们知道了，用户可以借助浏览器的开发者工具修改 Cookie ，那么这意味着我们可以篡改网站的 Cookie 如下图所示：<br><img src="https://i.loli.net/2018/07/12/5b46e92152a80.png" alt="在开发者工具中读写Cookie"><br>具体的危害可以查看<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Cookie#%E5%81%B7%E7%AA%83Cookies%E5%92%8C%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB">偷窃Cookies和脚本攻击——维基百科</a>。<br>为了避免这种情况，我们可以添加 <code>HttpOnly</code> 标记：</p>
+<ul>
+<li><code>HttpOnly</code> 可以使 Cookie 无法通过 JavaScript 的 <code>document.cookie</code> 读写。  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;user=caijialinxx@foxmail.com; HttpOnly&quot;</span>)</span><br></pre></td></tr></table></figure>
+  响应头中含有  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: user=caijialinxx@foxmail.com; HttpOnly</span><br></pre></td></tr></table></figure>
+  但可以在 Application 中更改，如下图所示。<br>  <img src="https://i.loli.net/2018/07/12/5b46f6f3dea55.png" alt="标记了HTTPOnly后Cookie仍可被更改"></li>
+</ul>
+<p>此外，还有 <code>Secure</code> 标记：</p>
+<ul>
+<li><code>Secure</code> 可以使 Cookie 只能通过被 HTTPS 协议加密过的请求发送给服务器，如果不是 HTTPS 协议，那么浏览器将不会接受这个 Cookie 。  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response.<span class="title function_">setHeader</span>(<span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;user=caijialinxx@foxmail.com; Secure&quot;</span>)</span><br></pre></td></tr></table></figure>
+  响应头中含有  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Cookie: user=caijialinxx@foxmail.com; Secure</span><br></pre></td></tr></table></figure>
+  <img src="https://i.loli.net/2018/07/12/5b46fbd56617b.png" alt="响应头返回的Set-Cookie中含有Secure标记"><br>  因为此网站是 <code>http://localhost:8888</code> ，所以在请求头中浏览器无法发送 Cookie 。<br>  <img src="https://i.loli.net/2018/07/12/5b46fb656f489.png" alt="请求头中无Cookie字段"><br>  但即便设置了 <code>Secure</code> 标记，敏感信息也不应该通过 Cookie 传输，因为Cookie有其固有的不安全性，<code>Secure</code> 标记也无法提供确实的安全保障。从 Chrome 52 和 Firefox 52 开始，不安全的站点（http:）无法使用 Cookie 的 <code>Secure</code> 标记。</li>
+</ul>
+<h2 id="它的不美味之处"><a href="#它的不美味之处" class="headerlink" title="它的不美味之处"></a>它的不美味之处</h2><ul>
+<li>Cookie 会被附加在每个 HTTP 请求中，所以无形中增加了流量，带来额外的开销。</li>
+<li>由于在 HTTP 请求中的 Cookie 是明文传递的，所以安全性成问题，除非用 HTTPS 。</li>
+<li>Cookie 的大小一般限制在 4KB 左右，对于复杂的存储需求来说是不够用的。</li>
+<li>识别不精确， Cookie 只能定位到用户、浏览器和计算机这三者的组合，一旦有一个不同， Cookie 的内容就会不同或者是存储位置不一样。</li>
+<li>不准确的状态——浏览器的“回退”按键会使 Cookie 无法记录上一次的用户操作。</li>
+<li>Cookies 在某种程度上说已经严重危及用户的隐私和安全，它会被利用于投放广告。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>Cookie 是一段数据，它由服务器发送给浏览器并保存到本地，存储着用户的一些信息（如用户登录状态、个性化设置等），在此浏览器下一次访问此服务器时，这段 Cookie 会被附加在 HTTP 请求中发送给服务器。</li>
+<li>Cookie 的大小一般为 4KB ，默认有效期一般为 20mins ，但可以通过 <code>Expires</code> （UTC格式）或 <code>Max-Age</code> （秒数）来设置其过期时间。</li>
+<li>Node.js 设置 Cookie 的 API ： <code>response.setHeader(&quot;Set-Cookie&quot;, &quot;name=value&quot;)</code> 。</li>
+<li>浏览器读写 Cookie 的 API ： <code>document.cookie</code> 。若要阻止用户通过 JavaScript 来读写 Cookie ，只需要添加 <code>HttpOnly</code> 标记。</li>
+<li><code>Secure</code> 标记可以使 Cookie 只能通过 HTTPS 加密过的请求发送服务器，如果不是 HTTPS 请求，浏览器会自动忽略。</li>
+<li>由于 Cookie 会被附加在 HTTP 请求中，且是明文传递，所以会增加流量以及有安全问题。建议使用 Web storage API （ <code>sessionStorage</code> 或 <code>localStorage </code> ）或 IndexedDB 。</li>
+</ol>
+<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><p>在这篇笔记写到一半的时候，我看到了 MDN 的介绍，我觉得它写得已经很好了，一度有不想写直接抛出链接的想法……..<br>然鹅，这篇笔记可是我自己消化的东西啊。不管怎么样，都还是应该要自己写出来。只不过我还是会把 MDN 的链接放在下面作为扩展阅读，当然还有其他一些优秀的博客笔记。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies">HTTP Cookie, MDN</a></li>
+<li><a target="_blank" rel="noopener" href="http://ulricqin.com/post/httponly-cookie/">说说HttpOnly Cookie的作用</a></li>
+<li><a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/bom/cookie.html">Cookie, JavaScript 标准参考教程</a>——阮一峰</li>
+<li><a target="_blank" rel="noopener" href="https://latesthackingnews.com/2017/07/03/what-is-httponly-cookie/">What is httponly cookie?</a> ——外文阅读，有兴趣请戳</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/07/12/cookie/" data-id="cm2uc0mbn0004pggp2kkw4r67" data-title="HTTP 牌的 Cookie" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-MVC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/07/08/MVC/" class="article-date">
+  <time class="dt-published" datetime="2018-07-08T10:59:58.000Z" itemprop="datePublished">2018-07-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/07/08/MVC/">MVC 是什么？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="MVC-是什么"><a href="#MVC-是什么" class="headerlink" title="MVC 是什么"></a>MVC 是什么</h2><h3 id="我说"><a href="#我说" class="headerlink" title="我说"></a>我说</h3><blockquote>
+<p>MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范，用一种业务逻辑、数据、界面显示分离的方法组织代码，将业务逻辑聚集到一个部件里面，在改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑。</p>
+</blockquote>
+<p>这是来自<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/MVC%E6%A1%86%E6%9E%B6/9241230?fr=aladdin&fromid=85990&fromtitle=MVC">百度百科</a>的介绍。看上面这段话，我帮你们提取出关键字，再翻译成我们能理解的话，就是：</p>
+<blockquote>
+<p>MVC 是一种<strong>代码组织形式</strong>，它可以将代码按照 <strong><code>Model</code></strong> （数据层）、 <strong><code>View</code></strong> （视图层）和 <strong><code>Controller</code></strong> （控制层）这三种形式组织代码，每层互相独立、各司其职，却又相互联系、相互依赖。</p>
+</blockquote>
+<p>这样是不是好理解多了，那么这三层的作用如下所述：</p>
+<ul>
+<li><code>Model</code> 负责数据管理，包括数据逻辑、数据请求、数据存储等功能。例如，前端的 Model 主要负责 AJAX 请求或 LocalStorage 的存储</li>
+<li><code>View</code> 负责用户界面的呈现。例如，前端的 View 主要负责 HTML 页面的渲染</li>
+<li><code>Controller</code> 负责处理 View 层的事件，并更新 Model 中的数据；也负责监听 Model 层的数据变化，并及时更新到 View 层。</li>
+</ul>
+<h3 id="代码说"><a href="#代码说" class="headerlink" title="代码说"></a>代码说</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> model = &#123;</span><br><span class="line">  <span class="attr">data</span>: <span class="literal">null</span>,</span><br><span class="line">  <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// model 的初始化，一般是要与数据库建立连接，所以包含一些验证信息（id, key）</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">fetch</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 获取数据库中的 data(s)</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">add</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 向数据库中添加 data(s)</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">update</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 更新数据库中的 data(s)</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">delete</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 删除数据库中的 data(s)</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> view = &#123;</span><br><span class="line">  <span class="title function_">init</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// view 获取需要被操作的对象，供 controller 操作</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> controller = &#123;</span><br><span class="line">  <span class="attr">view</span>: <span class="literal">null</span>,</span><br><span class="line">  <span class="attr">model</span>: <span class="literal">null</span>,</span><br><span class="line">  <span class="title function_">init</span>(<span class="params">view, model</span>) &#123;</span><br><span class="line">    <span class="comment">// controller 初始化本地 view 或 model ，并执行相关逻辑操作</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">view</span> = view</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">model</span> = model</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">bindEvents</span>()</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">bindEvents</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 处理 view 层的事件，如果数据有变化就更新 model 层</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 监听 model 层的数据变化，更新到 view 层</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">controller.<span class="title function_">init</span>(view, model)</span><br></pre></td></tr></table></figure>
+
+<h3 id="图说"><a href="#图说" class="headerlink" title="图说"></a>图说</h3><p>由上面的文字和代码，我们可以已经可以知道 <code>Model</code> 、 <code>View</code> 和 <code>Controller</code> 三者的关系了。再用图总结一下，就如下所示：<br><img src="https://i.loli.net/2018/07/08/5b41e262f3b8d.png" alt="图说MVC.png"></p>
+<h2 id="MVC-有什么用"><a href="#MVC-有什么用" class="headerlink" title="MVC 有什么用"></a>MVC 有什么用</h2><p>WHAT!? 上面的例子还不能让你知道 MVC 的好处吗？</p>
+<p>想象一下，你要做了一个网页应用，某一天，某个功能不够好想完善，或者出了 BUG ，假设你把所有 JS 代码全部集中在一个文件里，而且没有整理代码的习惯，是的，你需要在几百行甚至上千行的代码中找到那个功能的代码，………….（不如先给自己准备一瓶眼药水）</p>
+<p>好了，不废话了，在你的代码量大的时候，使用 MVC 来组织封装代码，那么在你要找代码的时候，就可以快速定位了。</p>
+<p>例如，你想改变某个控件在被点击时的动画效果——好的，这是 <code>Controller</code> 层的事，那么直接找到 <code>Controller</code> 层中那个控件的 <code>click</code> 事件做修改就可以了；</p>
+<p>或者你发现同一个文档中有两个拥有相同 <code>id</code> 的元素，你已经在 HMTL 中改正，现在只需要去对应的 JS 中改变 <code>View</code> 层中使用错误 id 获取的这个元素的正确 id 即可。</p>
+<p>…被我绕晕了吗？相信聪明的你，可以看懂，哈哈哈哈哈。</p>
+<h2 id="总结（其实可以直接看这个）"><a href="#总结（其实可以直接看这个）" class="headerlink" title="总结（其实可以直接看这个）"></a>总结<small>（其实可以直接看这个）</small></h2><ol>
+<li>MVC 是一种 <ul>
+<li>按照 <code>Model</code> 、 <code>View</code> 和 <code>Controller</code> 三层结构</li>
+<li>来组织代码</li>
+<li>的形式 &#x2F; 理念 &#x2F; 典范</li>
+</ul>
+</li>
+<li>它可以<ul>
+<li>提高代码的可重用性</li>
+<li>减少三层结构之间的互相干扰</li>
+<li>提高程序的可扩展性和可维护性</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>本文到此结束，谢谢观赏，敬请勘误。<br>E-mail: <a href="mailto:&#x63;&#97;&#x69;&#106;&#x69;&#97;&#108;&#x69;&#110;&#120;&#120;&#x40;&#x66;&#111;&#120;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#109;">&#x63;&#97;&#x69;&#106;&#x69;&#97;&#108;&#x69;&#110;&#120;&#120;&#x40;&#x66;&#111;&#120;&#109;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#109;</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/07/08/MVC/" data-id="cm2uc0mbd0000pggpdgdbd6nn" data-title="MVC 是什么？" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-http-status-code" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/06/27/http-status-code/" class="article-date">
+  <time class="dt-published" datetime="2018-06-27T11:05:02.000Z" itemprop="datePublished">2018-06-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/06/27/http-status-code/">一些常见的 HTTP 状态码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1xx-Informational-responses"><a href="#1xx-Informational-responses" class="headerlink" title="1xx Informational responses"></a>1xx Informational responses</h2><ul>
+<li>100 Continue<br>服务器已接收到请求报头，客户端应继续发送请求报文。</li>
+<li>101 Switching Protocols<br>服务器已根据客户端的请求切换协议。</li>
+</ul>
+<h2 id="2xx-Success"><a href="#2xx-Success" class="headerlink" title="2xx Success"></a>2xx Success</h2><ul>
+<li><strong>200 OK</strong><br>请求已成功。</li>
+<li>201 Created<br>请求已完成，新的资源已被创建，且其 URI 已随着响应行返回。</li>
+<li>202 Accepted<br>请求已被接受处理，但处理尚未完成。该请求最终可能会也可能不会被执行。该状态码在异步操作的情况下很方便。</li>
+<li>204 No Content<br>服务器已成功处理请求，没有返回任何实体内容。</li>
+<li>205 Reset Content<br>服务器已成功处理请求，且没有返回任何内容。但与 <code>204</code> 不同的是，包含此状态码的响应要求请求者重置文档视图。</li>
+</ul>
+<h2 id="3xx-Redirection"><a href="#3xx-Redirection" class="headerlink" title="3xx Redirection"></a>3xx Redirection</h2><ul>
+<li><strong>301 Moved Permanently</strong><br>被请求的资源被永久移动到返回的新的 URI 中。</li>
+<li>302 Found<br>告诉客户端浏览另一个 URL 。 <code>302</code> 已被 <code>303</code> 和 <code>307</code> 所取代。</li>
+<li>303 See Other<br>使用 <code>GET</code> 方法在另一个 URI 下找到请求对应的响应。</li>
+<li><strong>304 Not Modified</strong><br>所请求的资源未修改，服务器返回此状态码时，表示已执行 GET 请求，且由于文件无变化于是不会返回任何资源。</li>
+<li>305 Use Proxy<br>请求的资源只能通过代理服务器获得，响应中提供其代理服务器的地址。</li>
+<li>307 Temporary Redirect<br>请求暂时由另一个 URI 响应，而未来的请求应仍继续使用原始的 URI 。</li>
+</ul>
+<h2 id="4xx-Client-errors"><a href="#4xx-Client-errors" class="headerlink" title="4xx Client errors"></a>4xx Client errors</h2><ul>
+<li><strong>400 Bad Request</strong><br>服务器无法处理请求，因为客户端的请求有明显的错误（例如请求语法错误、请求过大等）。</li>
+<li><strong>401 Unauthorized</strong><br>当前请求未通过认证。响应必须包含一个适用于被请求资源的 WWW-Authenticate 信息头来询问用户信息。</li>
+<li><strong>403 Forbidden</strong><br>请求已被理解但是服务器拒绝执行。与 <code>401</code> 不同的是，用户无法通过身份验证来得到请求资源的许可。</li>
+<li><strong>404 Not Found</strong><br>请求的资源目前无法被找到。</li>
+<li>405 Method Not Allowed<br>请求的方法无法支持请求的资源。例如，一个本应通过 POST 请求来获取数据的表单使用了 GET 请求（a GET request on a form that requires data to be presented via POST），或者是一个只读的资源使用了 PUT 请求（or a PUT request on a read-only resource）。该响应必须返回一个 Allow 头信息用以表示出当前资源能够接受的请求方法的列表。</li>
+<li>406 Not Acceptable<br>请求的资源的内容特性无法满足请求头中的条件，因而无法生成响应实体。</li>
+<li>410 Gone<br>被请求的资源在服务器上已不再可用，并且没有任何已知的转发地址。</li>
+<li><strong>422 Unprocessable Entity</strong><br>请求的格式是正确的，但是由于语义错误，服务器无法响应。</li>
+</ul>
+<h2 id="5xx-Server-errors"><a href="#5xx-Server-errors" class="headerlink" title="5xx Server errors"></a>5xx Server errors</h2><ul>
+<li><strong>500 Internal Server Error</strong><br>服务器内部错误，无法完成请求。一般来说，这个问题会在服务器端的源代码错误时出现。</li>
+<li><strong>502 Bad Gateway</strong><br>服务器充当网关或代理时，收到来自上游服务器的无效响应。</li>
+<li><strong>503 Service Unavailable</strong><br>服务器当前不可用，原因可能是服务器超载或正在维护。</li>
+<li>504 Gateway Timeout<br>服务器充当网关或代理时，没有及时收到来自上游服务器的响应。</li>
+</ul>
+<hr>
+<p>本文完。</p>
+<p>参考资料：<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes">List of HTTP status codes</a> —— 维基百科</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/06/27/http-status-code/" data-id="cm2uc0mc0000ypggp1felab8c" data-title="一些常见的 HTTP 状态码" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-same-origin-policy" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/06/01/same-origin-policy/" class="article-date">
+  <time class="dt-published" datetime="2018-06-01T10:15:05.000Z" itemprop="datePublished">2018-06-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/06/01/same-origin-policy/">浏览器的同源策略及规避方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h2><blockquote>
+<p>In computing, the same-origin policy is an important concept in the web application security model. Under the policy, a web browser permits scripts contained in a first web page to access data in a second web page, but only if both web pages have the same origin. </p>
+</blockquote>
+<p>这是来自<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Same-origin_policy">维基百科</a>的解释。大意就是两个网页在相同的来源的前提下，允许A网页包含的脚本访问B网页的数据。这保证了用户的信息安全，防止某个网站的恶意脚本通过操作 DOM 来获取到敏感数据。</p>
+<h3 id="同源的条件"><a href="#同源的条件" class="headerlink" title="同源的条件"></a>同源的条件</h3><p>所谓的“同源”，需要满足三个条件：</p>
+<ol>
+<li>协议相同</li>
+<li>域名相同</li>
+<li>端口相同</li>
+</ol>
+<p>只有同时满足了这三个条件，才能是同源。拿 <code>http://www.example.com/dir/page.html</code> 来举个例子，它的协议是 <code>http://</code> ，域名是 <code>www.example.com</code> ，端口号是默认的 <code>80</code> ，那么以下例子中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http://www.example.com/dir2/other.html  （同源）</span><br><span class="line">http://username:password@www.example.com/dir2/other.html  （同源）</span><br><span class="line">https://www.example.com/dir/other.html  （不同源，协议不同）</span><br><span class="line">http://example.com/dir/other.html   （不同源，域名不同）</span><br><span class="line">http://www.example.com:81/dir/other.html  （不同源，端口号不同）</span><br></pre></td></tr></table></figure>
+<p>有同学可能会说 <code>https://baidu.com</code> 和 <code>https://www.baidu.com</code> 访问结果相同啊，为什么是会域名不同呢？注意，域名相同是指完全相同而不是相似，<code>baidu.com</code> 是一级域名（此说法有误，但绝大部分人都这么叫，《计算机网络》中将其解释为二级域名），而 <code>www.baidu.com</code> 为二级域名（若前一个是二级域名那么这个对应的就是三级域名），当然是不同的两个域名。访问结果相同是因为百度公司设置的 DNS 解析的关系，<a target="_blank" rel="noopener" href="https://blog.csdn.net/meimingming/article/details/9038223">这篇文章</a>或许能够解答你，但不能因为结果相同就说它们是一样的。不信可以去访问一下 <code>http://www.12306.cn</code> 和 <code>http://12306.cn</code> ，就能让你“眼见为实”了。</p>
+<h3 id="带来的问题"><a href="#带来的问题" class="headerlink" title="带来的问题"></a>带来的问题</h3><ol>
+<li>一级域名相同，只是二级域名不同的同一所有者的网页被限制（Cookie、LocalStorage、IndexDB的读取）</li>
+<li>无法跨域发送 AJAX 请求</li>
+<li>无法操作 DOM</li>
+</ol>
+<ul>
+<li><p>Q：为什么 Form 表单可以跨域发送请求，而 AJAX 不可以。</p>
+<p>A：因为 Form 表单提交之后会刷新页面，所以即使跨域了也无法获取到数据，所以浏览器认为这个是安全的。而 AJAX 最大的优点就是在不重新加载整个页面的情况下，更新部分网页内容。如果让它跨域，则可以读取到目标 URL 的私密信息，这将会变得非常危险，所以浏览器是不允许 AJAX 跨域发送请求的。</p>
+</li>
+</ul>
+<h2 id="规避方法"><a href="#规避方法" class="headerlink" title="规避方法"></a>规避方法</h2><ol>
+<li><a href="#document.domain"><code>document.domain</code>属性</a></li>
+<li><a href="#CORS">CORS</a></li>
+<li><a href="#JSONP">JSONP</a></li>
+<li><a href="#Cross-document_messaging">Cross-document messaging</a></li>
+<li><a href="#WebSocket">WebSocket</a></li>
+</ol>
+<h3 id="document-domain"><a href="#document-domain" class="headerlink" title="document.domain"></a>document.domain</h3><p>假设你已登录并正浏览腾讯网 <code>http://www.qq.com/</code> ，此时你突然想看腾讯视频，于是你点击腾讯网提供的快捷链接“视频”，浏览器加载 <code>https://v.qq.com/</code> 。你想查看自己以往的观看记录，因为这两个网页的二级域名不同，<code>v.qq.com</code> 无法获取到你在 <code>www.qq.com</code> 的登录信息，所以无法查看观看记录，于是你不得不重新登录一次。<br>这一趟操作下来，是不是很不人性化？如果能避免这个同源限制，直接读取 Cookie 自动登录就好了。腾讯当然也是这么想的。</p>
+<blockquote>
+<p>If two windows (or frames) contain scripts that set domain to the same value, the same-origin policy is relaxed for these two windows, and each window can interact with the other. – <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Same-origin_policy#document.domain_property">document.domain property, Wiki</a></p>
+</blockquote>
+<p>从上面的例子中，我们只要将这两个网页的设置相同的域名，即可共享 Cookie 。即</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.domain = &#x27;qq.com&#x27;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><blockquote>
+<p>This standard extends HTTP with a new Origin request header and a new Access-Control-Allow-Origin response header. – <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Same-origin_policy#Cross-Origin_Resource_Sharing">Cross-Origin Resource Sharing, Wiki</a> </p>
+</blockquote>
+<p>跨源资源共享（Cross-Origin Resource Sharing，简称 CORS ），它是 W3C 标准，通过一个新的 Origin 请求头和一个新的 Access-Control-Allow-Origin 响应头来扩展 HTTP ，即可解决 AJAX 跨源请求的问题。<br>假设 <code>http://www.qq.com</code> 要向 <code>https://v.qq.com</code> 发送 AJAX 请求，那么他们需要这样设置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* http://www.qq.com 前端发起 AJAX 请求 */</span></span><br><span class="line"><span class="keyword">let</span> req = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>()</span><br><span class="line">req.<span class="property">onreadystatechange</span> = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span>(req.<span class="property">readyState</span> === <span class="number">4</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span>(req.<span class="property">status</span> &gt;=<span class="number">200</span> &amp;&amp; req.<span class="property">statue</span> &lt; <span class="number">400</span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;success&#x27;</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;failed&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">req.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;https://v.qq.com&#x27;</span>)</span><br><span class="line">req.<span class="title function_">send</span>()</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* https://v.qq.com 被请求的后台 */</span></span><br><span class="line">...</span><br><span class="line">响应.<span class="title function_">setHeader</span>(<span class="string">&#x27;Access-Control-Allow-Origin&#x27;</span>, <span class="string">&#x27;http://www.qq.com&#x27;</span>)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>那么我们在 <code>http://www.qq.com</code> 下中打开 Chrome 的开发者工具的 Network ，即可看到 <code>https://v.qq.com</code> 的请求状态码为 <code>200</code> ，同时请求头中添加了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Origin: http://www.qq.com</span><br></pre></td></tr></table></figure>
+<p>以及响应头中添加了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://www.qq.com</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h3><p>JSONP 是一种使用模式，它通过动态创建 <code>&lt;script&gt;</code> 标签来向跨源网址发送请求，其中这个请求的查询字符串中含有 callback 参数，用来指定回调函数的名字。服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。示例代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* http://example1.com 发送请求 */</span></span><br><span class="line"><span class="keyword">let</span> script = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;script&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> functionName = <span class="string">`c<span class="subst">$&#123;<span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random() * <span class="number">10000</span>, <span class="number">10</span>)&#125;</span>`</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">window</span>[functionName] = <span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">alert</span>(res)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">script.<span class="property">src</span> = <span class="string">`http://example2.com/?callback=<span class="subst">$&#123;functionName&#125;</span>`</span></span><br><span class="line">script.<span class="property">onload</span> = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  e.<span class="property">target</span>.<span class="title function_">remove</span>()</span><br><span class="line">  <span class="keyword">delete</span> <span class="variable language_">window</span>[functionName]</span><br><span class="line">&#125;</span><br><span class="line">script.<span class="property">onerror</span> = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">  e.<span class="property">target</span>.<span class="title function_">remove</span>()</span><br><span class="line">  <span class="keyword">delete</span> <span class="variable language_">window</span>[functionName]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(script)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* http://example2.com 发送响应 */</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">let</span> callbackName = 请求方<span class="variable constant_">URL</span>.<span class="property">callback</span></span><br><span class="line">响应.<span class="property">statusCode</span> = <span class="number">200</span></span><br><span class="line">响应.<span class="title function_">setHeader</span>(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;application/javascript&#x27;</span>)</span><br><span class="line">响应.<span class="title function_">write</span>(<span class="string">`<span class="subst">$&#123;callbackName&#125;</span>.call(undefined, &quot;Success&quot;)`</span>)</span><br><span class="line">响应.<span class="title function_">end</span>()</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>请求方 <code>http://example1.com</code> 动态创建 <code>&lt;script&gt;</code> 之后，其 <code>src</code> 属性指向被请求方的路径 <code>http://example2.com</code> 并在尾部加上 <code>callback</code> 参数，如 <code>?callback=xxx</code> 。被请求方获取到请求方的 <code>callback</code> 参数，并发回响应构造函数调用，如 <code>xxx.call(undefined, &#39;yyy&#39;)</code> 。那么请求方将会弹窗显示“yyy”。</p>
+<h3 id="Cross-document-messaging"><a href="#Cross-document-messaging" class="headerlink" title="Cross-document messaging"></a>Cross-document messaging</h3><blockquote>
+<p>Cross-document messaging allows a script from one page to pass textual messages to a script on another page regardless of the script origins… A script in one page still cannot directly access methods or variables in the other page, but they can communicate safely through this message-passing technique. – <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Same-origin_policy#Cross-document_messaging">Cross-document messaging, Wiki</a></p>
+</blockquote>
+<p>跨文档通信（Cross-document messaging），维基百科解释得很清楚了，它允许一个网页的脚本向另一个网页传递文本消息，尽管他们不同源。不过它们也只能通过此技术安全地传递文本消息而已，仍无法直接访问另一个页面的方法和变量。<br>这是 HTML5 引入的新 API ，它为 window 对象新增了 <code>window.postMessage()</code> 方法。它允许用户跨窗口通信，不管是否同源。</p>
+<p>例子如下：<br>我在父窗口 JS Bin 中打开一个新窗口，子窗口的 URL 指向百度 <code>https://www.baidu.com</code> ，并且在百度页面的控制台中定义了 <code>window.onmessage</code> 事件，使其输出 <code>event</code> 对象。<br><img src="https://i.loli.net/2018/06/01/5b10fb4408d03.png" alt="在jsbin的代码.png"></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;btn&#x27;</span>&gt;</span>postMessage<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;//code.jquery.com/jquery-2.1.1.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父窗口 http://js.jirengu.com/wirixavoxo/1/edit?js,output</span></span><br><span class="line"><span class="keyword">var</span> x = <span class="variable language_">window</span>.<span class="title function_">open</span>(<span class="string">&#x27;https://www.baidu.com&#x27;</span>, <span class="string">&#x27;baidu&#x27;</span>);</span><br><span class="line">$(btn).<span class="title function_">click</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  x.<span class="title function_">postMessage</span>(<span class="string">&#x27;from father&#x27;</span>, <span class="string">&#x27;https://www.baidu.com&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;message&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(e);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 子窗口 https://www.baidu.com/</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;message&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(e)</span><br><span class="line">&#125;, <span class="literal">false</span>)</span><br></pre></td></tr></table></figure>
+
+<p>当我点击父窗口中的按钮时，触发其 <code>click</code> 事件，向子窗口发送了一条消息，在子窗口监听 <code>message</code> 事件的结果如下图所示：<br><img src="https://i.loli.net/2018/06/01/5b10fb441113a.png" alt="在百度中监听的message事件结果.png"><br>我们可以看到 <code>e.data</code> 就是父窗口中发送的消息 <code>&quot;from father&quot;</code> ， <code>e.origin</code> 为父窗口的 URI <code>&quot;http://js.jirengu.com&quot;</code> ，且 <code>e.type</code> 为 <code>&quot;message&quot;</code> 。</p>
+<p>然后我在子窗口中分别声明了 <code>String</code> 变量、 <code>Function</code> 变量和 <code>Object</code> 变量，其中 <code>Object</code> 变量是获取了百度页面的搜索按钮。根据结果可以发现，在子窗口定义的 <code>Function</code> 类型和 <code>HTMLElement</code> 类型（即使这个HTML元素没有被插入到页面中）不被允许发送，根据控制台的报错提示，是因为它们“不能被克隆”。<br><img src="https://i.loli.net/2018/06/01/5b10fb4417cba.png" alt="在百度中尝试给jsbin发送消息.png"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 子窗口 https://www.baidu.com/</span></span><br><span class="line"><span class="keyword">var</span> str = <span class="string">&#x27;this is a string!&#x27;</span></span><br><span class="line"><span class="variable language_">window</span>.<span class="property">opener</span>.<span class="title function_">postMessage</span>(str, <span class="string">&#x27;http://js.jirengu.com/wirixavoxo/1/edit?js,output&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> func = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;this is a function&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">window</span>.<span class="property">opener</span>.<span class="title function_">postMessage</span>(func, <span class="string">&#x27;http://js.jirengu.com/wirixavoxo/1/edit?js,output&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> btn = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;su&#x27;</span>)</span><br><span class="line"><span class="variable language_">window</span>.<span class="property">opener</span>.<span class="title function_">postMessage</span>(btn, <span class="string">&#x27;http://js.jirengu.com/wirixavoxo/1/edit?js,output&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>相应地，在父窗口中我们可以看到结果也是只显示了 <code>str</code> 这个变量的输出结果。<code>e.origin</code> 是子窗口 <code>&quot;https://www.baidu.com&quot;</code> 。<br><img src="https://i.loli.net/2018/06/01/5b10fb4417be9.png" alt="在jsbin中监听的message事件结果.png"><br>若想知道其他类型的输出结果，请自行运行测试哦。有些结果我没有放出来，但结论已经在上面了。再阐述一遍就是：</p>
+<ol>
+<li><code>Function</code> 类型无法传输</li>
+<li><code>HTMLElement</code> 类型，无论是获取页面的元素，还是自行新创建但还没被插入到页面的，也无法传输</li>
+<li>只要是能传输的类型，无论你是 <code>String</code> 、 <code>Number</code> 、 <code>undefined</code> 、 <code>null</code> 、 <code>Boolean</code> 或 <code>Object</code> 等类型，传到父窗口后查看 <code>typeof e.data</code> ，结果都是 <code>string</code> 。至于为什么，我也不清楚，我猜想是 <code>message</code> 事件中对那些数据类型进行了强制转换，或者是因为这个功能还在开发中，所以这个 API 并不成熟。</li>
+</ol>
+<h3 id="WebSocket"><a href="#WebSocket" class="headerlink" title="WebSocket"></a>WebSocket</h3><blockquote>
+<p>Modern browsers will permit a script to connect to a WebSocket address without applying the same-origin policy. However, they recognize when a WebSocket URI is used, and insert an Origin: header into the request that indicates the origin of the script requesting the connection. To ensure cross-site security, the WebSocket server must compare the header data against a whitelist of origins permitted to receive a reply. – <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Same-origin_policy#WebSockets">WebSockets, Wiki</a></p>
+</blockquote>
+<p>下面这个例子来自<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/WebSocket#Protocol_handshake">维基百科</a>，客户端的请求报头如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET /chat HTTP/1.1</span><br><span class="line">Host: server.example.com</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Connection: Upgrade</span><br><span class="line">Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==</span><br><span class="line">Sec-WebSocket-Protocol: chat, superchat</span><br><span class="line">Sec-WebSocket-Version: 13</span><br><span class="line">Origin: http://example.com</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>服务器收到这个请求之后，查询 <code>Origin</code> 字段的 URL 是否在其白名单内，如果是就返回以下报文：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 101 Switching Protocols</span><br><span class="line">Upgrade: websocket</span><br><span class="line">Connection: Upgrade</span><br><span class="line">Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=</span><br><span class="line">Sec-WebSocket-Protocol: chat</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>一旦连接建立成功，客户端和服务器就可以以全双工模式来回传输数据。</p>
+<h2 id="AJAX-的规避方法"><a href="#AJAX-的规避方法" class="headerlink" title="AJAX 的规避方法"></a>AJAX 的规避方法</h2><p>AJAX 适用的规避方法有 CORS（跨源资源共享）、 JSONP 及 WebSocket。</p>
+<h3 id="CORS-与-JSONP-的区别"><a href="#CORS-与-JSONP-的区别" class="headerlink" title="CORS 与 JSONP 的区别"></a>CORS 与 JSONP 的区别</h3><ol>
+<li>CORS 比 JSONP 要更强大一点，因为 JSONP 只支持的 GET 请求，而 CORS 支持所有 HTTP 请求。</li>
+<li>但对于老式浏览器的支持上， JSONP 更占优势，且能向不支持 CORS 的网站发送请求。</li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/bom/ajax.html">AJAX</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2016/04/cors.html">跨域资源共享 CORS 详解</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jb51.net/article/109725.htm">跨域多个域名白名单</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/meimingming/article/details/9038223">DNS解析过程详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sugar-tomato/p/4497108.html">HTML5 postMessage 和 onmessage API 详细应用</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/06/01/same-origin-policy/" data-id="cm2uc0mc30018pggp5mkyceiq" data-title="浏览器的同源策略及规避方法" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-dom-event-model" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/28/dom-event-model/" class="article-date">
+  <time class="dt-published" datetime="2018-05-28T11:35:03.000Z" itemprop="datePublished">2018-05-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/28/dom-event-model/">DOM 事件模型的发展</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="DOM-Level-1-（背景）"><a href="#DOM-Level-1-（背景）" class="headerlink" title="DOM Level 1 （背景）"></a>DOM Level 1 （背景）</h2><p>W3C 为了统一各浏览器，梳理了微软和网景两大巨头的浏览器的事件监听模型，整合成第一个版本的标准（DOM Level 1）并发布。所以其实 DOM Level 1 只是标准出来之前已有的事件监听的集合。现在有以下代码，我们来尝试为这些按钮绑定事件，使得当点击这些按钮时，弹窗显示“hi”。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;A&#x27;</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;B&#x27;</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;C&#x27;</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">sayHi</span>(<span class="params"></span>)&#123; <span class="title function_">alert</span>(<span class="string">&#x27;hi&#x27;</span>) &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>利用 HTML 事件属性来分配事件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- A --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;A&#x27;</span> <span class="attr">onclick</span>=<span class="string">&#x27;sayHi&#x27;</span>&gt;</span>A<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- B --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;B&#x27;</span> <span class="attr">onclick</span>=<span class="string">&#x27;sayHi()&#x27;</span>&gt;</span>B<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- C --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;C&#x27;</span> <span class="attr">onclick</span>=<span class="string">&#x27;sayHi.call()&#x27;</span>&gt;</span>C<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码结果：<br><button id='A' onclick='sayHi'>A</button> <button id='B' onclick='sayHi()'>B</button> <button id='C' onclick='sayHi.call()'>C</button></p>
+<script>function sayHi(){ alert('hi') }</script>
+
+<p>在上述代码中，只有 <strong>B</strong> 和 <strong>C</strong> 才能得到我们想要的结果。DOM Level 1 规定，当使用 HTML 事件属性绑定事件名时，必须带上英文括号。因为事件属性的值是指要运行的代码，一旦用户点击按钮，浏览器就 <code>eval(&#39;sayHi()&#39;)</code> 或者 <code>eval(&#39;sayHi.call()&#39;)</code> 。 <code>sayHi</code> 只是一个函数变量名，如果是按钮A，那么浏览器执行的是 <code>eval(&#39;sayHi&#39;)</code> ，这样只是运行了这个变量，并没有执行这个函数。所以切记正确写法为后两者。</p>
+</li>
+<li><p>利用 HTML DOM 来分配事件</p>
+<p>现在，让我们来看看在 js 中，我们又该如何利用 HTML DOM 来得到我们想要的结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">meetAgain</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">&#x27;hi&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line">A.<span class="property">onclick</span> = meetAgain           <span class="comment">//A：正确</span></span><br><span class="line">B.<span class="property">onclick</span> = <span class="title function_">meetAgain</span>()         <span class="comment">//B：错误</span></span><br><span class="line">C.<span class="property">onclick</span> = meetAgain.<span class="title function_">call</span>()    <span class="comment">//C：错误</span></span><br></pre></td></tr></table></figure>
+<p>上述代码中，只有 <strong>A</strong> 才是正确的。因为在 JavaScript 中， <code>onclick</code> 是一个属性， <code>meetAgain</code> 是一个函数对象， <code>A.onclick = meetAgain</code> 是将 <code>meetAgain</code> 函数的对象地址赋给 <code>onclick</code> 属性。而 <code>meetAgain()</code> 和 <code>meetAgain.call()</code> 表示执行函数，返回的结果是 <code>undefined</code> ，那么 B 和 C 的 <code>onclick</code> 的属性值为 <code>undefined</code> ，很显然这并不是我们要的结果。</p>
+</li>
+</ul>
+<p>所以 HTML 事件属性 和 HTML DOM 两者的区别：</p>
+<blockquote>
+<p>HTML 事件属性中分配事件时，需要在函数名后加上“()”，表示当用户点击时就执行这个函数；HTML DOM中为事件属性分配事件时，不需要在函数名后加“()”，表示将函数的对象地址赋给事件属性。</p>
+</blockquote>
+<h2 id="DOM-Level-2-（发展）"><a href="#DOM-Level-2-（发展）" class="headerlink" title="DOM Level 2 （发展）"></a>DOM Level 2 （发展）</h2><p>在 DOM Level 1 中我们可以看到，要为一个元素绑定事件，只能用 <code>onclick</code> 、<code>onmouseup</code> 等属性，这就带来了一个问题，一个属性只能绑定一个事件。DOM Level 2 中最重要的更新就是添加了 DOM 事件模型，使得一个属性可以绑定多个事件。此外，这是我们目前<strong>最常用的 DOM 标准</strong>。</p>
+<ul>
+<li><p>重要的API：<code>target.addEventListener(type, listener, options)</code></p>
+<p>具体看以下代码，来理解 <code>addEventListener()</code> 和 <code>onclick</code> 绑定事件的区别（ HTML 代码仍为本文开头的第一段代码）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">A.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;A1&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">A.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;A2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">B.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;B1&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line">B.<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;B2&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当用户分别点击 A按钮 和 B按钮 时，运行结果为：</p>
+<pre>
+> "A1"
+> "A2"
+> "B2"
+</pre>
+
+<p>我们发现，A 的 click 事件的两个结果都运行出来了，而 B 只运行了在后位绑定的事件函数。这是因为 <code>onclick</code> 属性是唯一的，若绑定了两个及以上的事件处理函数，则先绑定的会被新绑定的覆盖。而 <code>addEventListener()</code> 会让事件进入到事件监听队列（eventListeners）中，执行顺序依照队列先进先出的特性。所以不建议直接使用 <code>onclick</code> 属性来绑定事件处理函数，以免被无意覆盖。</p>
+</li>
+<li><p>与 <code>addEventListener()</code> 对应的是 <code>removeEventListener()</code> ，它可以将指定函数移出事件监听队列。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">func</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;C&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line">C.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, func)</span><br><span class="line">C.<span class="title function_">removeEventListener</span>(<span class="string">&#x27;click&#x27;</span>, func)</span><br></pre></td></tr></table></figure>
+<p>此时，点击 C按钮 时，并不会输出任何内容，因为 func 在进入事件监听事件队列后又马上被移出了，等不到用户点击。</p>
+</li>
+</ul>
+<blockquote>
+<p>事件流（Event flow）： IE 提出的事件冒泡（Event bubbling）、网景提出的事件捕获（Event capture）。</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;head&#x27;</span>&gt;</span></span><br><span class="line">  头</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;face&#x27;</span>&gt;</span></span><br><span class="line">    脸</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;nose&#x27;</span>&gt;</span></span><br><span class="line">      鼻子</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>Q1：当点击“鼻子”时，头和脸有没有被点击到？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">head.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;头&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line">face.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;脸&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line">nose.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;鼻子&#x27;</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>根据上述代码，当点击“鼻子”时，控制台输出的结果是：</p>
+<pre>
+> "鼻子"
+> "脸"
+> "头"
+</pre>
+
+<p>由此可见，当点击“鼻子”时，“脸”和“头”也被点击到了。因为“鼻子”是“脸”和“头”的一部分，顺序是由里到外，由小到大。</p>
+</li>
+<li><p>Q2：当点击“鼻子”时，三者的事件处理顺序是怎么样的？</p>
+<p>在上一个例子中，我们看到顺序是由里到外（由小到大）的，那么顺序只能是这一种吗？ W3C 给出了两种事件流机制，分别是冒泡流和捕获流。上一个例子就是冒泡流的例子。而要采用冒泡流还是捕获流，就由 <code>addEventListener()</code> 的第三个参数 options 决定 —— 当 options 为 <code>false</code> 时就是冒泡流（默认），为 <code>true</code> 时就是捕获流。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 冒泡阶段，忽略第三个参数则默认为 undefined ，undefined 为 false */</span></span><br><span class="line">head.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;头：冒泡&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line">face.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;脸：冒泡&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line">nose.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;鼻子：冒泡&#x27;</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 捕获阶段 */</span></span><br><span class="line">head.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;头：捕获&#x27;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br><span class="line">face.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;脸：捕获&#x27;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br><span class="line">nose.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;鼻子：捕获&#x27;</span>);</span><br><span class="line">&#125;, <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<pre>
+> "头：捕获"
+> "脸：捕获"
+> "鼻子：冒泡"
+> "鼻子：捕获"
+> "脸：冒泡"
+> "头：冒泡"
+</pre>
+
+<p>由这个运行结果，我们可以看出捕获阶段与冒泡阶段的执行顺序是相反的，它是由外到里，由大到小的，且“头”和“脸”都是先捕获后冒泡。而例外的是，“脸”却是先冒泡后捕获。</p>
+<p>其实，捕获阶段的事件是先于冒泡阶段处理的。而当事件流完成祖先元素及父元素的捕获阶段后，到达目标元素（target）时，事件处理顺序遵循函数绑定的顺序处理（即按顺序执行代码）而不是先捕获后冒泡，这个阶段被称为“目标阶段”。理解过程如下图：<br><img src="https://i.loli.net/2018/05/16/5afbeb914da76.png" alt="event-flow.png"></p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/05/28/dom-event-model/" data-id="cm2uc0mbt000epggpa7au7mzl" data-title="DOM 事件模型的发展" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-webpage-in-mobile-devices" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/25/webpage-in-mobile-devices/" class="article-date">
+  <time class="dt-published" datetime="2018-05-25T11:40:00.000Z" itemprop="datePublished">2018-05-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/25/webpage-in-mobile-devices/">移动端的适配</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>腾讯曾经出过一个面试题：移动端该如何做适配？有位同学分享了他那次的面试经历，有兴趣可以<a target="_blank" rel="noopener" href="https://github.com/Bless-L/MyBlog/blob/master/post/2016%E8%85%BE%E8%AE%AF%E5%AE%9E%E4%B9%A0%E7%94%9F%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86%E5%8F%8A%E6%80%BB%E7%BB%93%EF%BC%88%E4%BA%8C%EF%BC%89.md">了解一下</a>。</p>
+<p>移动端在用户群中占了很大的比重，所以做好移动端的适配，基本是前端们必备的技能之一。移动端和PC端的最重要的区别就是</p>
+<ol>
+<li><p>视口大小</p>
+<p> 移动端的视口宽度基本在 1000px 以内，手机端在 320px 至 425px 之间，若将PC端的页面在手机端中展示，最初的做法是用手机端的视口宽度去模拟PC端的 980px ，那么内容会被缩放，用户浏览时需要自行放大。</p>
+</li>
+<li><p>交互方式</p>
+<ul>
+<li>移动端没有 hover 事件，PC端页面的 hover 在手机端中无法展现</li>
+<li>移动端有 touch 事件</li>
+</ul>
+</li>
+</ol>
+<p>那么，要想使得网页在移动端也能很好地展现出来，大概有以下几种方法：</p>
+<h2 id="移动端的适配总结"><a href="#移动端的适配总结" class="headerlink" title="移动端的适配总结"></a>移动端的适配总结</h2><p><small>把总结提到最前写是为了方便复习。</small></p>
+<ol>
+<li><a href='#Viewport元标签'>viewport元标签</a></li>
+<li><a href='#媒体查询（Media Queries）'>媒体查询</a>，自动探测屏幕宽度来加载相应的CSS</li>
+<li>尽量不使用绝对单位（如px），而使用相对单位（如<a href='#REM'>rem</a>、em）</li>
+</ol>
+<h2 id="Viewport元标签"><a href="#Viewport元标签" class="headerlink" title="Viewport元标签"></a>Viewport元标签</h2><p>在移动端中常常会添加 meta viewport 来规定网页的显示形式。</p>
+<blockquote>
+<p><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, user-scalable=no, initial-scale=1.0&quot;&gt;</code></p>
+</blockquote>
+<p>上面这行代码的意思是，网页宽度默认等于屏幕宽度（width&#x3D;device-width），不允许用户缩放（user-scalable&#x3D;no），网页初始大小占屏幕面积的100%（initial-scale&#x3D;1.0）。</p>
+<ul>
+<li><code>width</code> 设置视口宽度，device-width指设备宽度</li>
+<li><code>user-scalable</code> 是否允许用户缩放， no 为不允许， yes 为允许</li>
+<li><code>initial-scale</code> 设置页面地初始缩放比例</li>
+<li><code>maximum-scale</code> 允许的最大缩放比例</li>
+<li><code>minimum-scale</code> 允许的最小缩放比例</li>
+</ul>
+<h2 id="媒体查询（Media-Queries）"><a href="#媒体查询（Media-Queries）" class="headerlink" title="媒体查询（Media Queries）"></a>媒体查询（Media Queries）</h2><ul>
+<li><p>样式表中的媒体查询。例如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@media</span> (<span class="attribute">max-width</span>: <span class="number">980px</span>) &#123;</span><br><span class="line">  <span class="selector-tag">body</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段 CSS 代码规定了当媒体的宽度 ≤980px 时，背景色变成红色。</p>
+</li>
+<li><p><code>&lt;link&gt;</code> 标签中的媒体查询。例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&#x27;stylesheet&#x27;</span> <span class="attr">href</span>=<span class="string">&#x27;style.css&#x27;</span> <span class="attr">media</span>=<span class="string">&#x27;(max-width: 980px)&#x27;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这段代码表示当满足媒体查询的宽度 ≤980px 时， <code>style.css</code> 才会生效（页面加载时已下载好，等待条件满足时使用）。</p>
+<p>相较之下，第二个例子的媒体查询方法会更方便，即不同媒体查询结果下，引用不同的 CSS 文件，它能避免样式覆盖的问题。</p>
+</li>
+<li><p>CSS 文件中的媒体查询。例如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@import</span> url(<span class="string">&quot;tinyScreen.css&quot;</span>) (<span class="attribute">max-width</span>: <span class="number">400px</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries">Click here to learn more about Media Queries</a>.</p>
+<h2 id="触摸屏设备的交互事件"><a href="#触摸屏设备的交互事件" class="headerlink" title="触摸屏设备的交互事件"></a>触摸屏设备的交互事件</h2><ul>
+<li><p>没有 :hover 伪类</p>
+<p>  因为在触摸屏设备中，用户无法像在 PC 端上一样，把鼠标移动到某个带有 :hover 伪类的元素上就能做出回应，所以我们需要为触摸屏设备以 click 事件来模拟 PC 端中的 hover 事件。例如：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- PC 端 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="selector-id">#xxx</span> &#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">width</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">height</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">background-color</span>: red;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css">    <span class="selector-id">#xxx</span><span class="selector-pseudo">:hover</span> &#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">background-color</span>: blue;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;xxx&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>  这段代码实现的效果是：</p>
+  <pre style='white-space: normal'>
+  <div id='xxx' style='width: 50px;height: 50px;background-color: red;'></div>
+  <script type="text/javascript">
+    xxx.onmouseenter = function(){
+      xxx.style.backgroundColor = 'blue';
+    };
+    xxx.onmouseout = function(){
+      xxx.style.backgroundColor = 'red';
+    };
+  </script>
+  </pre>
+
+<p>  要想在触摸屏设备中实现类似效果，那么代码应该改写成：</p>
+  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 触摸屏设备 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 相同部分已省略，script 加到 body 内最后 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  xxx.<span class="property">onclick</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">if</span>(xxx.<span class="property">style</span>.<span class="property">backgroundColor</span> === <span class="string">&#x27;red&#x27;</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">      xxx.<span class="property">style</span>.<span class="property">backgroundColor</span> = <span class="string">&#x27;blue&#x27;</span></span></span><br><span class="line"><span class="language-javascript">    &#125; <span class="keyword">else</span> &#123;</span></span><br><span class="line"><span class="language-javascript">      xxx.<span class="property">style</span>.<span class="property">backgroundColor</span> = <span class="string">&#x27;red&#x27;</span></span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>touch 事件</p>
+<p>  在这里就不做深入研究，有兴趣可以看 MDN 的<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/Touch_events">触摸事件</a>例子，以及<a target="_blank" rel="noopener" href="https://developer.mozilla.org/samples/domref/touchevents.html">演示效果</a>（请在触控设备中打开）。</p>
+</li>
+</ul>
+<h2 id="REM"><a href="#REM" class="headerlink" title="REM"></a>REM</h2><blockquote>
+<p>rem 是一个相对单位，这个单位代表<strong>根元素 <code>&lt;html&gt;</code> 的 <code>font-size</code> 大小</strong>。</p>
+</blockquote>
+<p>例如定义了如下样式，那么 <code>&lt;body&gt;</code> 中的字体大小实际为 18px 。它不仅适用于字体大小，还可以用在 <code>width</code>、 <code>margin</code> 等的样式上。此外，它还可以与其他单位共存。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">    <span class="selector-tag">html</span> &#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-size</span>: <span class="number">12px</span>;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css">    <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">font-size</span>: <span class="number">1.5rem</span>;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css">    <span class="selector-id">#div</span> &#123;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">width</span>: <span class="number">6rem</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">height</span>: <span class="number">6rem</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#999</span>;</span></span><br><span class="line"><span class="language-css">      <span class="attribute">padding</span>: <span class="number">5px</span>;</span></span><br><span class="line"><span class="language-css">    &#125;</span></span><br><span class="line"><span class="language-css">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  这是一段在 body 内的文字。</span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&#x27;div1&#x27;</span>&gt;</span>这是一个在 body 内的 div 。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码结果：</p>
+<pre style='white-space: normal'>
+<span style='font-size: 18px'>这是一段在 body 内的文字。</span>
+<div style='width: 72px; height: 72px; border: 1px solid #999; padding: 5px;'>这是一个在 body 内的 div 。</div>
+</pre>
+
+<blockquote>
+<p>插一个拓展知识点：有趣的是，若上面例子中， div1 的宽高的单位改为 <code>em</code> ，则它的实际宽高由 72px 变成 108px 。这是因为 <code>em</code> 表示元素的 <code>font-size</code> 计算值，div1 继承了父元素 <code>&lt;body&gt;</code> 的 <code>font-size</code> 值（18px），所以它的 1em 实际上等于 18px 。 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/length">Click here to learn more about length units</a>.</p>
+</blockquote>
+<h2 id="Sass-——-强大的-CSS-扩展语言"><a href="#Sass-——-强大的-CSS-扩展语言" class="headerlink" title="Sass —— 强大的 CSS 扩展语言"></a>Sass —— 强大的 CSS 扩展语言</h2><p>使用 Sass 来开发 CSS 可以方便样式的编写。它不仅完全兼容 CSS ，还允许我们使用变量、嵌套等，甚至还可以声明函数来使用。</p>
+<p>下面是一个 scss 文件，我们可以简单看看它的语法规则大概是怎么样的：</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@function</span> px2rem( <span class="variable">$px</span> )&#123;  <span class="comment">//自定义函数</span></span><br><span class="line">  <span class="keyword">@return</span> <span class="variable">$px</span>/<span class="variable">$deviceWidth</span>*<span class="number">10</span> + rem;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$deviceWidth</span>: <span class="number">640</span>;        <span class="comment">//变量以$符号开头</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">ul</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="built_in">px2rem</span>(<span class="number">256</span>);</span><br><span class="line">  <span class="attribute">padding</span>: <span class="built_in">px2rem</span>(<span class="number">32</span>);</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">  <span class="attribute">list-style</span>: none;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">1.2em</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 嵌套</span></span><br><span class="line">  <span class="selector-tag">li</span> &#123;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">4px</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child</span>(<span class="number">3</span>) &#123;</span><br><span class="line">    <span class="attribute">border-bottom</span>: none;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过转换，上面的 scss 文件对应的 css 文件如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">ul</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">4rem</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0.5rem</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#eee</span>;</span><br><span class="line">  <span class="attribute">list-style</span>: none;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">1.2em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">ul</span> <span class="selector-tag">li</span> &#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">4px</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#ddd</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">ul</span> <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child</span>(<span class="number">3</span>) &#123;</span><br><span class="line">  <span class="attribute">border-bottom</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="http://sass-lang.com/guide">Click here to learn more about Sass</a>.<br>或者，需要中文的话，这里有一篇阮一峰老师学习<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2012/06/sass.html">Sass的博客笔记</a>，讲得很详细也一眼就能看懂。</p>
+<p>结语：后期还会为本文章更新 Flex 布局。爸爸要去吃饭了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/05/25/webpage-in-mobile-devices/" data-id="cm2uc0mc7001opggpa710fy0l" data-title="移动端的适配" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-create-jquery-api" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/05/09/create-jquery-api/" class="article-date">
+  <time class="dt-published" datetime="2018-05-09T08:39:28.000Z" itemprop="datePublished">2018-05-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/05/09/create-jquery-api/">使用原生JS实现一个jQuery的API</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="原生JS操作"><a href="#原生JS操作" class="headerlink" title="原生JS操作"></a>原生JS操作</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">style</span>=<span class="string">&#x27;border: 1px solid #666&#x27;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">id</span>=<span class="string">&#x27;li&#x27;</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>代码结果：</p>
+<ul style='border: 1px solid #666'>
+  <li id='li'>Hi</li>
+</ul>
+
+<p>现在，我想为 <code>&lt;li&gt;</code> 标签添加一个样式，</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.red</span> &#123; <span class="attribute">color</span>: red; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>并改变文本内容为“Thank you~”。用原生JS的写法就是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">li.<span class="property">classList</span>.<span class="title function_">add</span>(<span class="string">&#x27;red&#x27;</span>)</span><br><span class="line">li.<span class="property">textContent</span> = <span class="string">&#x27;Thank you~&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>代码结果：</p>
+<ul style='border: 1px solid #666'>
+  <li style='color: red'>Thank you~</li>
+</ul>
+
+
+<h2 id="模仿jQuery实现一个API"><a href="#模仿jQuery实现一个API" class="headerlink" title="模仿jQuery实现一个API"></a>模仿jQuery实现一个API</h2><p>如果要模仿jQuery，实现一个jQuery的API，那么实现方法如下：</p>
+<ol>
+<li><p>封装函数。将每个功能封装成一个函数，需要使用到时调用这个函数即可。</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 封装添加样式的函数addClass */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">addClass</span>(<span class="params">node, className</span>) &#123;</span><br><span class="line">  node.<span class="property">classList</span>.<span class="title function_">add</span>(className)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 封装设置内容的函数setText */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">setText</span>(<span class="params">node, text</span>) &#123;</span><br><span class="line">  node.<span class="property">textContent</span> = text</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">addClass</span>(li, <span class="string">&#x27;red&#x27;</span>)</span><br><span class="line"><span class="title function_">setText</span>(li, <span class="string">&#x27;Thank you~&#x27;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将第一个参数（节点）提取出来变成 <code>node.functionName()</code> 的形式。</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">jQuery</span>(<span class="params">node</span>)&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">addClass</span>: <span class="keyword">function</span>(<span class="params">className</span>)&#123;</span><br><span class="line">      node.<span class="property">classList</span>.<span class="title function_">add</span>(className)</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">setText</span>: <span class="keyword">function</span>(<span class="params">text</span>)&#123;</span><br><span class="line">      node.<span class="property">textContent</span> = text</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> node = <span class="title function_">jQuery</span>(li)</span><br><span class="line">node.<span class="title function_">addClass</span>(<span class="string">&#x27;red&#x27;</span>)</span><br><span class="line">node.<span class="title function_">setText</span>(<span class="string">&#x27;Thank you~&#x27;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>处理多个节点的情况。</p>
+ <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">style</span>=<span class="string">&#x27;border: 1px solid #666&#x27;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>Welcome<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">jQuery</span>(<span class="params">nodeOrSelector</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> elements = (<span class="keyword">typeof</span> nodeOrSelector === <span class="string">&#x27;string&#x27;</span>) ? <span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(nodeOrSelector) : &#123; <span class="number">0</span>: nodeOrSelector, <span class="attr">length</span>: <span class="number">1</span> &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">addClass</span>: <span class="keyword">function</span>(<span class="params">className</span>)&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.<span class="property">length</span>; i++)&#123;</span><br><span class="line">        elements[i].<span class="property">classList</span>.<span class="title function_">add</span>(className)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">setText</span>: <span class="keyword">function</span>(<span class="params">text</span>)&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.<span class="property">length</span>; i++)&#123;</span><br><span class="line">        elements[i].<span class="property">textContent</span> = text</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> node = <span class="title function_">jQuery</span>(<span class="string">&#x27;li&#x27;</span>)</span><br><span class="line">node.<span class="title function_">addClass</span>(<span class="string">&#x27;red&#x27;</span>)</span><br><span class="line">node.<span class="title function_">setText</span>(<span class="string">&#x27;Thank you~&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>简化jQuery函数名</p>
+ <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">$</span> = jQuery;</span><br><span class="line">$(<span class="string">&#x27;li&#x27;</span>).<span class="title function_">addClass</span>(<span class="string">&#x27;red&#x27;</span>)</span><br><span class="line">$(<span class="string">&#x27;li&#x27;</span>).<span class="title function_">setText</span>(<span class="string">&#x27;Thank you~&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>最终运行结果：</p>
+<ul style='border: 1px solid #666'>
+  <li style='color: red'>Thank you~</li>
+  <li style='color: red'>Thank you~</li>
+</ul></li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>说白了，jQuery就是一个函数，它返回一个对象，里面包含节点的属性和方法。节点可以调用这些方法来操作DOM。</p>
+<p>PS：完整代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">jQuery</span> = <span class="keyword">function</span>(<span class="params">nodeOrSelector</span>)&#123;</span><br><span class="line">  <span class="keyword">var</span> elements = (<span class="keyword">typeof</span> nodeOrSelector === <span class="string">&#x27;string&#x27;</span>) ? <span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(nodeOrSelector) : &#123;</span><br><span class="line">    <span class="number">0</span>: nodeOrSelector,</span><br><span class="line">    <span class="attr">length</span>: <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">addClass</span>: <span class="keyword">function</span>(<span class="params">className</span>)&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.<span class="property">length</span>; i++)&#123;</span><br><span class="line">        elements[i].<span class="property">classList</span>.<span class="title function_">add</span>(className)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">setText</span>: <span class="keyword">function</span>(<span class="params">text</span>)&#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>; i&lt;elements.<span class="property">length</span>; i++)&#123;</span><br><span class="line">        elements[i].<span class="property">textContent</span> = text</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">window</span>.<span class="property">$</span> = jQuery</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/05/09/create-jquery-api/" data-id="cm2uc0mbp0008pggpf4ny5pmm" data-title="使用原生JS实现一个jQuery的API" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-some-html-tags" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/02/13/some-html-tags/" class="article-date">
+  <time class="dt-published" datetime="2018-02-13T07:32:04.000Z" itemprop="datePublished">2018-02-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/02/13/some-html-tags/">一些较重要的HTML标签的学习笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p><small>这篇博客将会记录我对一些HTML标签的学习，在本文提到的知识点基本是常用的，如果需要了解详细的标签及其属性用法，可以查询 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element">MDN</a> 。</small></p>
+<h2 id="标签"><a href="#标签" class="headerlink" title="&lt;iframe&gt; 标签"></a><code>&lt;iframe&gt;</code> 标签</h2><blockquote>
+<p>Usage：将另一个页面嵌入到当前页面中。详情请<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/iframe">点击</a>。</p>
+</blockquote>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;https://caijialinxx.github.io/archives/&quot;</span> <span class="attr">name</span>=<span class="string">&quot;xxx&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;0&quot;</span> <span class="attr">width</span>=<span class="string">&quot;100%&quot;</span> <span class="attr">height</span>=<span class="string">&quot;400px&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="结果预览"><a href="#结果预览" class="headerlink" title="结果预览"></a>结果预览</h3><pre>
+<iframe src="https://caijialinxx.github.io/archives/" name="xxx" frameborder="0" width="100%" height="400px"></iframe>
+</pre>
+
+<h3 id="重点总结"><a href="#重点总结" class="headerlink" title="重点总结"></a>重点总结</h3><ol>
+<li><code>src</code> 属性可接网址或相对地址</li>
+<li><code>name</code> 属性与 <code>&lt;a&gt;</code> 标签的 <code>target</code> 属性结合使用，可以使 <code>&lt;a&gt;</code> 标签的链接在 iframe 容器中呈现</li>
+<li>一般情况下都添加 <code>frameborder=&quot;0&quot;</code> 的属性，使其更美观</li>
+<li><code>width</code> 属性和 <code>height</code> 属性可以设置容器的宽高</li>
+</ol>
+<h2 id="标签-1"><a href="#标签-1" class="headerlink" title="&lt;a&gt; 标签"></a><span id="a"><code>&lt;a&gt;</code> 标签</span></h2><blockquote>
+<p>Usage：创建一个到其他网页、文件、同一页面内的位置、电子邮件地址或任何其他URL的超链接。详情请<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a">点击</a>。</p>
+</blockquote>
+<h3 id="代码示例-1"><a href="#代码示例-1" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;//music.163.com/playlist/1998046799/1300657788?userid=1300657788&quot;</span> <span class="attr">target</span>=<span class="string">&quot;xxx&quot;</span>&gt;</span>分享我的歌单，让你轻松下<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#a&quot;</span>&gt;</span>点这里将会跳到标题 `<span class="tag">&lt;<span class="name">a</span>&gt;</span>标签` <span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;javascript: alert(&#x27;Hello, I am Here!&#x27;);&quot;</span>&gt;</span>点这里将会执行一个 JavaScript 脚本<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="结果预览-1"><a href="#结果预览-1" class="headerlink" title="结果预览"></a>结果预览</h3><pre style="white-space: normal">
+<a href="//music.163.com/playlist/1998046799/1300657788?userid=1300657788" target="xxx">分享我的歌单，让你轻松下（翻上去iframe里听哦）</a><br>
+<a href="#a">点这里将会跳到本章节 &lt;a&gt;标签 处</a><br>
+<a href="javascript: alert('Hello, I am Here!');">点这里将会执行一个 JavaScript 脚本</a><br>
+</pre>
+
+<h3 id="重点总结-1"><a href="#重点总结-1" class="headerlink" title="重点总结"></a>重点总结</h3><ol>
+<li><code>href</code> 属性的取值：<ul>
+<li>浏览器支持的协议地址，如 <code>http://...</code> 、 <code>ftp://...</code> 等（可以使用无协议绝对地址，自动继承当前页面的协议）</li>
+<li>相对地址，如 <code>#xxx</code>（定位到页面特定锚点，如果是 <code>#top</code> 或者 <code>#</code> 则直接跳到页面顶部）、 <code>?yyy=xxx</code> 、 <code>./xxx</code>（当前网页所在 URL 下的文件或文件夹）</li>
+<li>伪协议，如 <code>javascript: alert(1);</code> 、 <code>javascript:;</code>（这可以实现点击&lt;a&gt;标签没有动作，满足一些特殊需求）</li>
+</ul>
+</li>
+<li><code>target</code> 属性的取值：<ul>
+<li><code>&lt;iframe&gt;</code> 的 <code>name</code> 属性值 —— 这将会使 <code>&lt;a&gt;</code> 标签的 URL 在 <code>&lt;iframe&gt;</code> 中呈现</li>
+<li><code>_blank</code>  —— 在新的标签页打开</li>
+<li><code>_self</code>  —— 在当前页面跳转</li>
+<li><code>_parent</code>  —— 在父框架或浏览上下文加载，若无父框架或浏览器上下文，则此选项等同 <code>_self</code> 。</li>
+<li><code>_top</code>    在顶层浏览上下文加载。若没有父框架或浏览上下文，则此选项等同 <code>_self</code> 。</li>
+</ul>
+</li>
+<li><code>download</code> 属性：下载文件</li>
+<li>发送 GET 请求（<kbd>F12</kbd> 打开开发者工具，查看 Network ，即可发现当点击一个 <code>&lt;a&gt;</code> 链接时，请求方式为 GET ）</li>
+</ol>
+<h2 id="标签-2"><a href="#标签-2" class="headerlink" title="&lt;form&gt; 标签"></a><code>&lt;form&gt;</code> 标签</h2><blockquote>
+<p>Usage：表示了文档中的一个区域，这个区域包含有交互控制元件，用来向 web 服务器提交信息（ GET 请求或 POST 请求）。详情请<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/form">点击</a>。</p>
+</blockquote>
+<h3 id="代码示例-2"><a href="#代码示例-2" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;&quot;</span> <span class="attr">method</span>=<span class="string">&quot;get&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- 表单中必须要有提交按钮，才能发送请求 --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="重点总结-2"><a href="#重点总结-2" class="headerlink" title="重点总结"></a>重点总结</h3><ol>
+<li><code>method</code> 属性可指定为 <code>GET</code> 或 <code>POST</code></li>
+<li><code>action</code> 属性指定跳转路径，可以接相对路径（如.&#x2F;anthorpage.html）</li>
+<li>POST 请求发送后，检查 Headers 有第四部分 Form-Data ，其中第三部分 Request Headers 指定第四部分为 application&#x2F;x-www-form-urlencoded</li>
+<li><code>target</code> 属性同 <code>&lt;a&gt;</code> 标签</li>
+<li>提交表单后会自动刷新页面</li>
+</ol>
+<h2 id="标签-3"><a href="#标签-3" class="headerlink" title="&lt;input&gt; 标签"></a><code>&lt;input&gt;</code> 标签</h2><blockquote>
+<p>Usage：用于创建交互式控件，以便接受来自用户的数据。详情请<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input">点击</a>。</p>
+</blockquote>
+<h3 id="代码示例-3"><a href="#代码示例-3" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">账号：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;userid&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">密码：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;password&quot;</span> <span class="attr">name</span>=<span class="string">&quot;pwd&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">性别：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;radio&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">value</span>=<span class="string">&quot;female&quot;</span>&gt;</span>女 <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;radio&quot;</span> <span class="attr">name</span>=<span class="string">&quot;sex&quot;</span> <span class="attr">value</span>=<span class="string">&quot;male&quot;</span> <span class="attr">selected</span>&gt;</span>男<span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">爱好：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;hobby&quot;</span> <span class="attr">value</span>=<span class="string">&quot;swimming&quot;</span>&gt;</span>游泳<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;hobby&quot;</span> <span class="attr">value</span>=<span class="string">&quot;running&quot;</span>&gt;</span>跑步<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">name</span>=<span class="string">&quot;hobby&quot;</span> <span class="attr">value</span>=<span class="string">&quot;riding&quot;</span>&gt;</span>骑行</span><br></pre></td></tr></table></figure>
+
+<h3 id="结果预览-2"><a href="#结果预览-2" class="headerlink" title="结果预览"></a>结果预览</h3><pre>
+账号：<input type="text" name="userid"><br>
+密码：<input type="password" name="pwd"><br>
+性别：<input type="radio" name="sex" value="female">女 <input type="radio" name="sex" value="male" selected>男<br>
+爱好：<input type="checkbox" name="hobby" value="swimming">游泳 <input type="checkbox" name="hobby" value="running">跑步 <input type="checkbox" name="hobby" value="riding">骑行
+</pre>
+
+<h3 id="重点总结-3"><a href="#重点总结-3" class="headerlink" title="重点总结"></a>重点总结</h3><ol>
+<li><code>type</code> 属性的取值<ul>
+<li><code>submit</code> —— 提交按钮</li>
+<li><code>button</code> —— 普通按钮<br>  PS：<code>&lt;button&gt;</code> 标签如果没有 <code>type</code> 值且 form 表单里只此一个按钮，那么 <code>&lt;button&gt;</code> 标签会自动升级为提交按钮；如果有 <code>type=&quot;button&quot;</code> ，则是一个普通按钮。另外 <code>&lt;button&gt;</code> 标签可以有子标签而 <code>&lt;input type=&quot;button&quot;&gt;</code> 标签不能。</li>
+<li><code>checkbox</code> —— 复选框<br>  若同一选项的 <code>name</code> 值相同，那么数据传输时将会被集合成一个数组。</li>
+<li><code>radio</code> —— 单选框<br>  在该类型下 <code>name</code> 属性值必须一样，使得 value 唯一。</li>
+<li><code>password</code> —— 密码框</li>
+<li>……</li>
+</ul>
+</li>
+<li><code>id</code> 属性<br> 可唯一指定一个元素，此外还可以与 <code>&lt;label&gt;</code> 标签结合使用。其 <code>for</code> 属性值指向 <code>id</code> 属性值，或直接包裹在 <code>&lt;input&gt;</code> 标签外，即可使用户点击其文本即可选中 input 焦点，例如： <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;xixi&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">&quot;xixi&quot;</span>&gt;</span>嘻嘻<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">label</span>&gt;</span><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;checkbox&quot;</span> <span class="attr">id</span>=<span class="string">&quot;haha&quot;</span>&gt;</span>哈哈<span class="tag">&lt;/<span class="name">label</span>&gt;</span>    </span><br></pre></td></tr></table></figure>
+ <pre style='white-space: normal'>
+ <input type="checkbox" id="xixi"><label for="xixi">嘻嘻</label>
+ <label><input type="checkbox" id="haha">哈哈</label> 
+ </pre></li>
+</ol>
+<h2 id="标签-4"><a href="#标签-4" class="headerlink" title="&lt;select&gt; 标签"></a><code>&lt;select&gt;</code> 标签</h2><blockquote>
+<p>Usage：用于创建选项菜单。详情请<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/select">点击</a>。</p>
+</blockquote>
+<h3 id="代码示例-4"><a href="#代码示例-4" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">name</span>=<span class="string">&quot;value&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;&quot;</span> <span class="attr">disabled</span>&gt;</span>-<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span> <span class="attr">selected</span>&gt;</span>1<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">option</span> <span class="attr">value</span>=<span class="string">&quot;2&quot;</span>&gt;</span>2<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="结果预览-3"><a href="#结果预览-3" class="headerlink" title="结果预览"></a>结果预览</h3><pre>
+<select name="value">
+  <option value="" disabled>-</option>
+  <option value="1" selected>1</option>
+  <option value="2">2</option>
+</select>
+</pre>
+
+<h3 id="重点总结-4"><a href="#重点总结-4" class="headerlink" title="重点总结"></a>重点总结</h3><ol>
+<li><code>multiple</code> 属性 —— 多选，按下 <kbd>Crtl</kbd> 键即可多选。</li>
+<li><code>required</code> 属性 —— 规定select的值不能为空。</li>
+<li>必须有 <code>&lt;option&gt;</code> 子标签， <code>&lt;option&gt;</code> 子标签中的属性有：<ul>
+<li><code>disabled</code> 表示不可选</li>
+<li><code>selected</code> 表示默认选中</li>
+</ul>
+</li>
+</ol>
+<h2 id="标签-5"><a href="#标签-5" class="headerlink" title="&lt;textarea&gt; 标签"></a><code>&lt;textarea&gt;</code> 标签</h2><blockquote>
+<p>Usage：可以进行多行纯文本编辑。详情请<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/textarea">点击</a>。</p>
+</blockquote>
+<h3 id="代码示例-5"><a href="#代码示例-5" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">textarea</span> <span class="attr">name</span>=<span class="string">&quot;textarea&quot;</span> <span class="attr">rows</span>=<span class="string">&quot;6&quot;</span> <span class="attr">cols</span>=<span class="string">&quot;30&quot;</span>&gt;</span>Write something here...<span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="结果预览-4"><a href="#结果预览-4" class="headerlink" title="结果预览"></a>结果预览</h3><pre>
+<textarea name="textarea" rows="6" cols="30" placeholder="Write something here..."></textarea>
+</pre>
+
+<h3 id="重点总结-5"><a href="#重点总结-5" class="headerlink" title="重点总结"></a>重点总结</h3><ol>
+<li>默认可调整，若添加 <code>style=&quot;resize:none&quot;</code> 属性，则固定宽高</li>
+<li><code>cols</code> 属性 —— 指定宽度</li>
+<li><code>rows</code> 属性 —— 指定高度（若CSS行高变化则可能会不同）</li>
+<li><code>readonly</code> 属性 —— 不允许用户修改元素内文本，能让用户点击和选择元素内的文本。如果在表单里，这个元素的值依旧会跟随表单一起提交。</li>
+</ol>
+<h2 id="标签-6"><a href="#标签-6" class="headerlink" title="&lt;table&gt; 标签"></a><code>&lt;table&gt;</code> 标签</h2><blockquote>
+<p>Usage：表示表格数据，即通过二维数据表表示的信息。详情请<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/table">点击</a>。</p>
+</blockquote>
+<h3 id="代码示例-6"><a href="#代码示例-6" class="headerlink" title="代码示例"></a>代码示例</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">border</span>=<span class="string">&quot;1&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">colgroup</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">col</span> <span class="attr">width</span>=<span class="string">&quot;60px&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">col</span> <span class="attr">bgcolor</span>=<span class="string">&quot;red&quot;</span> <span class="attr">width</span>=<span class="string">&quot;80px&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">col</span> <span class="attr">width</span>=<span class="string">&quot;60px&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">colgroup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>NO.<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>Name<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>Age<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>1<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>Caaa<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>20<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>2<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>Jaff<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>21<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tfoot</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tr</span>&gt;</span><span class="tag">&lt;<span class="name">th</span>&gt;</span>AvgAge<span class="tag">&lt;/<span class="name">th</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;<span class="name">td</span>&gt;</span>20.5<span class="tag">&lt;/<span class="name">td</span>&gt;</span><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tfoot</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="结果预览-5"><a href="#结果预览-5" class="headerlink" title="结果预览"></a>结果预览</h3><pre>
+<table border="1">
+    <colgroup>
+        <col width="60px"><col bgcolor="red" width="80px"><col width="60px">
+    </colgroup>
+    <thead>
+        <tr><th>NO.</th><th>Name</th><th>Age</th></tr>
+    </thead>
+    <tbody>
+        <tr><th>1</th><td>Caaa</td><td>20</td></tr>
+        <tr><th>2</th><td>Jaff</td><td>21</td></tr>
+    </tbody>
+    <tfoot>
+        <tr><th>AvgAge</th><td></td><td>20.5</td></tr>
+    </tfoot>
+</table>
+</pre>
+
+<h3 id="重点总结-6"><a href="#重点总结-6" class="headerlink" title="重点总结"></a>重点总结</h3><ol>
+<li>子元素有 <code>&lt;thead&gt;</code> 、<code>&lt;tbody&gt;</code> 、<code>&lt;tfoot&gt;</code> 、<code>&lt;colgroup&gt;</code> 。 <code>&lt;tr&gt;</code> 、<code>&lt;td&gt;</code> 不是它的子元素。如果省略不写子元素，不会报错，只会自动更正。</li>
+<li>注意，上文中的决定了样式的属性已不建议使用或者已废弃，若需要改变样式请直接使用 CSS 。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/02/13/some-html-tags/" data-id="cm2uc0mc5001hpggp6aox5ieu" data-title="一些较重要的HTML标签的学习笔记" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-css" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/01/13/css/" class="article-date">
+  <time class="dt-published" datetime="2018-01-13T07:32:04.000Z" itemprop="datePublished">2018-01-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/01/13/css/">CSS介绍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="历史与概述"><a href="#历史与概述" class="headerlink" title="历史与概述"></a>历史与概述</h2><blockquote>
+<p>CSS（Cascading Style Sheets，层叠样式表）， 是一种<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/StyleSheet">样式表</a>语言，用来描述 HTML 或 XML（包括如 SVG、XHTML 之类的 XML 分支语言）文档的呈现。CSS 描述了在屏幕、纸质、音频等其它媒体上的元素应该如何被渲染的问题。</p>
+</blockquote>
+<ul>
+<li>1994年哈肯·利缇提出了 CSS 的最初建议，而当时伯特·波斯（Bert Bos）正在设计一个名为Argo的浏览器，于是他们决定一起设计 CSS 。</li>
+<li>1995年他们在 WWW 网络会议上 CSS 又一次被提出，波斯演示了 Argo 浏览器支持 CSS 的例子，哈肯也展示了支持 CSS 的 Arena 浏览器。</li>
+<li>1996年底，CSS 初稿已经完成，同年12月，层叠样式表的第一份正式标准（Cascading style Sheets Level 1）完成，成为 W3C 的推荐标准。</li>
+<li>1997年初，W3C 开始接管 CSS ，并组织了专门管 CSS 的工作组，其负责人是克里斯·里雷。他们开始讨论第一版中没有涉及到的问题。</li>
+<li>1998年5月 W3C 发表了 CSS 2 ，并很快又发表了 CSS 2.1 修改了 CSS 2 的一些错误，消除了其中基本不支持的内容和增加了一些已有的浏览器的扩展内容，此时 CSS 开始流行。</li>
+<li>从2011年开始，CSS 被分为多个模块单独升级，统称为 CSS 3。</li>
+</ul>
+<br>
+
+<h2 id="引入方法"><a href="#引入方法" class="headerlink" title="引入方法"></a>引入方法</h2><p>我们想要让文字居中且变红，则可以用以下四种方法实现：</p>
+<h3 id="内联样式"><a href="#内联样式" class="headerlink" title="内联样式"></a>内联样式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 在 CSS 还没发表之前，添加样式的方法 --&gt;</span><br><span class="line">&lt;p&gt;&lt;center&gt;&lt;font color=&quot;red&quot;&gt;你真棒！&lt;/font&gt;&lt;/center&gt;&lt;p&gt;</span><br><span class="line">&lt;!-- CSS 发表之后的方法 --&gt;</span><br><span class="line">&lt;p style=&quot;text-align:center;color:red&quot;&gt;你真棒！&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+<p><small>注意：<code>&lt;center&gt;</code> 和 <code>&lt;font&gt;</code> 标签已过时，不建议使用。</small></p>
+<h3 id="标签"><a href="#标签" class="headerlink" title="&lt;style&gt; 标签"></a><code>&lt;style&gt;</code> 标签</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        p&#123;</span><br><span class="line">            color: red;</span><br><span class="line">            text-align: center;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;p&gt;你真棒！&lt;/p&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="标签引入外部文件"><a href="#标签引入外部文件" class="headerlink" title="&lt;link&gt; 标签引入外部文件"></a><code>&lt;link&gt;</code> 标签引入外部文件</h3><p><small>假设本文件为 index.html ，它所在的文件夹下有一个用来写样式的 style.css 文件。</small></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 这是 index.html 的代码 --&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; href=&quot;./style.css&quot;&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;p&gt;你真棒！&lt;/p&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/* 这是 style.css 的代码 */</span><br><span class="line">p&#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>此外，还可以在 A.css 文件中使用 <strong><code>@import url(./B.css)</code></strong> 来引入另一个 CSS 文件，例如 B.css ，这样使得 HTML 文件渲染 A.css 前会先渲染 B.css 。</li>
+</ul>
+<p><small>假设 index.html 和 style.css 所在文件夹下还有个 anotherstyle.css 文件。现需在 style.css 中引入 anotherstyle.css ，使得 index.html 页面的背景色变为<code>#666</code>。</small></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/* 这是style.css的代码 */</span><br><span class="line">@import url(./anotherstyle.css)</span><br><span class="line">p&#123;</span><br><span class="line">    text-align: center;</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/* 这是anotherstyle.css的代码 */</span><br><span class="line">body&#123;</span><br><span class="line">    backgroud-color: #666;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<br>
+
+<h2 id="元素的高度"><a href="#元素的高度" class="headerlink" title="元素的高度"></a>元素的高度</h2><ul>
+<li>内联元素的高度是由字体及其参数决定，无法设置宽高。<code>line-height</code> 的属性值可以决定内联元素的高度，例如 <code>line-height:20px</code> 那么 <code>&lt;span&gt;</code> 的高度也为 <code>20px</code> 。</li>
+<li>块级元素的高度是由其文档流元素高度的总和决定。</li>
+</ul>
+<blockquote>
+<p>文档流指文档内元素的流动方向。<br><strong>块级元素从上往下流动</strong>。<br><strong>内联元素从左往右流动</strong>，如果流动遇到阻碍（容器宽度不够）则换行继续从左往右流动。但如果是一个英文单词，则无论宽度是否已经超出容器宽度，都不将分割成两行，除非添加 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-break"><code>word-break: break all</code></a> 属性。</p>
+</blockquote>
+<br>
+
+<h2 id="如何学习CSS"><a href="#如何学习CSS" class="headerlink" title="如何学习CSS"></a>如何学习CSS</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/search?q=CSS&topic=apps&topic=html&topic=css&topic=js&topic=api&topic=canvas&topic=svg&topic=webgl&topic=mobile&topic=webdev&topic=http&topic=webext">MDN</a> + keyword</li>
+<li><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/search.html?cx=016304377626642577906:b_e9skaywzq&cof=FORID:11&ie=UTF-8&q=css&sa.x=0&sa.y=0">阮一峰网络日志</a> + keyword</li>
+<li><a target="_blank" rel="noopener" href="http://www.zhangxinxu.com/wordpress/category/css/">张鑫旭的博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://css-tricks.com/">CSS-TRICKS</a> + keyword</li>
+<li><a target="_blank" rel="noopener" href="https://tympanus.net/codrops/css_reference/">Codrops</a></li>
+<li><a target="_blank" rel="noopener" href="http://cndevdocs.com/">CSS 2.1 中文规范文档</a></li>
+<li>《CSS揭秘》（Lea Verou著）</li>
+</ul>
+<p><br><hr><br></p>
+<h2 id="一些小重点（未完待续…）"><a href="#一些小重点（未完待续…）" class="headerlink" title="一些小重点（未完待续…）"></a>一些小重点（未完待续…）</h2><ol>
+<li>页面默认字体大小为<strong>16px</strong></li>
+<li>用 <code>float</code> 做横向结构需要给所有子元素添加 <code>float:left</code> ，给其父元素添加 <code>.clearfix::after&#123; content:&quot;&quot;; display:block; clear:both; &#125;</code> 。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/01/13/css/" data-id="cm2uc0mbq0009pggp3u6o9ytz" data-title="CSS介绍" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-empty-element-and-replaced-element" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/01/12/empty-element-and-replaced-element/" class="article-date">
+  <time class="dt-published" datetime="2018-01-12T03:32:04.000Z" itemprop="datePublished">2018-01-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2018/01/12/empty-element-and-replaced-element/">空元素是什么？可替换元素又是个啥？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="空元素"><a href="#空元素" class="headerlink" title="空元素"></a>空元素</h2><blockquote>
+<p>An empty element is an element from HTML, SVG, or MathML that cannot have any child nodes (i.e., nested elements or text nodes).</p>
+</blockquote>
+<p>这是来自 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Glossary/Empty_element">MDN</a> 的解释。按照我的理解，用大白话说出来就是，在 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML">HTML</a>、<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/SVG">SVG</a> 或 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/MathML">MathML</a> 中，空元素指这个元素节点里不存在子节点，这个子节点指 <code>元素节点</code>（<code>element node</code>）或者 <code>文本节点</code>（<code>text node</code>）。</p>
+<p><small>PS：关于 DOM 节点的概念，如果你不了解，可以戳 <a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/dom/node.html#toc2">阮一峰的《JavaScript 标准参考教程(alpha)》中 6.1 概述</a> 来学习。</small></p>
+<p>举例说明，<br>在 HTML 中有以下空元素：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/area"><code>&lt;area&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/base"><code>&lt;base&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/br"><code>&lt;br&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/col"><code>&lt;col&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/colgroup"><code>&lt;colgroup&gt;</code></a> when the <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/colgroup#attr-span"><code>span</code></a> is present</li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/command"><code>&lt;command&gt;</code></a> <strong style="color:red">Obsolete</strong></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/embed"><code>&lt;embed&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/hr"><code>&lt;hr&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/img"><code>&lt;img&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input"><code>&lt;input&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/keygen"><code>&lt;keygen&gt;</code></a>  <strong style="color:red">Obsolete</strong></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/link"><code>&lt;link&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta"><code>&lt;meta&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/param"><code>&lt;param&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/source"><code>&lt;source&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/track"><code>&lt;track&gt;</code></a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/wbr"><code>&lt;wbr&gt;</code></a></li>
+</ul>
+<p>此外，在这些空元素上使用一个闭标签是无效的。如 <code>&lt;input type=&quot;text&quot;&gt;&lt;/input&gt;</code> 是错误的。</p>
+<p>在 SVG 中有 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/font-face-name"><code>&lt;font-face-name&gt;</code></a> 、<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/hkern"><code>&lt;hkern&gt;</code></a> 、<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/SVG/Element/vkern"><code>&lt;vkern&gt;</code></a> 等。</p>
+<p>在 MathML 中有 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/MathML/Element/mspace"><code>&lt;mspace&gt;</code></a> 、<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/MathML/Element/semantics"><code>&lt;semantics&gt;</code></a> 等。</p>
+<h2 id="可替换元素"><a href="#可替换元素" class="headerlink" title="可替换元素"></a>可替换元素</h2><blockquote><p>In CSS, a replaced element is an element whose representation is outside the scope of CSS. In other words, these are external objects whose representation is independent of the CSS formatting model.</p>
+<footer><strong>MDN</strong><cite><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element">Replaced element</a></cite></footer></blockquote>
+
+<p><br>看懂了吗？看懂了吗？不懂？那我给你看下MDN的<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Replaced_element">中文解释</a>。</p>
+<blockquote><p>CSS 里，可替换元素（replaced element）的展现不是由CSS来控制的。这些元素是一类外观渲染独立于CSS的外部对象。</p>
+</blockquote>
+
+<p>现在懂了？还是不懂？</p>
+<p>Emmm…</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/WebShare-hilda/p/4713890.html">Maybe it would help.</a></p>
+<p> <code>替换元素</code> 是浏览器根据其标签的元素与属性来判断显示具体的内容的，CSS并不需要考虑渲染替换元素，它的展现独立于CSS，这就是“independent of the CSS formatting model”的意思。此外，不像 <code>非替换元素</code> 一样，它们将内容直接告诉浏览器，而检查替换元素的代码时可以发现它并没有实际的内容。</p>
+<p>这是一个来自 W3C 关于 <a target="_blank" rel="noopener" href="https://www.w3.org/TR/CSS21/conform.html#replaced-element">Replaced element</a> 的解释，如果你看得懂英文的话，结合W3C标准的原始定义会理解得更准确一点。</p>
+<p>另外，有人提出，把 <code>Replaced element</code> 翻译成可替换元素是不准确的，就英文字面意思来说， replaced 是已被替换了的， <code>Replaced element</code> 不由CSS负责展示渲染，不是可以被替换的概念。原文请戳<a target="_blank" rel="noopener" href="http://openwares.net/2014/03/14/css_replaced_element/">这里</a>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/01/12/empty-element-and-replaced-element/" data-id="cm2uc0mbu000gpggpctxzdvpa" data-title="空元素是什么？可替换元素又是个啥？" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

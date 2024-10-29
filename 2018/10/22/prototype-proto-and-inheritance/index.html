@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>誓死讲清 prototype 、 __proto__ 、 原型链与继承 | Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="尽管看过很多解释这些概念的文章，每次看完都觉得自己理解了。但一遇到这类问题的时候，我还是不免会答错。这次博客的诞生原因，就是今天又做错了题😭，我这破记性，恐怕得写一篇自己的博客梳理一下，才能真正记住并理解。 先给你们看看这篇博客的“罪魁祸首”：  现有如下代码：  1234var F &#x3D; function() &#123;&#125;Object.prototype.a &#x3D; function()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="誓死讲清 prototype 、 __proto__ 、 原型链与继承">
+<meta property="og:url" content="https://caijialinxx.github.io/2018/10/22/prototype-proto-and-inheritance/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="尽管看过很多解释这些概念的文章，每次看完都觉得自己理解了。但一遇到这类问题的时候，我还是不免会答错。这次博客的诞生原因，就是今天又做错了题😭，我这破记性，恐怕得写一篇自己的博客梳理一下，才能真正记住并理解。 先给你们看看这篇博客的“罪魁祸首”：  现有如下代码：  1234var F &#x3D; function() &#123;&#125;Object.prototype.a &#x3D; function()">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2018/10/22/5bcdaa870a3f6.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/22/5bcdaa871af01.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/22/5bcdaa86e65d4.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/22/5bcdaa86ecc71.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/22/5bcdaa871e5bc.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/22/5bcdaa8728cd3.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/22/5bcdaa8703644.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/23/5bcef2196c722.png">
+<meta property="og:image" content="https://i.loli.net/2018/10/22/5bcdaa871af01.png">
+<meta property="article:published_time" content="2018-10-22T07:24:21.000Z">
+<meta property="article:modified_time" content="2019-01-04T10:46:41.159Z">
+<meta property="article:author" content="caijialinxx">
+<meta property="article:tag" content="Notes">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="原型">
+<meta property="article:tag" content="继承">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2018/10/22/5bcdaa870a3f6.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-prototype-proto-and-inheritance" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2018/10/22/prototype-proto-and-inheritance/" class="article-date">
+  <time class="dt-published" datetime="2018-10-22T07:24:21.000Z" itemprop="datePublished">2018-10-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      誓死讲清 prototype 、 __proto__ 、 原型链与继承
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>尽管看过很多解释这些概念的文章，每次看完都觉得自己理解了。但一遇到这类问题的时候，我还是不免会答错。这次博客的诞生原因，就是今天又做错了题😭，我这破记性，恐怕得写一篇自己的博客梳理一下，才能真正记住并理解。</p>
+<p>先给你们看看这篇博客的“罪魁祸首”：</p>
+<blockquote>
+<p>现有如下代码：<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> F = <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">a</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">b</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="keyword">var</span> f = <span class="keyword">new</span> <span class="title function_">F</span>()</span><br></pre></td></tr></table></figure><br>问：f.a 和 f.b 都能取到吗？</p>
+</blockquote>
+<p>好的，你们可以先做做这个题。答案我一会儿告诉你们。现在，我要先来讲讲这题涉及到的知识点（其实叫概念更合适？）：</p>
+<ul>
+<li>构造函数、实例对象与继承</li>
+<li><strong>原型对象</strong>（如 <code>Object.prototype</code>）</li>
+<li>（不知道中文名怎么叫或者根本没有名字的） <strong><code>__proto__</code></strong></li>
+<li>原型链（prototype chain）</li>
+</ul>
+<h2 id="构造函数、实例对象与继承"><a href="#构造函数、实例对象与继承" class="headerlink" title="构造函数、实例对象与继承"></a>构造函数、实例对象与继承</h2><p>构造函数就是用来构造（创建）一个实例对象的函数。举个例子就是：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> 你妈妈 = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.带不带把 = <span class="string">&#x27;不带把&#x27;</span></span><br><span class="line">  <span class="variable language_">this</span>.笑 = <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="string">&#x27;咯咯咯&#x27;</span> &#125;</span><br><span class="line">  <span class="variable language_">this</span>.撒娇 = <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="string">&#x27;喵喵喵&#x27;</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line">你妈妈.<span class="property"><span class="keyword">prototype</span></span> = &#123;</span><br><span class="line">  长相: <span class="string">&#x27;美丽动人&#x27;</span>,</span><br><span class="line">  说话: <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="string">&#x27;叽里呱啦&#x27;</span> &#125;,</span><br><span class="line">  笑: <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="string">&#x27;嘻嘻嘻&#x27;</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> 你 = <span class="keyword">new</span> 你妈妈()</span><br></pre></td></tr></table></figure>
+<p>你就是一个实例对象，你妈妈就是一个构造函数，她把你造出来就是 <strong>new</strong> 了你（不要问我你爸是什么）。你遗传（<strong>继承</strong>）了她的特征（**<code>你妈妈.prototype</code>**），例如你妈美丽动人的长相、说话的方法、笑的方法。此外，她期望你是个女孩，笑得可爱，还会撒娇。<br>于是，你就成了下面这个样子，你需要通过 <strong><code>__proto__</code></strong> 这根生命线连接你妈妈的原型特征：<br><img src="https://i.loli.net/2018/10/22/5bcdaa870a3f6.png" alt="如你妈愿的你" title="如你妈愿的你" /></p>
+<p>然而，老天嫉妒你妈脱俗的美貌，决定报复在你的身上，让你变成一个又丑又讨人厌的小孩：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">你.长相 = <span class="string">&#x27;奇丑无比&#x27;</span></span><br><span class="line">你.嚎啕大哭 = <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="string">&#x27;哇哇哇&#x27;</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>太可怕了，这真是个悲伤的故事：<br><img src="https://i.loli.net/2018/10/22/5bcdaa871af01.png" alt="变了的你" title="变了的你" /></p>
+<p>举了个不是非常恰当的例子，戏精该下场了🙂。不过相信聪明的你们应该懂构造函数和实例对象是什么了吧。目前你只需要记住：</p>
+<blockquote>
+<p>实例对象被构造（<code>new</code>）了之后能够自动引用（<code>__proto__</code>）其构造函数的原型对象（<code>prototype</code>），同时还可以设置自己的属性或方法，如果与原型对象有同名的属性或方法，则会覆盖原型对象上的属性或方法，优先读取自身的属性或方法。</p>
+</blockquote>
+<p>好了，看完这节，忘记上面只为帮助理解的例子吧…</p>
+<h2 id="原型对象"><a href="#原型对象" class="headerlink" title="原型对象"></a>原型对象</h2><p>原型对象，顾名思义，就是一个对象，它包含着所有实例对象需要共享的属性和方法。下面是一些原型对象包含的属性和方法的举例：<br><img src="https://i.loli.net/2018/10/22/5bcdaa86e65d4.png" alt="Object.prototype" title="Object.prototype" /><br><img src="https://i.loli.net/2018/10/22/5bcdaa86ecc71.png" alt="Function.prototype" title="Function.prototype" /><br><img src="https://i.loli.net/2018/10/22/5bcdaa871e5bc.png" alt="Array.prototype" title="Array.prototype" /></p>
+<p>这些原型对象都有一个 <code>constructor</code> 属性，它们都指向了自己的构造函数，即</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">constructor</span> === <span class="title class_">Function</span>         <span class="comment">// true</span></span><br><span class="line"><span class="title class_">Array</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">constructor</span> === <span class="title class_">Array</span>               <span class="comment">// true</span></span><br><span class="line"><span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">constructor</span> === <span class="title class_">Object</span>             <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<img src="https://i.loli.net/2018/10/22/5bcdaa8728cd3.png" alt="原型对象的constructor指向各自的构造函数" title="原型对象的constructor指向各自的构造函数" />
+
+<p>有没有被绕晕😄，与第一节结合起来看，构造函数里的 <code>prototype</code> 是它的原型对象，而这个原型对象里有一个属性 <code>constructor</code> 指向构造函数…(??? hahaha~)</p>
+<p>如果你还不理解原型对象是什么，那么请先记住：</p>
+<blockquote>
+<p>原型对象是一个包含着所有实例对象<strong>需要共享的属性和方法的对象</strong>。</p>
+</blockquote>
+<h2 id="proto"><a href="#proto" class="headerlink" title="__proto__"></a>__proto__</h2><p>我们在上一节可以看到，这三个原型对象包含的属性和方法不尽相同。例如 <code>Function.prototype</code> 有 <code>call()</code> 方法，而 <code>Array.prototype</code> 和 <code>Object.prototype</code> 没有。但 <code>Function.prototype</code> 和 <code>Array.prototype</code> 都有 <code>__proto__</code> 属性，且它们的值指向相同的 <code>Object.prototype</code> 。<br><img src="https://i.loli.net/2018/10/22/5bcdaa8703644.png" alt="Function.prototype和Array.prototype的__proto__属性指向Object.prototype" title="Function.prototype和Array.prototype的共同属性__proto__属性指向Object.prototype" /></p>
+<p>在第一节中，<code>你._proto__ === 你妈妈.prototype</code> ，被创建的实例对象的 <code>__proto__</code> 指向构造函数的原型对象中。整成一个公式就是：</p>
+<blockquote>
+<p><strong><code>被构造的对象.__proto__ === 构造函数.prototype</code></strong></p>
+</blockquote>
+<p>那么也就是说 <code>Function.prototype</code> 和 <code>Array.prototype</code> 都是被 <code>Object</code> 构造函数构造出来的。你现在可能已经晕了，没办法理解它们是如何被构造出来的，那么接下来，我又要举造人的例子了（放心，这次保证高级一点），希望能帮助你理解：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 充当 Object</span></span><br><span class="line"><span class="keyword">var</span> 好神仙 = <span class="keyword">function</span>(<span class="params">性别</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.性别 = 性别</span><br><span class="line">&#125;</span><br><span class="line">好神仙.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">constructor</span> = 好神仙</span><br><span class="line">好神仙.<span class="property"><span class="keyword">prototype</span></span>.品质 = <span class="string">&#x27;善良&#x27;</span></span><br><span class="line">好神仙.<span class="property"><span class="keyword">prototype</span></span>.修仙 = <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="comment">/* 假装这是控制台：</span></span><br><span class="line"><span class="comment"> * 好神仙.prototype</span></span><br><span class="line"><span class="comment"> * &#123;</span></span><br><span class="line"><span class="comment"> *   + 修仙: ƒ ()</span></span><br><span class="line"><span class="comment"> *     品质: &quot;善良&quot;</span></span><br><span class="line"><span class="comment"> *   + constructor: ƒ (性别)</span></span><br><span class="line"><span class="comment"> *     ...</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 充当 Function/Array</span></span><br><span class="line"><span class="keyword">var</span> 葫芦籽 = <span class="keyword">function</span>(<span class="params">排行, 颜色, 技能, 弱点</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.排行 = 排行</span><br><span class="line">  <span class="variable language_">this</span>.颜色 = 颜色</span><br><span class="line">  <span class="variable language_">this</span>.技能 = 技能</span><br><span class="line">  <span class="variable language_">this</span>.弱点 = 弱点</span><br><span class="line">&#125;</span><br><span class="line">葫芦籽.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> 好神仙(<span class="string">&#x27;男&#x27;</span>)                <span class="comment">// 即 Function.prototype = new Object(...)</span></span><br><span class="line">葫芦籽.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">constructor</span> = 葫芦籽</span><br><span class="line">葫芦籽.<span class="property"><span class="keyword">prototype</span></span>.叫爷爷 = <span class="keyword">function</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="string">&#x27;爷爷&#x27;</span> &#125;</span><br><span class="line"><span class="comment">/* 假装这是控制台：</span></span><br><span class="line"><span class="comment"> * 葫芦籽.prototype</span></span><br><span class="line"><span class="comment"> * &#123;</span></span><br><span class="line"><span class="comment"> *   + constructor: ƒ (排行, 颜色, 技能, 弱点)</span></span><br><span class="line"><span class="comment"> *   + 叫爷爷: ƒ ()</span></span><br><span class="line"><span class="comment"> *     性别: &quot;男&quot;</span></span><br><span class="line"><span class="comment"> *   - __proto__:                                 &lt;-- 指向 好神仙.prototype，相当于 Function.prototype.__proto__ 指向 Object.prototype</span></span><br><span class="line"><span class="comment"> *     + 修仙: ƒ ()</span></span><br><span class="line"><span class="comment"> *       品质: &quot;善良&quot;</span></span><br><span class="line"><span class="comment"> *     + constructor: ƒ (性别)</span></span><br><span class="line"><span class="comment"> *       ...</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line">葫芦籽.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">__proto__</span> === 好神仙.<span class="property"><span class="keyword">prototype</span></span>       <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>这里例子中，即使葫芦籽自己有个原型对象 <code>葫芦籽.prototype</code> ，这个原型对象也可以通过 <code>__proto__</code> 属性指向上一层原型对象 <code>好神仙.prototype</code> 。同理 <code>Function.prototype</code> 和 <code>Array.prototype</code> 。</p>
+<p>上面的例子只是为了解释【Function.prototype和Array.prototype的__proto__属性指向Object.prototype】这个是如何实现的，名词多了看起来确实复杂了，好吧看来第一节的例子又要拿出来用了… 我尝试把 <code>__proto__</code> 删掉你就能知道它的作用了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">你.说话()                 <span class="comment">// &quot;叽里呱啦&quot;</span></span><br><span class="line">你.<span class="property">__proto__</span> = <span class="literal">null</span></span><br><span class="line">你.说话()                 <span class="comment">// Uncaught TypeError: 你.说话 is not a function</span></span><br></pre></td></tr></table></figure>
+<p>看！删了之后你就说不了话了！因为你自身没有说话这个技能，只好靠妈妈助攻，结果你跟她断绝母女关系了！你妈妈伤心欲绝，挥一挥衣袖，带走所有云彩。所以别随便作死😀</p>
+<p>说了那么多，整理一下这一节的内容：</p>
+<blockquote>
+<ol>
+<li><code>__proto__</code> 是实例对象的一个属性，这个属性使得实例对象可以使用其共用的属性和方法。</li>
+<li>每当一个实例被构造，其 <code>__proto__</code> 属性就会自动指向构造它的函数的原型对象。记住这个公式： <strong><code>被构造的对象.__proto__ === 构造函数.prototype</code></strong> </li>
+<li><code>__proto__</code> 会一层层向上指，直到遇到 <code>null</code> 。</li>
+</ol>
+</blockquote>
+<h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2><p>相信看到这里，你应该知道原型链是个啥子东西了。但操心的我还是会举个栗子的（毕竟我的葫芦娃还没放出来呢😀）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> 大娃 = <span class="keyword">new</span> 葫芦籽(<span class="number">1</span>, <span class="string">&#x27;红&#x27;</span>, &#123;</span><br><span class="line">  力壮术: <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;,</span><br><span class="line">  巨大化: <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;, [<span class="string">&#x27;鲁莽&#x27;</span>, <span class="string">&#x27;不懂随机应变&#x27;</span>])</span><br><span class="line"></span><br><span class="line">大娃.品质                       <span class="comment">// &quot;善良&quot;</span></span><br></pre></td></tr></table></figure>
+<p>为什么大娃自身明明没有“品质”这个属性，还是可以读到有值呢？</p>
+<ul>
+<li>因为有原型链呀~！</li>
+</ul>
+<p>大娃自身没有，它就是去 <code>大娃.__proto__</code> 里找，发现也没有，就继续走到 <code>大娃.__proto__.__proto__</code> 里找，大娃长舒一口气：“好家伙总算找到了，原来我的品质是善良呀✌”。所以 <code>大娃.品质</code> 实际上是 <code>大娃.__proto__.__proto__.品质</code> 。那么大娃走过来的这一路，就是我们所说的“原型链”。<br><img src="https://i.loli.net/2018/10/23/5bcef2196c722.png" alt="大娃的原型链" title="大娃的原型链" /></p>
+<p>好吧，又得拿出第一节的例子… 我们尝试取你的长相是什么值，结果返回是“奇丑无比”，为什么不是“美丽动人”呢！！？（自己心里没点 B tree 吗）。请看下图，不记得老天报复把你变丑了吗？你在自身属性中找到了你的长相，你看到是“奇丑无比”，天空突然电闪雷鸣、雷雨交加，你哭倒在厕所，无力去走原型链找你的最初的样子，于是一蹶不振接受了这个事实（苍天绕过谁）。<br><img src="https://i.loli.net/2018/10/22/5bcdaa871af01.png" alt="变了的你" title="变了的你" /></p>
+<p>心情是坏的，但总结还是要做的：</p>
+<blockquote>
+<p>当试图访问一个对象的属性时，它不仅仅在该对象上搜寻，还会搜寻该对象的原型，以及该对象的原型的原型，依次层层向上搜索，直到找到一个名字匹配的属性或到达原型链的末尾。  —— <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">继承与原型链 | MDN</a></p>
+</blockquote>
+<h2 id="大总结"><a href="#大总结" class="headerlink" title="大总结"></a>大总结</h2><p>实例对象被构造了之后，能够自动引用其构造函数的原型对象，即 <code>实例对象.__proto__ === 构造函数.prototype</code> 。当试图访问这个实例的一个属性时，它不仅仅会在自身上搜寻，还会沿着它的原型链向上搜索，直到找到一个名字匹配的属性或到达原型链的末尾。</p>
+<p>好了，戏总有演完的时候。小可爱们是不是都要忘了开头的问题了。</p>
+<blockquote>
+<p>现有如下代码：<br>  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> F = <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">a</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">b</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="keyword">var</span> f = <span class="keyword">new</span> <span class="title function_">F</span>()</span><br></pre></td></tr></table></figure><br>问：f.a 和 f.b 都能取到吗？</p>
+</blockquote>
+<p>答案是：不说。自己画原型链分析。不然我这篇博客你就白看了！就是这么善变这么傲娇~</p>
+<div style="color: transparent"><p>
+f.__proto__ === F.prototype
+=> f.__proto__.__proto__ === F.prototype.__proto__ === Object.prototype
+=> f.__proto__.__proto__.a
+</p><p>
+f.constructor === f.__proto__.constructor === F
+=> f.constructor.__proto__ === F.__proto__ === Function.prototype
+=> f.constructor.__proto__.b
+</p></div>
+
+
+<hr>
+<p>本文完。</p>
+<p>若文中有错误还请指正与包涵！</p>
+<p>原文链接：<a href="https://caijialinxx.github.io/2018/10/22/prototype-proto-and-inheritance/">https://caijialinxx.github.io/2018/10/22/prototype-proto-and-inheritance/</a></p>
+<p>转载请注明出处。</p>
+<p>今天的参考资料我想这么写：</p>
+<ul>
+<li>如果你想了解一下 prototype 等概念的历史，可以看阮一峰老师写的 <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2011/06/designing_ideas_of_inheritance_mechanism_in_javascript.html">Javascript继承机制的设计思想</a> ，这篇博客有点年头了，顿时觉得自己落后好多好多好多…</li>
+<li>如果是初学者的话，建议看 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/56770432/answer/315342130">JS 中 <strong>proto</strong> 和 prototype 存在的意义是什么？ - 方应杭的回答 - 知乎</a> ，方老师循序渐进的解答 + 图文并茂的展示，或许能让你理解得更深一些，另外里面也有很多相关文章链接可以点击阅读。</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/22473059">对原型、原型链、 Function、Object 的理解</a> 这篇文章总结了大量面试常考的关于 <code>prototype</code> 与 <code>__proto__</code> 的关系的公式，可能可以帮助你轻松记忆。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2018/10/22/prototype-proto-and-inheritance/" data-id="cm2uc0mc00010pggpfn1qfgbs" data-title="誓死讲清 prototype 、 __proto__ 、 原型链与继承" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/01/04/oop-in-javascript/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JavaScript 中的面向对象（继承）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/15/block-formatting-context/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">BFC（块格式化上下文）的理解及其应用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

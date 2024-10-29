@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法 | Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="最近把自己（未完待续）的轮子库 cui-demo 尝试发布到 npm 上，在测试项目中尝试引用时，报了一个无情的错。  「不看废话版」排除了我的代码问题后，这个报错的原因应该是我的轮子库没有成功获取到测试项目（宿主环境）的依赖 react 和 react-dom 。解决方法如下：  在 webpack 配置中将 react 和 react-dom 标记为 externals（这同时要求 outpu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法">
+<meta property="og:url" content="https://caijialinxx.github.io/2019/11/20/fix-react-error-321-by-webpack-externals/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="最近把自己（未完待续）的轮子库 cui-demo 尝试发布到 npm 上，在测试项目中尝试引用时，报了一个无情的错。  「不看废话版」排除了我的代码问题后，这个报错的原因应该是我的轮子库没有成功获取到测试项目（宿主环境）的依赖 react 和 react-dom 。解决方法如下：  在 webpack 配置中将 react 和 react-dom 标记为 externals（这同时要求 outpu">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2019/11/23/CTO5zkAInMRlt8Q.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/23/Pjy5US7ap2mvfwu.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/25/Gl3dDPoxergbiTC.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/23/XwuHk3a86DVcr2p.png">
+<meta property="article:published_time" content="2019-11-20T05:58:24.000Z">
+<meta property="article:modified_time" content="2019-11-26T08:35:19.813Z">
+<meta property="article:author" content="caijialinxx">
+<meta property="article:tag" content="Notes">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="webpack">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/11/23/CTO5zkAInMRlt8Q.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-fix-react-error-321-by-webpack-externals" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/11/20/fix-react-error-321-by-webpack-externals/" class="article-date">
+  <time class="dt-published" datetime="2019-11-20T05:58:24.000Z" itemprop="datePublished">2019-11-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>最近把自己（未完待续）的轮子库 <a target="_blank" rel="noopener" href="https://github.com/Caijialinxx/ui-demo"><code>cui-demo</code></a> 尝试发布到 npm 上，在测试项目中尝试引用时，报了一个无情的错。<br><img src="https://i.loli.net/2019/11/23/CTO5zkAInMRlt8Q.png" alt="Minified React error #321"></p>
+<blockquote>
+<p>「不看废话版」<br><br>排除了我的代码问题后，这个报错的原因应该是我的轮子库没有成功获取到测试项目（宿主环境）的依赖 <code>react</code> 和 <code>react-dom</code> 。解决方法如下：<br></p>
+<ol>
+<li>在 webpack 配置中将 <code>react</code> 和 <code>react-dom</code> 标记为 <code>externals</code>（这同时要求 <code>output.libraryTarget</code> 为 <code>umd</code> ），使轮子库可以在运行时获取到宿主环境的依赖。即  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">externals</span>: &#123;</span><br><span class="line">    <span class="attr">react</span>: &#123;</span><br><span class="line">      <span class="attr">commonjs</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">commonjs2</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">amd</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">root</span>: <span class="string">&#x27;React&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;react-dom&#x27;</span>: &#123;</span><br><span class="line">      <span class="attr">commonjs</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">commonjs2</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">amd</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">root</span>: <span class="string">&#x27;ReactDOM&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li>在 <code>package.json</code> 中为 <code>react</code> 和 <code>react-dom</code> 添加同伴依赖 <code>peerDependencies</code> 的映射，这是为了检测宿主环境中这两项依赖的版本如果低于你规定的最低版本，那么在 npm@3 中会给出警告（npm@1 和 npm@2 中会自动安装）。配置如下：  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;peerDependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;react&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^16.8.4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;react-dom&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^16.8.4&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+</blockquote>
+<br>
+Debug 开始：
+
+<p>为什么说这个错误提示无情呢？让我们来慢慢走进这个报错世界：</p>
+<ol>
+<li><p>它让我转到 <a target="_blank" rel="noopener" href="https://reactjs.org/docs/error-decoder.html/?invariant=321">https://reactjs.org/docs/error-decoder.html/?invariant=321</a> 去看完整信息。好，我知道这个报错是非法 Hook 调用（Invalid Hook Call）的问题了。</p>
+</li>
+<li><p>然后我继续看 <a target="_blank" rel="noopener" href="https://fb.me/react-invalid-hook-call">https://fb.me/react-invalid-hook-call</a> 提供的 debug 方法。</p>
+<ul>
+<li><p>Breaking the Rules of Hooks<br>  违反 Hooks 规则的错误，我用我的狗头保证，不是的🐶。</p>
+</li>
+<li><p>Mismatching Versions of React and React DOM<br>  React DOM 版本与 React 不匹配（低于16.8.0），也排除了。（见下图）</p>
+</li>
+<li><p>Duplicate React<br>  意外地引入了两个 React ，还是排除了。（见下图）</p>
+<p>  <img src="https://i.loli.net/2019/11/23/Pjy5US7ap2mvfwu.png" alt="根据官网进行的debug"></p>
+<p>  而且我的轮子库的 <code>package.json</code> 中对 <code>react</code> 和 <code>react-dom</code> 的版本设置也是符合要求的：</p>
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;devDependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="attr">&quot;react&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^16.8.4&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;react-dom&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^16.8.4&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>  在这两个证据之下，我不得不怀疑自己的狗头是不是保不住了… 难不成我真的违反了 Hooks 的规则？？不应该呀… 如果真是这样，那我平时自己写轮子运行的时候就会报错不通过了呀…</p>
+</li>
+</ul>
+</li>
+<li><p>带着疑问，我决定去参考 <a target="_blank" rel="noopener" href="https://github.com/ant-design/ant-design/blob/master/package.json">ant-design</a> 和 <a target="_blank" rel="noopener" href="https://github.com/ElemeFE/element/blob/master/package.json">element-ui</a> 的 <code>package.json</code> 文件，看看它们是如何配置依赖的。后来发现它们还在 <a target="_blank" rel="noopener" href="https://docs.npmjs.com/files/package.json#peerdependencies"><code>peerDependencies</code></a> 中指定了兼容的版本号。虽说我的轮子库对 <code>react</code> &#x2F; <code>react-dom</code> 的依赖宽松到 <code>&gt;=16.8.4 &lt;17.0.0</code> ，完全兼容测试项目的 <code>^16.12.0</code> ， <code>peerDependencies</code> 在这应该不起作用，但为了防止其他用户使用我这个轮子库时宿主环境的依赖版本低于要求，我还是得给 <code>package.json</code> 添加这个映射：</p>
+ <figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    ...  </span><br><span class="line">    &quot;react&quot;: &quot;^16.8.4&quot;,</span><br><span class="line">    &quot;react-dom&quot;: &quot;^16.8.4&quot;</span><br><span class="line">  &#125;,</span><br><span class="line"><span class="addition">+ &quot;peerDependencies&quot;: &#123;</span></span><br><span class="line"><span class="addition">+   &quot;react&quot;: &quot;^16.8.4&quot;,</span></span><br><span class="line"><span class="addition">+   &quot;react-dom&quot;: &quot;^16.8.4&quot;</span></span><br><span class="line"><span class="addition">+ &#125;,</span></span><br><span class="line">  &quot;dependencies&quot;: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 抱着“瞎猫碰上死耗子”的心态，我重新把更改后的轮子库发布到 npm 中。但最后这个更改果然并没有让 <code>#321</code> 的报错消失。</p>
+<p> 无情展露无余。</p>
+</li>
+</ol>
+<br>
+
+<p>在几次顽强地挣扎和重试后，我真的摸不着头脑了。谷歌了很多篇文章，终于，老天不负有心人，我终于找到了问题所在——原来项目中真的存在着多个 <code>react</code> 实例， <code>cui-demo</code> 打包时 webpack 把 <code>react</code> 一起把它打包进 bundles 里了：</p>
+<p><img src="https://i.loli.net/2019/11/25/Gl3dDPoxergbiTC.png" alt="webpack"></p>
+<p>为了解决这个问题，我应该在 webpack 构建时将 <code>react</code> 和 <code>react-dom</code> 标记为 <code>externals</code> （外部扩展），这样它们就不会被打包进 bundles 中，而是在运行时自动从宿主环境中获取这些扩展依赖。配置如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">path</span>: path.<span class="title function_">resolve</span>(__dirname, <span class="string">&#x27;dist/lib&#x27;</span>),</span><br><span class="line">    <span class="attr">library</span>: <span class="string">&#x27;CUI&#x27;</span>,</span><br><span class="line">    <span class="attr">libraryTarget</span>: <span class="string">&#x27;umd&#x27;</span>      <span class="comment">// 当扩展依赖是对象(&#123; root, amd, commonjs, ... &#125;)时，libraryTarget必须为&#x27;umd&#x27;。查看：https://webpack.js.org/configuration/externals/#object</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">externals</span>: &#123;</span><br><span class="line">    <span class="attr">react</span>: &#123;</span><br><span class="line">      <span class="attr">commonjs</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">commonjs2</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">amd</span>: <span class="string">&#x27;react&#x27;</span>,</span><br><span class="line">      <span class="attr">root</span>: <span class="string">&#x27;React&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;react-dom&#x27;</span>: &#123;</span><br><span class="line">      <span class="attr">commonjs</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">commonjs2</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">amd</span>: <span class="string">&#x27;react-dom&#x27;</span>,</span><br><span class="line">      <span class="attr">root</span>: <span class="string">&#x27;ReactDOM&#x27;</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/11/23/XwuHk3a86DVcr2p.png" alt="webpack 新增 externals 配置"></p>
+<p>好的，再重新发布看看。</p>
+<p>YES！终于成功了！在 webpack 中排除依赖打包进外部 bundles 中即可解决我测试项目中 <code>Minified React error #321</code> 的报错～戳<a target="_blank" rel="noopener" href="https://codesandbox.io/s/crazy-https-r9scn?fontsize=14&hidenavigation=1&theme=dark">此</a>体验一下新鲜出炉的轮子库 <a target="_blank" rel="noopener" href="https://github.com/Caijialinxx/ui-demo"><code>cui-demo</code></a> 吧！</p>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/facebook/react/issues/16029#issuecomment-518156374">Invariant Violation: Minified React error #321 - react issues #16029
+</a></li>
+<li><a target="_blank" rel="noopener" href="https://webpack.js.org/configuration/externals/">Externals - webpack</a> &#x2F; <a target="_blank" rel="noopener" href="https://webpack.docschina.org/configuration/externals/">中文版</a></li>
+<li><a target="_blank" rel="noopener" href="https://webpack.js.org/guides/author-libraries/">Authoring Libraries - webpack</a> &#x2F; <a target="_blank" rel="noopener" href="https://webpack.docschina.org/guides/author-libraries">中文版</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.npmjs.com/files/package.json#peerdependencies">npm-package.json peerDependencies</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.domenic.me/peer-dependencies/">Peer Dependencies</a> &#x2F; <a target="_blank" rel="noopener" href="https://github.com/hongfanqie/peer-dependencies">Ivan Yan的中文翻译</a></li>
+<li><a target="_blank" rel="noopener" href="https://javascript.ruanyifeng.com/nodejs/packagejson.html#toc3">package.json文件 - JavaScript 标准参考教程（alpha）</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2019/11/20/fix-react-error-321-by-webpack-externals/" data-id="cm2uc0mbv000jpggpfqpvbdnd" data-title="从 npm 引入 React Hooks 轮子库报错 Minified React error#321 的解决方法" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/12/23/hooks-useState/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          useState 的原理及模拟实现 —— React Hooks 系列（一）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/26/how-useful-the-key-attribute-in-react-is/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">原来React里的key这么有用！</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

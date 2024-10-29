@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>JavaScript 中的面向对象（继承） | Caijialinxx</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="面向对象，是作为一个程序员经常能够碰到的一个概念。那么到底什么是面向对象编程呢？ 有人可能会回答：  把一组数据结构和处理它们的方法组成对象（object），把相同行为的对象归纳为类（class），通过类的封装（encapsulation）隐藏内部细节，通过继承（inheritance）实现类的特化（specialization）／泛化（generalization），通过多态（polymorph">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 中的面向对象（继承）">
+<meta property="og:url" content="https://caijialinxx.github.io/2019/01/04/oop-in-javascript/index.html">
+<meta property="og:site_name" content="Caijialinxx">
+<meta property="og:description" content="面向对象，是作为一个程序员经常能够碰到的一个概念。那么到底什么是面向对象编程呢？ 有人可能会回答：  把一组数据结构和处理它们的方法组成对象（object），把相同行为的对象归纳为类（class），通过类的封装（encapsulation）隐藏内部细节，通过继承（inheritance）实现类的特化（specialization）／泛化（generalization），通过多态（polymorph">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-01-04T10:13:49.000Z">
+<meta property="article:modified_time" content="2019-01-04T10:46:21.509Z">
+<meta property="article:author" content="caijialinxx">
+<meta property="article:tag" content="Notes">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="原型">
+<meta property="article:tag" content="继承">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Caijialinxx" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Caijialinxx</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://caijialinxx.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-oop-in-javascript" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2019/01/04/oop-in-javascript/" class="article-date">
+  <time class="dt-published" datetime="2019-01-04T10:13:49.000Z" itemprop="datePublished">2019-01-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      JavaScript 中的面向对象（继承）
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>面向对象，是作为一个程序员经常能够碰到的一个概念。那么到底什么是面向对象编程呢？</p>
+<p>有人可能会回答：</p>
+<blockquote>
+<p>把一组数据结构和处理它们的方法组成对象（object），把相同行为的对象归纳为类（class），通过类的封装（encapsulation）隐藏内部细节，通过继承（inheritance）实现类的特化（specialization）／泛化（generalization），通过多态（polymorphism）实现基于对象类型的动态分派（dynamic dispatch）。<br>如何用一句话说明什么是面向对象思想？ - Milo Yip的回答 - 知乎<br><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/19854505/answer/23421930">https://www.zhihu.com/question/19854505/answer/23421930</a></p>
+</blockquote>
+<p>总结确实是已经很精辟了，但对于初学者而言，可能看完就懵逼了，我只是想搞懂面向对象是什么意思，怎么给了我更多的概念出来😭</p>
+<p>这大概就是所谓的「从入门到放弃」吧… 哈哈哈哈哈</p>
+<p>于是这时有人跑出来回答说：</p>
+<ul>
+<li>无论是面向对象编程还是函数式编程，这些都只是一种编程思想。就像是不同的宗教，有些不允许养猪吃猪肉，有些不允许吃牛肉，有些要求男性戴帽女性盖头…… 你可以信某个教，也可以不信教或者汲取多个教的精华。也就是说，我们只需要关注面向对象的意义，而不必纠结于一个语言或者程序设计到底是遵循或应该遵循什么编程典范。</li>
+</ul>
+<p><small>这让我想到了咱南北方的饮食差异：北方的粽子是甜的，南方的粽子是咸的；北方人吃完12个饺子后“老板其它菜咋还没上呢”，南方人吃完12个饺子后“老板买单”…😂</small></p>
+<p>那么接下来，我们来详细聊聊 JavaScript 是如何体现面向对象思想的，以及继承该如何实现。</p>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>我现在想要两百块，那么：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> hundred1 = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="string">&#x27;AA00000000&#x27;</span>,</span><br><span class="line">  <span class="attr">value</span>: <span class="number">100</span>,</span><br><span class="line">  <span class="attr">unit</span>: <span class="string">&#x27;元&#x27;</span>,</span><br><span class="line">  <span class="attr">color</span>: <span class="string">&#x27;红&#x27;</span>,</span><br><span class="line">  <span class="attr">form</span>: <span class="string">&#x27;纸币&#x27;</span>,</span><br><span class="line">  <span class="attr">issue</span>: <span class="string">&#x27;2019-01&#x27;</span>,</span><br><span class="line">  兑换等值商品: <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;,</span><br><span class="line">  换两张<span class="number">50</span>块: <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> hundred2 = &#123;</span><br><span class="line">  <span class="attr">id</span>: <span class="string">&#x27;AA00000001&#x27;</span>,</span><br><span class="line">  <span class="attr">value</span>: <span class="number">100</span>,</span><br><span class="line">  <span class="attr">unit</span>: <span class="string">&#x27;元&#x27;</span>,</span><br><span class="line">  <span class="attr">color</span>: <span class="string">&#x27;红&#x27;</span>,</span><br><span class="line">  <span class="attr">form</span>: <span class="string">&#x27;纸币&#x27;</span>,</span><br><span class="line">  <span class="attr">issue</span>: <span class="string">&#x27;2019-01&#x27;</span>,</span><br><span class="line">  兑换等值商品: <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;,</span><br><span class="line">  换两张<span class="number">50</span>块: <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>于是我就可以用这两百块钱去吃椰子鸡了。</p>
+<h3 id="构造函数-原型对象"><a href="#构造函数-原型对象" class="headerlink" title="构造函数 &amp; 原型对象"></a>构造函数 &amp; 原型对象</h3><p>哎呀，椰子鸡好吃，可是钱也花光了。不行，我得再造钱来用，但我不想让别人看到我是怎么造的！所以我要做一个百元印钞机，把这些过程放百元进印钞机里，我只要输入每张钞票的 ID ，再按印刷键，就可以刷刷刷出百元大钞🤤。同时，这个印钞机要智能一点，不要老是一个个重复得去刻面额、单位、喷颜色等，直接给它引用个百元钞模版，这样能省点墨水😎。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 百元印钞机——构造函数 Hundred()</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">HundredYuan</span> (<span class="params">id</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> money = &#123;&#125;</span><br><span class="line">  money.<span class="property">__proto__</span> = <span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span>   <span class="comment">// 实际开发中不能这么写，会严重影响性能，详见 MDN 解释：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/proto</span></span><br><span class="line">  money.<span class="property">id</span> = id</span><br><span class="line">  <span class="keyword">return</span> money</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 百元钞模版——原型对象 HundredYuan.prototype</span></span><br><span class="line"><span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span> = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">100</span>,</span><br><span class="line">  <span class="attr">unit</span>: <span class="string">&#x27;元&#x27;</span>,</span><br><span class="line">  <span class="attr">color</span>: <span class="string">&#x27;红&#x27;</span>,</span><br><span class="line">  <span class="attr">form</span>: <span class="string">&#x27;纸币&#x27;</span>,</span><br><span class="line">  <span class="attr">issue</span>: <span class="string">&#x27;2019-01&#x27;</span>,</span><br><span class="line">  兑换等值商品: <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;,</span><br><span class="line">  换两张<span class="number">50</span>块: <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 给老子来五百，装进钱包里</span></span><br><span class="line"><span class="keyword">var</span> wallet = []</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">2</span>; i &lt; <span class="number">7</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">var</span> id = <span class="string">&#x27;AA0000000&#x27;</span> + i</span><br><span class="line">  wallet.<span class="title function_">push</span>(<span class="title class_">HundredYuan</span>(id))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">wallet            <span class="comment">// 5张100编号分别是 &#x27;AA00000002&#x27;, &#x27;AA00000003&#x27;, &#x27;AA00000004&#x27;, &#x27;AA00000005&#x27;, &#x27;AA00000006&#x27;</span></span><br><span class="line">wallet[<span class="number">0</span>].<span class="property">value</span>   <span class="comment">// 100</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这个百元印钞机，就是我们所说的「构造函数」，它能生成一个实例对象（也就是造出一张张百元钞），同时它还用 <code>prototype</code> 属性来引用一个存放共同属性的「原型对象」（百元钞模版）。把造钱的过程放进这个百元印钞机，就是「封装」。这样我们就能很好地理解了封装的意义了——隐藏某一方法的具体运行步骤。</p>
+</blockquote>
+<h3 id="new-this"><a href="#new-this" class="headerlink" title="new &amp; this"></a>new &amp; this</h3><p>从上面的例子我们可以知道，构造函数的套路就是：</p>
+<ol>
+<li>创建一个空的新对象</li>
+<li>为这个新对象添加公有属性，即 <code>新对象.__proto__</code> 属性指向构造函数的原型（ <code>构造函数.prototype</code> 引用的对象）</li>
+<li>为这个新对象添加自有的属性</li>
+<li>返回这个新对象。</li>
+</ol>
+<p>既然套路都一样，那为什么不把这个套路变得贴心一点呢？于是有了 <code>new</code> 操作符，它可以帮我们省去 1、2、4 这三个动作，我们只需专注于添加对象的自有属性即可。同时， JS 之父还帮我们规定好，创建的空对象统一命名为 <code>this</code> 。于是，上面的函数我们可以写成这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">HundredYuan</span> (<span class="params">id</span>) &#123;</span><br><span class="line">  <span class="comment">// var this = &#123;&#125;</span></span><br><span class="line">  <span class="comment">// this.__proto__ = HundredYuan.prototype</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">id</span> = id</span><br><span class="line">  <span class="comment">// return this</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span> = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">100</span>,</span><br><span class="line">  <span class="attr">unit</span>: <span class="string">&#x27;元&#x27;</span>,</span><br><span class="line">  <span class="attr">color</span>: <span class="string">&#x27;红&#x27;</span>,</span><br><span class="line">  <span class="attr">form</span>: <span class="string">&#x27;纸币&#x27;</span>,</span><br><span class="line">  <span class="attr">issue</span>: <span class="string">&#x27;2019-01&#x27;</span>,</span><br><span class="line">  兑换等值商品: <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;,</span><br><span class="line">  换两张<span class="number">50</span>块: <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">HundredYuan</span>(<span class="string">&#x27;AA00000007&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>嘿嘿，有了百元印钞机，富得流油不再是梦🤤。</p>
+<p>但是新的问题来了，整天带着一大沓百元大钞出门，要么可能会被乞丐围着，要么可能会有生命危险！不行不行，还是低调点，我需要点小钞。例如五角硬币机：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">FiveJiao</span> (<span class="params"></span>) &#123;&#125;</span><br><span class="line"><span class="title class_">FiveJiao</span>.<span class="property"><span class="keyword">prototype</span></span> = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">5</span>,</span><br><span class="line">  <span class="attr">unit</span>: <span class="string">&#x27;角&#x27;</span>,</span><br><span class="line">  <span class="attr">color</span>: <span class="string">&#x27;金&#x27;</span>,</span><br><span class="line">  <span class="attr">form</span>: <span class="string">&#x27;硬币&#x27;</span>,</span><br><span class="line">  <span class="attr">issue</span>: <span class="string">&#x27;2019-01&#x27;</span>,</span><br><span class="line">  兑换等值商品: <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>哇，跟百元印钞机好像哦。说不定把它们整一下，就可以弄出一元印钞机、十元印钞机…… 那么我就弄个造钱机，它造的钱都有 <code>兑换等值商品</code> 的功能，我要让 N 元印钞机和 N 角硬币机在不需要自己定义的情况下就能直接用到它爸爸造钱机的 <code>兑换等值商品</code> 功能以及一些属性。这就是我们所谓的「继承」——让子类实例能够拥有父类实例的所有方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父类 Money</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Money</span>(<span class="params">options</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">form</span> = options.<span class="property">form</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">issue</span> = options.<span class="property">issue</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Money</span>.<span class="property"><span class="keyword">prototype</span></span>.兑换等值商品 = <span class="keyword">function</span> (<span class="params"></span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类 HundredYuan</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">HundredYuan</span>(<span class="params">id</span>) &#123;</span><br><span class="line">  <span class="title class_">Money</span>.<span class="title function_">call</span>(<span class="variable language_">this</span>, &#123; <span class="attr">form</span>: <span class="string">&#x27;纸币&#x27;</span>, <span class="attr">issue</span>: <span class="string">&#x27;2019-01&#x27;</span> &#125;)          <span class="comment">// 调用父类 Money 使得子类 HundredYuan 的实例具有父类实例的属性</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">id</span> = id</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">tempMoney</span> (<span class="params"></span>) &#123; &#125;                     <span class="comment">// 1. 为了使 HundredYuan 的原型能够继承父类 Money 的原型，我们造一个空构造函数</span></span><br><span class="line">tempMoney.<span class="property"><span class="keyword">prototype</span></span> = <span class="title class_">Money</span>.<span class="property"><span class="keyword">prototype</span></span>         <span class="comment">// 2. 父类 Money 的原型赋给空构造函数的原型</span></span><br><span class="line"><span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> <span class="title function_">tempMoney</span>()       <span class="comment">// 3. 于是 HundredYuan 的原型间接继承父类 Money 的原型</span></span><br><span class="line"><span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">value</span> = <span class="number">100</span></span><br><span class="line"><span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">unit</span> = <span class="string">&#x27;元&#x27;</span></span><br><span class="line"><span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">color</span> = <span class="string">&#x27;红&#x27;</span></span><br><span class="line"><span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span>.换两张<span class="number">50</span>元 = <span class="keyword">function</span> (<span class="params"></span>) &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ……以此类推其他印钞机</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">HundredYuan</span>(<span class="string">&#x27;AA00000001&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Object-create"><a href="#Object-create" class="headerlink" title="Object.create()"></a><code>Object.create()</code></h3><p><code>Object.create()</code> 方法创建一个新对象，使用现有的对象来提供新创建的对象的 <code>__proto__</code> 。<br>让子类原型继承父类原型的操作看起来太麻烦了，更人性化及正确的写法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">HundredYuan</span>(<span class="params">id</span>) &#123;</span><br><span class="line">  <span class="title class_">Money</span>.<span class="title function_">call</span>(<span class="variable language_">this</span>, &#123; <span class="attr">form</span>: <span class="string">&#x27;纸币&#x27;</span>, <span class="attr">issue</span>: <span class="string">&#x27;2019-01&#x27;</span> &#125;)</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">id</span> = id</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span> = <span class="title class_">Object</span>.<span class="title function_">create</span>(<span class="title class_">Money</span>.<span class="property"><span class="keyword">prototype</span></span>)  <span class="comment">// 相当于 HundredYuan.prototype.__proto__ = Money.prototype</span></span><br><span class="line"><span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">constructor</span> = <span class="title class_">HundredYuan</span>         <span class="comment">// 重新指定原型的 constructor</span></span><br><span class="line"><span class="title class_">HundredYuan</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">value</span> = <span class="number">100</span></span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><p>ES6 引入的「类」是一个特殊的函数，它可以帮助我们进一步简化继承的操作，但它依旧是「基于原型」的而不是引入新的面向对象继承模型，类语法只不过是一种语法糖。</p>
+<p>上面的例子用类改造如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父类 Money</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Money</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span> (<span class="params">options</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">form</span> = options.<span class="property">form</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">issue</span> = options.<span class="property">issue</span></span><br><span class="line">  &#125;</span><br><span class="line">  兑换等值商品 () &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类 HundredYuan</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">HundredYuan</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Money</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span> (<span class="params">id</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>(&#123; <span class="attr">form</span>: <span class="string">&#x27;纸币&#x27;</span>, <span class="attr">issue</span>: <span class="string">&#x27;2019-01&#x27;</span> &#125;)       <span class="comment">// 调用父类 Money 使得子类 HundredYuan 的实例具有父类实例的属性</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">id</span> = id</span><br><span class="line">    <span class="comment">// 在构造函数中的公有属性可以是简单类型，但在类中不可以，所以需要把公有属性放在 constructor 中，作为子类的自有属性。</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">value</span> = <span class="number">100</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">unit</span> = <span class="string">&#x27;元&#x27;</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">color</span> = <span class="string">&#x27;红&#x27;</span></span><br><span class="line">  &#125;</span><br><span class="line">  换两张<span class="number">50</span>元 () &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">HundredYuan</span>(<span class="string">&#x27;AA00000001&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用类方法确实简洁明了了许多，但是有个问题就是，它明明是个函数，但却不能被调用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="title class_">Money</span>        <span class="comment">// &quot;function&quot;</span></span><br><span class="line"><span class="title class_">Money</span>()             <span class="comment">// Uncaught TypeError: Class constructor Money cannot be invoked without &#x27;new&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>要用类还是用构造函数，你来决定，这里只是提出这一个现象。</p>
+<p>希望看完本文的你，能理解到 JavaScript 中的面向对象思想。</p>
+<hr>
+<p>本文完。</p>
+<p>若文中有错误还请指正与包涵！</p>
+<p>原文链接：<a href="https://caijialinxx.github.io/2019/01/04/oop-in-javascript/">https://caijialinxx.github.io/2019/01/04/oop-in-javascript/</a></p>
+<p>转载请注明出处。</p>
+<p>参考资料：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://wangdoc.com/javascript/oop/index.html">面向对象编程 - JavaScript 教程 - 阮一峰</a></li>
+</ul>
+<p>拓展阅读：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/23987456">JS 的 new 到底是干什么的？ - 方应杭的文章 - 知乎</a></li>
+<li><a href="https://caijialinxx.github.io/2018/10/22/prototype-proto-and-inheritance/">誓死讲清 prototype 、 <strong>proto</strong> 、 原型链与继承 - Caijialinxx</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://caijialinxx.github.io/2019/01/04/oop-in-javascript/" data-id="cm2uc0mc10013pggp5d0n8aoz" data-title="JavaScript 中的面向对象（继承）" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/02/17/vue-reactivity-implement/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Vue 双向绑定的实现原理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/22/prototype-proto-and-inheritance/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">誓死讲清 prototype 、 __proto__ 、 原型链与继承</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AJAX/" rel="tag">AJAX</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/DOM/" rel="tag">DOM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/" rel="tag">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML/" rel="tag">HTML</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTML5/" rel="tag">HTML5</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Notes/" rel="tag">Notes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Promise/" rel="tag">Promise</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/" rel="tag">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SEO/" rel="tag">SEO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell%E8%84%9A%E6%9C%AC/" rel="tag">Shell脚本</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TypeScript/" rel="tag">TypeScript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debounce/" rel="tag">debounce</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jQuery/" rel="tag">jQuery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/throttle/" rel="tag">throttle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/troubleshooting/" rel="tag">troubleshooting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/" rel="tag">webpack</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8E%9F%E5%9E%8B/" rel="tag">原型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C/" rel="tag">工作</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="tag">深拷贝</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">继承</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AJAX/" style="font-size: 11.67px;">AJAX</a> <a href="/tags/CSS/" style="font-size: 13.33px;">CSS</a> <a href="/tags/DOM/" style="font-size: 11.67px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/HTML/" style="font-size: 11.67px;">HTML</a> <a href="/tags/HTML5/" style="font-size: 10px;">HTML5</a> <a href="/tags/HTTP/" style="font-size: 13.33px;">HTTP</a> <a href="/tags/JavaScript/" style="font-size: 18.33px;">JavaScript</a> <a href="/tags/Notes/" style="font-size: 20px;">Notes</a> <a href="/tags/Promise/" style="font-size: 10px;">Promise</a> <a href="/tags/React/" style="font-size: 15px;">React</a> <a href="/tags/SEO/" style="font-size: 10px;">SEO</a> <a href="/tags/Shell%E8%84%9A%E6%9C%AC/" style="font-size: 10px;">Shell脚本</a> <a href="/tags/TypeScript/" style="font-size: 10px;">TypeScript</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/debounce/" style="font-size: 10px;">debounce</a> <a href="/tags/jQuery/" style="font-size: 10px;">jQuery</a> <a href="/tags/throttle/" style="font-size: 10px;">throttle</a> <a href="/tags/troubleshooting/" style="font-size: 10px;">troubleshooting</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/%E5%8E%9F%E5%9E%8B/" style="font-size: 11.67px;">原型</a> <a href="/tags/%E5%B7%A5%E4%BD%9C/" style="font-size: 13.33px;">工作</a> <a href="/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/" style="font-size: 10px;">深拷贝</a> <a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 11.67px;">继承</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 16.67px;">面试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">May 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/06/09/building-an-script-for-efficient-git-repository-synchronization/">为了高效同步代码仓库，我写了一个自动化脚本</a>
+          </li>
+        
+          <li>
+            <a href="/2023/03/24/troubleshooting/">命令行操作时遇到的一些报错解决方案（持续更新...）</a>
+          </li>
+        
+          <li>
+            <a href="/2022/05/02/react-17-important-changes/">React 17 的重要更新</a>
+          </li>
+        
+          <li>
+            <a href="/2021/10/02/typescript/">TypeScript 的使用心得及笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2021/02/21/some-classfic-implements-with-js/">一些经典的JS手写函数实现</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 caijialinxx<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
